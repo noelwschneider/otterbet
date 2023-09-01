@@ -1,18 +1,25 @@
+// React
 import React, { useEffect } from 'react';
+
+// React Router
 import {
   HashRouter as Router,
-  Redirect,
+  Redirect, //? This seems fairly intuitive, but I should review it
   Route,
-  Switch,
+  Switch, //? I am a little unclear on what this is doing (or at least, why it needs to do it. Why use this over an exact path? More info: https://v5.reactrouter.com/web/api/Switch )
 } from 'react-router-dom';
 
+// Hooks
 import { useDispatch, useSelector } from 'react-redux';
 
+// Universal Components
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
+//^ Review this component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
+// Route Components
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
@@ -20,6 +27,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 
+// Style
 import './App.css';
 
 function App() {

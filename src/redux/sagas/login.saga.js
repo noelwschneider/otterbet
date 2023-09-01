@@ -7,6 +7,7 @@ function* loginUser(action) {
     // clear any existing error on the login page
     yield put({ type: 'CLEAR_LOGIN_ERROR' });
 
+    //? What is this doing? It is sent off in the POST route
     const config = {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,

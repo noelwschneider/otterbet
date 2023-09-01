@@ -1,8 +1,16 @@
 import React from 'react';
+
+// Router
 import { Link } from 'react-router-dom';
+
+// Logout button component
 import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
+
+// Hooks
 import { useSelector } from 'react-redux';
+
+// Styling
+import './Nav.css';
 
 function Nav() {
   const user = useSelector((store) => store.user);
