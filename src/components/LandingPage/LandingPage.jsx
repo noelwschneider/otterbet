@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import './LandingPage.css';
 
 // CUSTOM COMPONENTS
@@ -8,14 +9,22 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onLogin = (event) => {
     history.push('/login');
   };
 
+  const testGet = () => {
+    console.log('button works')
+    dispatch({type: 'FETCH_ODDS'})
+  }
+
   return (
     <div className="container">
       <h2>{heading}</h2>
+
+      <button onClick={testGet}>Test odds.router GET</button>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
