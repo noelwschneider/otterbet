@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios')
 
 const {
-  rejectUnauthenticated,
+    rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 const encryptLib = require('../modules/encryption');
 const pool = require('../modules/pool');
@@ -10,6 +10,19 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 const oddsAPIKey = process.env.ODDS_API_KEY
+
+//& This may be better off in its own file (esp if it may be useful when dealing with other requests from odds-api)
+const fixTimestamp = timestamp => {
+    let fixedTimestamp = []
+    for (let character of timestamp) {
+        if (character === 'T') {
+            fixedTimestamp.push(' ')
+        } else if (character !== 'Z') {
+            fixedTimestamp.push(character)
+        }
+    }
+    return fixedTimestamp.join('')
+}
 
 //& This should live elsewhere and be required into this
 function makeMarketsArray(apiData) {
@@ -25,7 +38,7 @@ function makeMarketsArray(apiData) {
                         outcome: outcome.name,
                         price: outcome.price,
                         point: outcome.point,
-                        last_update: market.last_update
+                        last_update: fixTimestamp(market.last_update)
                     }
                     arrayToReturn.push(marketObj)
                 }
@@ -43,7 +56,7 @@ function makeGamesArray(apiData) {
             id: game.id,
             home_team: game.home_team,
             away_team: game.away_team,
-            commence_time: game.commence_time,
+            commence_time: fixTimestamp(game.commence_time),
             competition: game.sport_key
         }
         arrayToReturn.push(gameObj)
@@ -53,35 +66,106 @@ function makeGamesArray(apiData) {
 
 // GET odds from database
 
+
+// GET odds data from API request and send to the reducer
+//! Add reject unauthenticated when this is working?
+router.get('/update-odds', (req, res) => {
+
+    //& The odds reducer may eventually include several variables that determine the specifics of this request
+    //& bookmakers should eventually be replaced with regions
+    axios.get(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?sport=americanfootball_nfl&markets=h2h,spreads,totals&bookmakers=betmgm&apiKey=${oddsAPIKey}`)
+        .then(response => {
+            console.log('response:', response.data)
+
+            //& The games array should have its own route -- it won't need to be updated all that frequently
+            let marketsArray = makeMarketsArray(response.data)
+
+            //* long term, I need a way to avoid redundant data (i.e. don't add a row to the database if there is already an identical row because nothing changed since the last update)
+
+            res.send(marketsArray)
+        })
+        .catch(error => {
+            console.log('error in odds router:', error)
+        })
+})
+
 // POST odds from store to the database
 router.post('/', (req, res) => {
 
     console.log('odds post req:', req.body)
-    let queryText = ``
-    let queryData = []
+    const [test] = req.body
+    console.log('test is:', test)
+    const { game_id, bookmaker, market, outcome, price, point, last_update } = test
+
+    let queryText = `
+        INSERT INTO markets (
+            bookmaker, 
+            game_id, 
+            outcome, 
+            market, 
+            point, 
+            price, 
+            last_update
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `
+
+    //! Reformat the timestamp before sending
+
+    let queryData = [bookmaker, game_id, outcome, market, point, price, last_update]
+
     pool.query(queryText, queryData)
+        .then(response => {
+            console.log('successfull market post')
+            res.sendStatus(200)
+        })
+        .catch(error => {
+            console.log('error in pool query:', error)
+            res.sendStatus(500)
+        })
 })
-// GET odds data from API request and send to the reducer
-//! Add reject unauthenticated when this is working?
-router.get('/update', (req, res) => {
 
+router.get('/update-games', (req, res) => {
     //& The odds reducer may eventually include several variables that determine the specifics of this request
-        //& bookmakers should eventually be replaced with regions
+    //& bookmakers should eventually be replaced with regions
     axios.get(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?sport=americanfootball_nfl&markets=h2h,spreads,totals&bookmakers=betmgm&apiKey=${oddsAPIKey}`)
-    .then( response => {
-        console.log('response:', response.data)
+        .then(response => {
+            console.log('response:', response.data)
 
-        let marketsArray = makeMarketsArray(response.data)
-        let gamesArray = makeGamesArray(response.data)
+            //& The games array should have its own route -- it won't need to be updated all that frequently
+            let gamesArray = makeGamesArray(response.data)
 
-        //* long term, I need a way to avoid redundant data (i.e. don't add a row to the database if there is already an identical row because nothing changed since the last update)
+            //* long term, I need a way to avoid redundant data (i.e. don't add a row to the database if there is already an identical row because nothing changed since the last update)
 
-        let updateObject = {marketsArray, gamesArray}
-        res.send(updateObject)
-    })
-    .catch( error => {
-        console.log('error in odds router:', error)
-    })
+            res.send(gamesArray)
+        })
+        .catch(error => {
+            console.log('error in odds router:', error)
+        })
+})
+
+router.post('/games', (req, res) => {
+    console.log('games post req:', req.body)
+
+    const [test] = req.body
+    const {id, home_team, away_team, commence_time, competition} = test
+
+    let queryText = `
+        INSERT INTO games (id, home_team, away_team, commence_time, competition)
+        VALUES ($1, $2, $3, $4, $5)
+    `
+
+    let queryData = [id, home_team, away_team, commence_time, competition]
+
+    pool.query(queryText, queryData)
+        .then( response => {
+            console.log('successful game post')
+            res.sendStatus(200)
+        })
+        .catch( error => {
+            console.log('error in pool query:', error)
+            res.sendStatus(500)
+        })
 })
 
 module.exports = router;
