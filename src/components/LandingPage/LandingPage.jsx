@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './LandingPage.css';
 
 // CUSTOM COMPONENTS
@@ -10,14 +10,16 @@ function LandingPage() {
   const [heading, setHeading] = useState('Welcome');
   const history = useHistory();
   const dispatch = useDispatch();
+  const odds = useSelector(store => store.odds)
 
   const onLogin = (event) => {
     history.push('/login');
   };
 
   const testGet = () => {
-    console.log('button works')
+    console.log('odds before dispatch:', odds)
     dispatch({type: 'FETCH_ODDS'})
+    console.log('odds after dispatch', odds)
   }
 
   return (
