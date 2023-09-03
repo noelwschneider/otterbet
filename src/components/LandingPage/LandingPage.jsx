@@ -44,11 +44,11 @@ function LandingPage() {
 
       <button onClick={testAPIGet} disabled>Test odds.router GET (API)</button>
 
-      <button onClick={testPost}>Test odds.router POST</button>
+      <button onClick={testPost} disabled>Test odds.router POST</button>
 
       <button onClick={testGamesGet} disabled>Test odds.router games GET</button>
 
-      <button onClick={testGamesPost}>Test odds.router games POST</button>
+      <button onClick={testGamesPost} disabled>Test odds.router games POST</button>
 
       <div className="grid">
         <div className="grid-col grid-col_8">

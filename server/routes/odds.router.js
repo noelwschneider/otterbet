@@ -92,11 +92,6 @@ router.get('/update-odds', (req, res) => {
 // POST odds from store to the database
 router.post('/', (req, res) => {
 
-    console.log('odds post req:', req.body)
-    const [test] = req.body
-    console.log('test is:', test)
-    const { game_id, bookmaker, market, outcome, price, point, last_update } = test
-
     let queryText = `
         INSERT INTO markets (
             bookmaker, 
@@ -110,19 +105,21 @@ router.post('/', (req, res) => {
         VALUES ($1, $2, $3, $4, $5, $6, $7)
     `
 
-    //! Reformat the timestamp before sending
+    req.body.map( newMarket => {
+        const { game_id, bookmaker, market, outcome, price, point, last_update } = newMarket
+        
+        let queryData = [bookmaker, game_id, outcome, market, point, price, last_update]
 
-    let queryData = [bookmaker, game_id, outcome, market, point, price, last_update]
-
-    pool.query(queryText, queryData)
+        pool.query(queryText, queryData)
         .then(response => {
-            console.log('successfull market post')
-            res.sendStatus(200)
+            console.log('successfull market post:', queryData)
         })
         .catch(error => {
             console.log('error in pool query:', error)
             res.sendStatus(500)
         })
+    })
+    res.sendStatus(200)
 })
 
 router.get('/update-games', (req, res) => {
@@ -147,25 +144,29 @@ router.get('/update-games', (req, res) => {
 router.post('/games', (req, res) => {
     console.log('games post req:', req.body)
 
-    const [test] = req.body
-    const {id, home_team, away_team, commence_time, competition} = test
-
     let queryText = `
         INSERT INTO games (id, home_team, away_team, commence_time, competition)
         VALUES ($1, $2, $3, $4, $5)
     `
 
-    let queryData = [id, home_team, away_team, commence_time, competition]
+    req.body.map( game => {
+        const {id, home_team, away_team, commence_time, competition} = game
+        let queryData = [id, home_team, away_team, commence_time, competition]
 
-    pool.query(queryText, queryData)
+        pool.query(queryText, queryData)
         .then( response => {
-            console.log('successful game post')
-            res.sendStatus(200)
+            console.log('successful game post', queryData)
         })
         .catch( error => {
             console.log('error in pool query:', error)
             res.sendStatus(500)
         })
+    })
+
+    res.sendStatus(200)
+    // const [test] = req.body
+    // const {id, home_team, away_team, commence_time, competition} = test
+    
 })
 
 module.exports = router;
