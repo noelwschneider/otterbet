@@ -51,8 +51,19 @@ function makeGamesArray(apiData) {
     return arrayToReturn
 }
 
+// GET odds from database
+
+// POST odds from store to the database
+router.post('/', (req, res) => {
+
+    console.log('odds post req:', req.body)
+    let queryText = ``
+    let queryData = []
+    pool.query(queryText, queryData)
+})
+// GET odds data from API request and send to the reducer
 //! Add reject unauthenticated when this is working?
-router.get('/', (req, res) => {
+router.get('/update', (req, res) => {
 
     //& The odds reducer may eventually include several variables that determine the specifics of this request
         //& bookmakers should eventually be replaced with regions
@@ -63,10 +74,7 @@ router.get('/', (req, res) => {
         let marketsArray = makeMarketsArray(response.data)
         let gamesArray = makeGamesArray(response.data)
 
-        //* map over each array, sending each row to the database
         //* long term, I need a way to avoid redundant data (i.e. don't add a row to the database if there is already an identical row because nothing changed since the last update)
-
-
 
         let updateObject = {marketsArray, gamesArray}
         res.send(updateObject)

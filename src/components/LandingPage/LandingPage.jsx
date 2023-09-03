@@ -16,17 +16,23 @@ function LandingPage() {
     history.push('/login');
   };
 
-  const testGet = () => {
+  const testAPIGet = () => {
     console.log('odds before dispatch:', odds)
     dispatch({type: 'FETCH_ODDS'})
     console.log('odds after dispatch', odds)
+  }
+
+  const testPost = () => {
+    console.log('post button works')
+    dispatch({type: 'POST_ODDS', payload: odds})
   }
 
   return (
     <div className="container">
       <h2>{heading}</h2>
 
-      <button onClick={testGet}>Test odds.router GET</button>
+      <button onClick={testAPIGet} disabled>Test odds.router GET (API)</button>
+      <button onClick={testPost}>Test odds.router POST</button>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
