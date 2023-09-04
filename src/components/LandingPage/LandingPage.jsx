@@ -38,6 +38,11 @@ function LandingPage() {
     dispatch({type: 'POST_GAMES', payload: games})
   }
 
+  const testScoresGet = () => {
+    console.log('button works')
+    dispatch({type: 'FETCH_SCORES'})
+  }
+
   return (
     <div className="container">
       <h2>{heading}</h2>
@@ -49,6 +54,8 @@ function LandingPage() {
       <button onClick={testGamesGet} disabled>Test odds.router games GET</button>
 
       <button onClick={testGamesPost} disabled>Test odds.router games POST</button>
+
+      <button onClick={testScoresGet}>Test scores get</button>
 
       <div className="grid">
         <div className="grid-col grid-col_8">
