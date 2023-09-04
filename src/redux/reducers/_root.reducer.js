@@ -4,6 +4,8 @@ import user from './user.reducer';
 import odds from './odds.reducer';
 import games from './games.reducer';
 import scores from './scores.reducer'
+import myBets from './myBets.reducer'; //! Do I need to deal with this?
+import markets from './markets.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   odds,
   games,
-  scores
+  scores,
+  myBets,
+  markets
 });
 
 export default rootReducer;

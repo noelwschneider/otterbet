@@ -1,0 +1,11 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "## Game object\nid            -> games.id && markets.game_id\nhome_team     -> games.home_team\naway_team     -> games.away_team\ncommence_time -> games.commence_time\nsport_key     -> games.competition\n\n## Bookmaker object\nkey -> markets.bookmaker (???)\n\n## Market object\nkey -> markets.type\n\n## Outcomes object\nname  -> markets.team\nprice -> markets.price\npoint -> markets.point"
+            ],
+            "outputs": []
+        }
+    ]
+}

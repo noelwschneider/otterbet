@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 // Styling
 import './Nav.css';
 
+
 function Nav() {
   const user = useSelector((store) => store.user);
 
@@ -30,15 +31,21 @@ function Nav() {
         )}
 
         {/* If a user is logged in, show these links */}
+        {/* ^ On first read, I'm not sure how the following line of code works */}
         {user.id && (
           <>
-            <Link className="navLink" to="/user">
-              Home
+            <Link className="navLink" to="/my-bets">
+              My Bets 
             </Link>
 
-            <Link className="navLink" to="/info">
-              Info Page
+            <Link className="navLink" to="/markets">
+              Markets 
             </Link>
+
+            <Link className="navLink" to="/user">
+              User 
+            </Link>
+            
 
             <LogOutButton className="navLink" />
           </>

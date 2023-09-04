@@ -107,7 +107,6 @@ router.post('/', (req, res) => {
 
     req.body.map( newMarket => {
         const { game_id, bookmaker, market, outcome, price, point, last_update } = newMarket
-        
         let queryData = [bookmaker, game_id, outcome, market, point, price, last_update]
 
         pool.query(queryText, queryData)

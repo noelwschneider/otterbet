@@ -26,9 +26,12 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import MyBets from '../MyBets/MyBets';
+import Markets from '../Markets/Markets';
 
 // Style
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -76,6 +79,20 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute
+            exact
+            path ="/my-bets"
+          >
+            <MyBets />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/markets"
+          >
+            <Markets />
+          </ProtectedRoute>
+
           <Route
             exact
             path="/login"
@@ -111,7 +128,7 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/my-bets" />
               :
               // Otherwise, show the Landing page
               <LandingPage />
