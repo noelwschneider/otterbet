@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 // Styling
 import './Nav.css';
-
+import logo from './otter-logo-1.png'
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -19,7 +19,8 @@ function Nav() {
   return (
     <div className="nav">
       <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+        <h2 className="nav-title">OtterBet</h2>
+        <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128"/>
       </Link>
       <div>
         {/* If no user is logged in, show these links */}

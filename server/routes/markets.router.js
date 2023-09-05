@@ -1,5 +1,3 @@
-//! DEFUNCT FILE -- ONLY KEEPING ALIVE UNTIL I CAN CONFIRM ITS NEW HOME (markets.router.js) IS FUNCTIONING CORRECTLY
-
 const express = require('express');
 const axios = require('axios')
 

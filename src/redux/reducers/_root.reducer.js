@@ -4,7 +4,7 @@ import user from './user.reducer';
 import odds from './odds.reducer';
 import games from './games.reducer';
 import scores from './scores.reducer'
-import myBets from './myBets.reducer'; //! Do I need to deal with this?
+import myBets from './myBets.reducer';
 import markets from './markets.reducer';
 
 // rootReducer is the primary reducer for our entire project
