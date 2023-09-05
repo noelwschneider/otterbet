@@ -1,4 +1,4 @@
-//! DEFUNCT FILE -- ONLY KEEPING ALIVE UNTIL I CAN CONFIRM ITS NEW HOME (markets.router.js) IS FUNCTIONING CORRECTLY
+// This router deals with odds-api
 
 const express = require('express');
 const axios = require('axios')
@@ -66,8 +66,6 @@ function makeGamesArray(apiData) {
     return arrayToReturn
 }
 
-// GET odds from database
-
 
 // GET odds data from API request and send to the reducer
 //! Add reject unauthenticated when this is working?
@@ -92,7 +90,7 @@ router.get('/update-odds', (req, res) => {
 })
 
 // POST odds from store to the database
-router.post('/', (req, res) => {
+router.post('/update-odds', (req, res) => {
 
     let queryText = `
         INSERT INTO markets (
@@ -123,6 +121,8 @@ router.post('/', (req, res) => {
     res.sendStatus(200)
 })
 
+// GET games list from odds-api
+//& this may end up being removed entirely, with the /update-odds sending in a homemade game ID, and a similar game ID can be sent in the sports-api router
 router.get('/update-games', (req, res) => {
     //& The odds reducer may eventually include several variables that determine the specifics of this request
     //& bookmakers should eventually be replaced with regions

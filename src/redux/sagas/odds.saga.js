@@ -1,6 +1,8 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 
+//& This whole saga should be renamed -- right now it isn't clear from the name why it is any different from markets.saga, but its purpose is distinct: this one deals with the odds-api, where as markets.saga deals with what is already in the database
+
 function* updateOdds() {
     try {
         console.log('in fetchOdds')
@@ -22,9 +24,10 @@ function* updateOdds() {
     }
 }
 
+//& consolidate this into updateOdds saga?
 function* postOdds(action) {
     console.log('in postOdds', action.payload)
-    yield axios.post('/api/odds', action.payload)
+    yield axios.post('/api/odds/update-odds', action.payload)
 }
 
 function* updateGames() {
