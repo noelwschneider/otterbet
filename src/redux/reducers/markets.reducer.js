@@ -1,6 +1,6 @@
 const marketsReducer = (state = [], action) => {
     switch (action.type) {
-        case 'MARKETS ACTION.TYPE GOES HERE':
+        case 'SET_MARKETS':
             return action.payload;
         default:
             return state;

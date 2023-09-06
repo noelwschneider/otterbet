@@ -13,12 +13,14 @@ function* getMarketsArray() {
             params: {}
         };
 
+        // GET list of game IDs from the database
         const gameIDsResponse = yield axios.get('/api/markets/game-IDs', config)
         //& This is sending up an array of JSON strings. I can work with that, but it is worth investigating if this is really the way to do this
         config.params = {gamesList: gameIDsResponse.data}
 
-        const marketsList = yield axios.get('/api/markets', config)
-        console.log(marketsList.data)
+        // GET markets for each game
+        const marketsResponse = yield axios.get('/api/markets', config)
+        yield put({type: 'SET_MARKETS', payload: marketsResponse.data})
 
     } catch (error) {
         console.log('error in markets.saga:', error)

@@ -57,7 +57,10 @@ router.get('/', async (req, res) => {
 
         const queryText = `
             SELECT *
-            FROM markets
+            FROM 
+                markets
+                JOIN games
+    	            on markets.game_id = games.id
             WHERE game_id = $1
         `
 
