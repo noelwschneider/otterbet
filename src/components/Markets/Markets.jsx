@@ -22,7 +22,7 @@ function Markets() {
     // console.log('markets from store', markets)
 
     return (<>
-        <TestButtons />
+        {/* <TestButtons /> */}
         <BetSlip/>
         <h1>Markets</h1>
         {markets.map( game => (

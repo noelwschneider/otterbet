@@ -6,6 +6,8 @@ const betSlipReducer = (state = [], action) => {
             return [...state, action.payload];
         case 'UPDATE_WAGER':
             return action.payload
+        case 'DELETE_WAGER':
+            return action.payload
         default:
             return state;
     }

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Styling
+import './MarketsItem.css';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -84,15 +85,16 @@ function MarketsItem({game}) {
         return cellString
     }
 
+    //& Row header styling is inelegant and makes it hard to read. 
     return (
-        <TableContainer>
+        <TableContainer sx={{width: "60vw"}}>
             <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell></TableCell>
-                        <TableCell>Spread</TableCell>
-                        <TableCell>Moneyline</TableCell>
-                        <TableCell>Over/Under</TableCell>
+                        <TableCell sx={{fontWeight: 'bold'}}>Spread</TableCell>
+                        <TableCell sx={{fontWeight: 'bold'}}>Moneyline</TableCell>
+                        <TableCell sx={{fontWeight: 'bold'}}>Over/Under</TableCell>
                     </TableRow>
                 </TableHead>
 
