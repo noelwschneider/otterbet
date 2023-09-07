@@ -13,6 +13,9 @@ import TableRow from '@mui/material/TableRow';
 function MarketsItem({game}) {
     // console.log(game)
 
+    const dispatch = useDispatch()
+    const betslip = useSelector(store => store.betslip)
+
     const {away_team, commence_time, competition, home_team, id, markets} = game
     // console.log(markets)
 
@@ -26,10 +29,22 @@ function MarketsItem({game}) {
 
     const newAddBet = (outcome, market) => {
         console.log('in newAddBet:', outcome, market)
+
+        //& Rename this variable
         for (let x of markets) {
             if(x.tag === `${outcome}_${market}`) {
-                console.log('if has executed for', x.tag)
+                console.log('if has executed for', x)
                 // add it to bet slip
+
+                for (let bet of betslip) {
+                    if (bet.id === x.id) {
+                        console.log('duplicate wager, not sending to store')
+                        return
+                    }
+                }
+                x.wager = 0
+                console.log('state of new bet before sending', x)
+                dispatch({type: 'SET_BETSLIP', payload: x})
             }
         }
     }

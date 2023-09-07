@@ -28,7 +28,9 @@ function BetSlip() {
             <CardHeader title={<Typography variant="h2">Bet Slip</Typography>}/>
             <CardActionArea component="div">
                 <CardActions>
-                    
+                    {bets.map( bet => (
+                        <BetSlipItem key={bet.id} bet={bet}/>
+                    ))}
                     <Button>Sumbit</Button>
                 </CardActions>
             </CardActionArea>

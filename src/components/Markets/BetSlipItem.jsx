@@ -13,13 +13,31 @@ import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-function BetSlipItem() {
+function BetSlipItem(props) {
+    const {bet} = props
+    // console.log(bet)
 
+    const dispatch = useDispatch()
+    const betslip = useSelector(store => store.betslip)
+    console.log(betslip)
+
+    const [wager, newWager] = useState('')
     
+    const updateWager = event => {
+        for (let wager of betslip) {
+            if( bet.id === wager.id) {
+                wager.wager = event
+            } 
+        }
+        dispatch({type: 'UPDATE_WAGER', payload: betslip})
+    }
 
     return (<Box className="container">
                 <Typography variant="h6">Bet</Typography>
-                <TextField></TextField>
+                <TextField 
+                onChange={event => updateWager(event.target.value)}
+                placeholder='Enter wager amount'
+                />
     </Box>)
 }
 
