@@ -16,12 +16,12 @@ const router = express.Router();
 // GET list of game IDs from database
 router.get('/game-IDs', (req, res) => {
 
-    console.log('in /markets/game-IDs GET')
+    // console.log('in /markets/game-IDs GET')
     // get IDs from Games
 
     //& timestamps in the WHERE sections should be variables later
     const gameIDsQuery = `
-    SELECT id 
+    SELECT * 
     FROM games
     WHERE commence_time BETWEEN 
         timestamp '2023-09-08' 
@@ -31,7 +31,7 @@ router.get('/game-IDs', (req, res) => {
     // GET list of game IDs from database
     pool.query(gameIDsQuery)
     .then( response => {
-        console.log('database response:', response.rows)
+        // console.log('database response:', response.rows)
         res.send(response.rows)
     })
 
@@ -42,7 +42,7 @@ router.get('/game-IDs', (req, res) => {
 
 // GET all markets for each game
 router.get('/', async (req, res) => {
-    console.log('in /markets GET')
+    // console.log('in /markets GET')
     // console.log('req.query:', req.query)
 
     //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.
@@ -52,15 +52,14 @@ router.get('/', async (req, res) => {
 
 
     const markets = await Promise.all(gamesList.map( async (game) => {
-        const queryValue = [game.id ]
-        console.log('query value:', queryValue)
+        const queryValue = [game.id]
+        // console.log('query value:', queryValue)
 
         const queryText = `
-            SELECT *
+            SELECT
+                *
             FROM 
                 markets
-                JOIN games
-    	            on markets.game_id = games.id
             WHERE game_id = $1
         `
 
@@ -69,7 +68,7 @@ router.get('/', async (req, res) => {
         return response.rows
         })
     )
-    console.log(markets)
+    console.log('markets:', markets)
     res.send(markets)
 })
 

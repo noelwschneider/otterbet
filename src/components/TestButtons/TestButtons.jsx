@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 function TestButtons() {
-
+    const dispatch = useDispatch()
+    
     const odds = useSelector(store => store.odds)
     const games = useSelector(store => store.games)
 
