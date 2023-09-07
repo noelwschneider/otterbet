@@ -18,9 +18,49 @@ import Typography from '@mui/material/Typography';
 import './Betslip.css'
 
 function BetSlip() {
+    const dispatch = useDispatch()
 
-    const bets = useSelector(store => store.betslip)
-    // console.log(bets)
+    const betslip = useSelector(store => store.betslip)
+    // console.log(betslip)
+
+    const handleSubmit = () => {
+        console.log('in handleSubmit. Current betslip:', betslip)
+        
+        // validate bets
+        //! This is a placeholder value -- need code for actual user funds
+
+        const userFunds = 1000
+        let wagerSum = 0
+
+
+        for (let bet of betslip) {
+            if (bet.wager <= 0) {
+                // alert the user
+                    // I need access to info to notify user of the specific bet that failed the check
+                // terminate submission
+
+                console.log('empty wager value')
+            }
+
+            wagerSum += userFunds
+        }
+
+        if (wagerSum > userFunds) {
+            // alert the user
+            // terminate submission
+
+            console.log(`Insufficient funds. User funds: ${userFunds} || Wager total: ${wagerSum}`)
+        }
+
+            // empty input fields
+            // update user funds
+                // actually, probably do this in the saga
+
+        
+        // send betslip to betslip.saga for POST
+        dispatch({type: 'SUBMIT_WAGERS', payload: betslip})
+        // clear betslip reducer
+    }
 
     return (<Box sx={{width: "20vw", maxHeight: "75vh", display: 'flex', flexDirection: 'column', position: "fixed", right: "0px", top: "20vh"}}
 
@@ -31,10 +71,10 @@ function BetSlip() {
             <CardHeader title={<Typography variant="h2">Bet Slip</Typography>}/>
             <CardActionArea component="div">
                 <CardActions sx={{display: 'flex', flexDirection: 'column'}}>
-                    {bets.map( bet => (
+                    {betslip.map( bet => (
                         <BetSlipItem key={bet.id} bet={bet}/>
                     ))}
-                    <Button>Sumbit</Button>
+                    <Button onClick={handleSubmit}>Sumbit</Button>
                 </CardActions>
             </CardActionArea>
         </Card>
