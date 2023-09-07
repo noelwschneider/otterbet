@@ -7,15 +7,20 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 
 // Hooks
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Styling
 import './Nav.css';
 import logo from './otter-logo-1.png'
+import { Typography } from '@mui/material';
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const entry = useSelector(store => store.entry)
 
+  const fundsDisplay = entry ? entry.funds.toFixed(2) : null
+  const entryDisplay = entry ? entry.name : null
+  console.log(entryDisplay)
   return (
     <div className="nav">
       <Link to="/home">
@@ -33,8 +38,13 @@ function Nav() {
 
         {/* If a user is logged in, show these links */}
         {/* ^ On first read, I'm not sure how the following line of code works */}
+        {/* ^ On second read, we definitely went over this briefly in class -- it is a weird conditional syntax */}
         {user.id && (
           <>
+          <Typography variant="h5">
+            Entry: {entryDisplay}<br/>
+            Funds: ${fundsDisplay}
+          </Typography>
             <Link className="navLink" to="/my-bets">
               My Bets 
             </Link>

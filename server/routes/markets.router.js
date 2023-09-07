@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
         return response.rows
         })
     )
-    console.log('markets:', markets)
+    // console.log('markets:', markets)
     res.send(markets)
 })
 

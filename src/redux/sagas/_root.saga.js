@@ -7,6 +7,7 @@ import scoresSaga from './scores.saga';
 import marketsSaga from './markets.saga';
 import myBetsSaga from './myBets.saga';
 import betslipSaga from './betslip.saga';
+import entriesSaga from './entries.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -24,6 +25,7 @@ export default function* rootSaga() {
     scoresSaga(),
     marketsSaga(),
     myBetsSaga(),
-    betslipSaga()
+    betslipSaga(),
+    entriesSaga()
   ]);
 }

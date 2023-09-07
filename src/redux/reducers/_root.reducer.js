@@ -6,7 +6,8 @@ import games from './games.reducer';
 import scores from './scores.reducer'
 import myBets from './myBets.reducer';
 import markets from './markets.reducer';
-import betslip from './betslip.reducer'
+import betslip from './betslip.reducer';
+import entry from './entries.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   scores,
   myBets,
   markets,
-  betslip
+  betslip,
+  entry
 });
 
 export default rootReducer;

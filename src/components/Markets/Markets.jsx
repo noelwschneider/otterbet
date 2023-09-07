@@ -13,7 +13,6 @@ import TestButtons from '../TestButtons/TestButtons';
 function Markets() {
     const dispatch = useDispatch()
 
-    
     useEffect( () => {
         dispatch({type: 'FETCH_MARKETS'})
     }, [])
