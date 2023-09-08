@@ -9,11 +9,8 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log('in entries router GET', req.query)
     const user = JSON.parse(req.query.user)
     const entryID = JSON.parse(req.query.entryQuery)
-    console.log('user:', user)
-    console.log('entryID:', entryID)
 
     const queryValues = entryID === 0
         ? [user.id]
@@ -33,14 +30,12 @@ router.get('/', (req, res) => {
             FROM entries
             WHERE 
                 user_id = $1
-                AND default_entry = $2
+                AND id = $2
             ;
         `
-    console.log('sqlQUery is:', sqlQuery)
 
     pool.query(sqlQuery, queryValues)
     .then( response => {
-        console.log(response.rows)
         res.send(response.rows)
     })
     .catch( error => {

@@ -26,20 +26,11 @@ function ProtectedRoute({ component, children, ...props }) {
 
   // get default entry for user upon login
   //! do I need to clear the entry upon logout?
+  //! This appears to run (and evaluate the same) for every protected route upon initial rendering.
   if(user.id && !entry) {
     console.log('user: MATCH || entry: FAIL')
     dispatch({type: 'FETCH_ENTRY', payload: {user, entryQuery: 0}})
   }
-  
-  //  useEffect( () => {
-  //   if (!user.id) {
-  //     console.log('NO USER')
-  //   } else {
-  //   console.log('user check passed', user)
-  //   // console.log(Object.keys(user))
-  //   dispatch({type: 'FETCH_ENTRY', payload: user})
-  //   }
-  // }, [])
 
   // We return a Route component that gets added to our list of routes
   return (

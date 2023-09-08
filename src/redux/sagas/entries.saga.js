@@ -11,12 +11,10 @@ function* fetchEntry(action) {
             params: {}
         };
 
-        console.log('in fetchEntry for user:', action.payload)
         config.params = action.payload
-        
+ 
         const entryResponse = yield axios.get('/api/entries', config)
         const [entry] = entryResponse.data
-        console.log(entry)
 
         yield put({type: 'SET_ENTRY', payload: entry})
 

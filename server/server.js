@@ -13,6 +13,7 @@ const marketsRouter = require('./routes/markets.router');
 const sportsRouter = require('./routes/sports.router')
 const oddsRouter = require('./routes/odds.router')
 const entriesRouter = require('./routes/entries.router')
+const betsRouter = require('./routes/bets.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -28,9 +29,10 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/markets', marketsRouter);
-app.use('/api/odds', oddsRouter)
+app.use('/api/odds', oddsRouter);
 app.use('/api/sports', sportsRouter);
-app.use('/api/entries', entriesRouter)
+app.use('/api/entries', entriesRouter);
+app.use('/api/bets', betsRouter)
 
 // Serve static files
 app.use(express.static('build'));

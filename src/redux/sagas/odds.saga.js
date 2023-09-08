@@ -26,8 +26,12 @@ function* updateOdds() {
 
 //& consolidate this into updateOdds saga?
 function* postOdds(action) {
-    console.log('in postOdds', action.payload)
-    yield axios.post('/api/odds/update-odds', action.payload)
+    try {
+        console.log('in postOdds', action.payload)
+        yield axios.post('/api/odds/update-odds', action.payload)
+    } catch (error) {
+        console.log('error in odds post', error)
+    }
 }
 
 function* updateGames() {

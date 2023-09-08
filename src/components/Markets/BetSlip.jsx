@@ -23,6 +23,7 @@ function BetSlip() {
 
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
+    const user = useSelector(store => store.user)
 
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
@@ -59,8 +60,7 @@ function BetSlip() {
             // actually, probably do this in the saga
         
         // send betslip to betslip.saga for POST
-        dispatch({type: 'SUBMIT_WAGERS', payload: betslip})
-        // clear betslip reducer
+        dispatch({type: 'SUBMIT_WAGERS', payload: {betslip, wagerSum, user, entry}})
     }
 
     return (
@@ -92,11 +92,10 @@ function BetSlip() {
                     {betslip.map( bet => (
                         <BetSlipItem key={bet.id} bet={bet}/>
                     ))}
-                    <Button onClick={handleSubmit}>Sumbit</Button>
+                    <Button onClick={handleSubmit}>Submit</Button>
                 </CardActions>
             </CardActionArea>
         </Card>
-        
     </Box>)
 }
 

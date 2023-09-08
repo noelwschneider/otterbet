@@ -8,6 +8,8 @@ const betSlipReducer = (state = [], action) => {
             return action.payload
         case 'DELETE_WAGER':
             return action.payload
+        case 'CLEAR_BETSLIP':
+            return []
         default:
             return state;
     }

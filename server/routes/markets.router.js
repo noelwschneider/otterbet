@@ -49,8 +49,6 @@ router.get('/', async (req, res) => {
     const gamesList = req.query.gamesList.map(game => JSON.parse(game))
     // console.log('game list:', gamesList)
 
-
-
     const markets = await Promise.all(gamesList.map( async (game) => {
         const queryValue = [game.id]
         // console.log('query value:', queryValue)

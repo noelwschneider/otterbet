@@ -16,6 +16,7 @@ function MarketsItem({game}) {
 
     const dispatch = useDispatch()
     const betslip = useSelector(store => store.betslip)
+    const user = useSelector(store => store.user)
 
     const {away_team, commence_time, competition, home_team, id, markets} = game
     // console.log(markets)
@@ -44,6 +45,7 @@ function MarketsItem({game}) {
                     }
                 }
                 x.wager = 0
+                x.user = user.id
                 console.log('state of new bet before sending', x)
                 dispatch({type: 'SET_BETSLIP', payload: x})
             }
