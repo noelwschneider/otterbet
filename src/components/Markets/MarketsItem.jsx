@@ -50,8 +50,6 @@ function MarketsItem({game}) {
         }
     }
 
-    
-
     const getCellText = (outcome, market) => {
         let cellArray = markets.filter( x => x.outcome === outcome && x.market === market)
         let [cellObject] = cellArray

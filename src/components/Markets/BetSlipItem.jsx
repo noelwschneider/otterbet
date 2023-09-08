@@ -100,7 +100,7 @@ function BetSlipItem(props) {
         </Typography>
 
         <IconButton onClick={deleteWager}>
-            <ClearIcon />
+            <ClearIcon sx={{color: 'red'}}/>
         </IconButton>
         
 
@@ -116,9 +116,12 @@ function BetSlipItem(props) {
         id="wager=input"
         required 
         type="number"
-        InputProps={
-            {startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+        InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            inputProps: {min: 0}
+        }}
         onChange={event => updateWager(event.target.value)}
+        onWheel={event => { event.target.blur(); }}
         />
 
         <Typography variant="h6">

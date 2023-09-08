@@ -24,36 +24,39 @@ function BetSlip() {
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
 
-    const [alertStatus, setAlertStatus] = useState(false)
+    const [invalidInputAlert, setInvalidInputAlert] = useState(false)
+    const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
 
     const handleSubmit = () => {
-        // console.log('in handleSubmit. Current betslip:', betslip)
+        console.log('in handleSubmit. Current betslip:', betslip)
         
-        // validate bets
+        // validation
         const userFunds = entry.funds
         let wagerSum = 0
+        
+        // validate that user has entered a value > 0 in each input field
         for (let bet of betslip) {
+            console.log('current bet:', bet)
             if (bet.wager <= 0) {
                 // alert the user
                     // I need access to info to notify user of the specific bet that failed the check
                 // terminate submission
                 console.log('empty or negative wager')
-                setAlertStatus(true)
+                setInvalidInputAlert(true)
                 return
             }
-            wagerSum += userFunds
+            wagerSum += Number(bet.wager)
         }
 
+        // Validate that user has funds to place current wagers
         if (wagerSum > userFunds) {
-            // alert the user
-            // terminate submission
-            console.log(`Insufficient funds. User funds: ${userFunds} || Wager total: ${wagerSum}`)
+            setInsufficientFundsAlert(true)
+            return
         }
 
-            // empty input fields
-            // update user funds
-                // actually, probably do this in the saga
-
+        // empty input fields
+        // update user funds
+            // actually, probably do this in the saga
         
         // send betslip to betslip.saga for POST
         dispatch({type: 'SUBMIT_WAGERS', payload: betslip})
@@ -73,9 +76,17 @@ function BetSlip() {
     >
         <Card sx={{overflow: "scroll"}}>
             <CardHeader title={<Typography variant="h2">Bet Slip</Typography>}/>
-            {alertStatus 
-                ? <Alert severity="error" onClose={() => setAlertStatus(false)}>Please enter a positive value for all wagers</Alert> 
-                : <></>}
+            
+            {invalidInputAlert 
+                ? <Alert severity="error" onClose={() => setInvalidInputAlert(false)}>Please enter a positive value for all wagers</Alert> 
+                : <></>
+            }
+
+            {insufficientFundsAlert 
+                ? <Alert severity="error" onClose={() => setInsufficientFundsAlert(false)}>Insufficient funds for entered wagers</Alert> 
+                : <></>
+            }
+
             <CardActionArea component="div">
                 <CardActions sx={{display: 'flex', flexDirection: 'column'}}>
                     {betslip.map( bet => (
