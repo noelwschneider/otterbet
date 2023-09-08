@@ -65,13 +65,14 @@ function BetSlip() {
 
     return (
     <Box 
-        sx={{width: "20vw", 
+        sx={{
             maxHeight: "75vh", 
             display: 'flex', 
             flexDirection: 'column', 
             position: "fixed", 
             right: "0px", 
-            top: "20vh"}}
+            top: "150px",
+        }}
             className="container" 
     >
         <Card sx={{overflow: "scroll"}}>
@@ -88,7 +89,7 @@ function BetSlip() {
             }
 
             <CardActionArea component="div">
-                <CardActions sx={{display: 'flex', flexDirection: 'column'}}>
+                <CardActions sx={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
                     {betslip.map( bet => (
                         <BetSlipItem key={bet.id} bet={bet}/>
                     ))}

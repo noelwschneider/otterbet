@@ -20,7 +20,7 @@ function Nav() {
 
   const fundsDisplay = entry ? entry.funds.toFixed(2) : null
   const entryDisplay = entry ? entry.name : null
-  console.log(entryDisplay)
+
   return (
     <div className="nav">
       <Link to="/home">

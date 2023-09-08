@@ -1,6 +1,8 @@
+
+
 const myBetsReducer = (state = [], action) => {
     switch (action.type) {
-        case 'MY BETS ACTION.TYPE GOES HERE':
+        case 'SET_MYBETS':
             return action.payload;
         default:
             return state;

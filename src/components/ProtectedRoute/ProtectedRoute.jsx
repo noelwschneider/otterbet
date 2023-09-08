@@ -28,7 +28,7 @@ function ProtectedRoute({ component, children, ...props }) {
   //! do I need to clear the entry upon logout?
   //! This appears to run (and evaluate the same) for every protected route upon initial rendering.
   if(user.id && !entry) {
-    console.log('user: MATCH || entry: FAIL')
+    // console.log('user: MATCH || entry: FAIL')
     dispatch({type: 'FETCH_ENTRY', payload: {user, entryQuery: 0}})
   }
 

@@ -46,6 +46,11 @@ function MarketsItem({game}) {
                 }
                 x.wager = 0
                 x.user = user.id
+                x.home_team = home_team
+                x.away_team = away_team
+                x.commence_time = commence_time
+                x.game_id = id
+                x.competition = competition
                 console.log('state of new bet before sending', x)
                 dispatch({type: 'SET_BETSLIP', payload: x})
             }

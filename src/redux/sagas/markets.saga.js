@@ -15,12 +15,10 @@ function* getMarketsArray() {
             params: {}
         };
 
-        
-
         // GET list of game IDs from the database
         const gamesResponse = yield axios.get('/api/markets/game-IDs', config)
         //& This is sending up an array of JSON strings. I can work with that, but it is worth investigating if this is really the way to do this
-            //? Did I change this without noticing, or am I missing something?
+        
         const games = gamesResponse.data 
         config.params = {gamesList: gamesResponse.data}
         // console.log('games response:', games)

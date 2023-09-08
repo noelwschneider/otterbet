@@ -20,53 +20,49 @@ import ClearIcon from '@mui/icons-material/Clear';
 function BetSlipItem(props) {
     //& I should further destructure this
     const {bet} = props
-    // console.log(bet)
+    const {away_team, commence_time, competition, game_id, home_team, id, last_update, market, outcome, point, price, tag, user, wager} = bet
 
     const dispatch = useDispatch()
     const betslip = useSelector(store => store.betslip)
-    // console.log(betslip)
 
     const [payout, newPayout] = useState((0).toFixed(2))
 
     //& A slightly different version of this is used in MarketItem.jsx. Long-term plan is to modularize
     const getCellText = (outcome, market) => {
-       
-        let cellObject = bet
-        // console.log(cellObject)
 
-        if (cellObject.market === 'h2h') {
-            return cellObject.price.american
+        if (market === 'h2h') {
+            return price.american
         }
         
         let prefix = ''
-        if (cellObject.market === 'spreads') {
+        if (market === 'spreads') {
             prefix = '+'
         }
+         
         //! I need to figure out what odds-api will give me for the point property if the line is 0 -- it will probably be a string, but could be 0
-        if (cellObject.point >= 0) {
-            cellObject.point = `${prefix}${Number(cellObject.point).toFixed(1)}`
-        } else if (cellObject.point < 0) {
-            // console.log('less than 0:', cellObject.point)
-            cellObject.point = `${Number(cellObject.point).toFixed(1)}`
-        } else if (!cellObject.point) {
-            // console.log('null:', cellObject.point)
-            cellObject.point =  ''
+        let newPoint = point
+        if (newPoint >= 0) {
+            newPoint = `${prefix}${Number(newPoint).toFixed(1)}`
+        } else if (newPoint < 0) {
+            newPoint = `${Number(newPoint).toFixed(1)}`
+        } else if (!newPoint) {
+            newPoint =  ''
         } else {
-            console.log('some unforeseen value:', cellObject.point)
+            console.log('some unforeseen value:', newPoint)
         }
 
         //& eventually let the user determine which odds format they prefer
-        let cellString = `${cellObject.point} (${cellObject.price.american})`
+        let cellString = `${newPoint} (${price.american})`
         // console.log('cell string:', cellString)
 
         return cellString
     }
 
-    const cellText = getCellText(bet.outcome, bet.market)
+    const cellText = getCellText(outcome, market)
 
     const updateWager = event => {
         for (let wager of betslip) {
-            if( bet.id === wager.id) {
+            if( id === wager.id) {
                 wager.wager = event
             } 
         }
@@ -80,7 +76,7 @@ function BetSlipItem(props) {
         // console.log(betslip)
         let newBetslip = []
         for (let wager of betslip) {
-            if( bet.id !== wager.id) {
+            if( id !== wager.id) {
                 // console.log(wager)
                 newBetslip.push(wager)
             } 
@@ -89,14 +85,16 @@ function BetSlipItem(props) {
         dispatch({type: 'DELETE_WAGER', payload: newBetslip})
     }
 
-    
+    const gameInfo = `${away_team} at ${home_team}`
+    //! I need a formatted timestamp for this part (and a bunch of other places in this project)
+
     return (<Box 
     className="container"
-    flexDirection="column">
+    flexDirection="column"
+    alignItems="left">
         
-
         <Typography variant="h6" sx={{display: "inline"}}>
-            {bet.outcome} {cellText}
+            {outcome} {cellText}
         </Typography>
 
         <IconButton onClick={deleteWager}>
@@ -105,15 +103,17 @@ function BetSlipItem(props) {
         
 
         <Typography variant="caption">
-               {/* Add game info */}
-               (GAME INFO HERE) <br/>
+               <br/>
+               {gameInfo} <br/>
+               {commence_time} <br/>
                {/* Add code to display "moneyline" or "spread" */}
-               {bet.market}
+               {market}
+               <br/>
         </Typography>
 
-        <InputLabel htmlFor="wager-input">Risk</InputLabel>
         <TextField 
         id="wager=input"
+        placeholder="Risk"
         required 
         type="number"
         InputProps={{

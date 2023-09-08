@@ -12,6 +12,44 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    //! The below console log runs like 20 times on page load. Is that an issue?
+    // console.log('in bets router GET:', req.query)
+
+    const queryText = `
+        SELECT
+            bets.id AS "id",
+            wager,
+            outcome,
+            market,
+            point,
+            price,
+            games.id AS game_id,
+            home_team,
+            away_team,
+            commence_time,
+            competition
+        FROM bets
+        	JOIN markets
+        		on markets.id = bets.market_id
+            JOIN games
+        		on games.id = markets.game_id
+        WHERE user_id = $1
+        ;
+    `
+
+    const queryValues = [req.query.id]
+
+    pool.query(queryText, queryValues)
+    .then( response => {
+        res.send(response.rows)
+    })
+    .catch( error => {
+        console.log('error in bets get query:', error)
+        res.sendStatus(500)
+    })
+})
+
 router.post('/', (req, res) => {
     req.body.map( wager => {
         const queryText = `
