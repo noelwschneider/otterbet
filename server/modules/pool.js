@@ -29,6 +29,9 @@ else {
         host: 'localhost',
         port: 5432,
         database: 'otterbet',   // 	💥 Change this to the name of your database!
+        name: 'postgres',
+        password: 'postgres',
+        user: 'me'
     });
 }
 

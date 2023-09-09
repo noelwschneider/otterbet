@@ -10,7 +10,7 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const marketsRouter = require('./routes/markets.router');
-const sportsRouter = require('./routes/sports.router')
+const scoresRouter = require('./routes/scores.router')
 const oddsRouter = require('./routes/odds.router')
 const entriesRouter = require('./routes/entries.router')
 const betsRouter = require('./routes/bets.router')
@@ -30,7 +30,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/markets', marketsRouter);
 app.use('/api/odds', oddsRouter);
-app.use('/api/sports', sportsRouter);
+app.use('/api/scores', scoresRouter);
 app.use('/api/entries', entriesRouter);
 app.use('/api/bets', betsRouter)
 

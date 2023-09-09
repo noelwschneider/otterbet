@@ -14,7 +14,7 @@ const router = express.Router();
 const oddsAPIKey = process.env.ODDS_API_KEY
 
 //& This may be better off in its own file (esp if it may be useful when dealing with other requests from odds-api)
-const fixTimestamp = timestamp => {
+function fixTimestamp(timestamp) {
     let fixedTimestamp = []
     for (let character of timestamp) {
         if (character === 'T') {
@@ -26,15 +26,39 @@ const fixTimestamp = timestamp => {
     return fixedTimestamp.join('')
 }
 
+function removeSpaces(string) {
+    let unspaced = []
+    for (let character of string) {
+        if (character == ' ') {
+            unspaced.push('_')
+        } else {
+            unspaced.push(character)
+        }
+    }
+    return unspaced.join('')
+}
+
+function makeGameID(response) {
+    let {sport_title, home_team, away_team, commence_time} = response
+
+    home_team = removeSpaces(home_team)
+    away_team = removeSpaces(away_team)
+    commence_time = fixTimestamp(commence_time)
+    return removeSpaces(`${sport_title}_${home_team}_${away_team}_${commence_time}`)
+}
+
 //& This should live elsewhere and be required into this
 function makeMarketsArray(apiData) {
     let arrayToReturn = []
     for (let game of apiData) {
+        console.log('game object is: game')
         for (let bookmaker of game.bookmakers) {
             for (let market of bookmaker.markets) {
                 for (let outcome of market.outcomes) {
                     let marketObj = {
-                        game_id: game.id,
+                        sport_title: game.sport_title,
+                        game_id: makeGameID(game),
+                        odds_api_game_id: game.id,
                         bookmaker: bookmaker.key,
                         market: market.key,
                         outcome: outcome.name,

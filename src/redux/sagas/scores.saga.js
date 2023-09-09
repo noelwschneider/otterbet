@@ -3,7 +3,7 @@ import axios from "axios";
 
 function* getScores() {
 
-    console.log(process.env.SPORTS_API_KEY)
+    console.log('in getScores saga')
     const config = {
         headers: { 
             'Content-Type': 'application/json',
@@ -11,12 +11,34 @@ function* getScores() {
         withCredentials: true,
     };
 
-    const response = yield axios.get('/api/sports', config)
+    const response = yield axios.get('/api/scores', config)
     yield put({type: 'GET_SCORES', payload: response.data})
 }
 
+function* updateScores() {
+
+}
+
+function* postScores(action) {
+    /* THIS IS AN ADMINISTRATIVE FUNCTION
+    FOR ADDING NEW GAMES TO THE DATABASE -- 
+    IT SHOULD ONLY BE USED WHEN THE SCHEDULE 
+    IS RELEASED FOR AN UPCOMING SEASON, AND 
+    SHOULD NOT EVER BE TRIGGERED AUTOMATICALLY 
+    OR BY A USER ACTION*/
+    try {
+        console.log('in postScores', action.payload)
+        yield axios.post('/api/scores/', action.payload)
+    } catch (error) {
+        console.log('error in scores post', error)
+    }
+}
+
+
 function* scoresSaga() {
     yield takeLatest('FETCH_SCORES', getScores)
+    yield takeLatest('UPDATE_SCORES', updateScores)
+    yield takeLatest('ADMIN_POST_SCORES', postScores)
 }
 
 export default scoresSaga
