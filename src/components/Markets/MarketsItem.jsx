@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Typography } from '@mui/material';
 
 function MarketsItem({game}) {
     // console.log(game)
@@ -92,19 +93,21 @@ function MarketsItem({game}) {
 
     //& Row header styling is inelegant and makes it hard to read. 
     return (
-        <TableContainer sx={{width: "60vw"}}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell></TableCell>
+        <TableContainer sx={{width: "60vw", margin: "10px", border: "solid 2px black", borderCollapse: "collapse"}}>
+            <Table >
+                <TableHead >
+                    <TableRow sx={{backgroundColor: "lightslategray", border: "solid 2px black", borderCollapse: "collapse"}}>
+                        <TableCell>
+                            <Typography variant="subtitle2" sx={{fontStyle: "italic"}}>{commence_time}</Typography>
+                        </TableCell>
                         <TableCell sx={{fontWeight: 'bold'}}>Spread</TableCell>
                         <TableCell sx={{fontWeight: 'bold'}}>Moneyline</TableCell>
                         <TableCell sx={{fontWeight: 'bold'}}>Over/Under</TableCell>
                     </TableRow>
                 </TableHead>
 
-                <TableBody>
-                    <TableRow className="away-row">
+                <TableBody >
+                    <TableRow className="away-row" sx={{border: "solid 1px black", borderCollapse: "collapse"}}>
                         <TableCell>{away_team}</TableCell>
                         <TableCell 
                             className="away-spread"
@@ -128,7 +131,7 @@ function MarketsItem({game}) {
                         </TableCell>
                     </TableRow>
 
-                    <TableRow className="home-row">
+                    <TableRow className="home-row" sx={{border: "solid 1px black", borderCollapse: "collapse"}}>
                         <TableCell>{home_team}</TableCell>
                         <TableCell 
                             className="home-spread"

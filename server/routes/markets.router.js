@@ -26,6 +26,7 @@ router.get('/game-IDs', (req, res) => {
     WHERE commence_time BETWEEN 
         timestamp '2023-09-08' 
         AND timestamp '2023-09-15'
+    ORDER BY commence_time ASC
     ;`
     
     // GET list of game IDs from database

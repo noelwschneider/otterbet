@@ -7,7 +7,9 @@ function TestButtons() {
     
     const odds = useSelector(store => store.odds)
     const games = useSelector(store => store.games)
+    const scores = useSelector(store => store.scores)
 
+    const [domData, setDomData] = useState('')
     const testAPIGet = () => {
         console.log('odds before dispatch:', odds)
         dispatch({ type: 'FETCH_ODDS' })

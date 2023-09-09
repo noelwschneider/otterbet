@@ -35,6 +35,8 @@ router.get('/', (req, res) => {
             JOIN games
         		on games.id = markets.game_id
         WHERE user_id = $1
+        ORDER BY 
+            commence_time ASC
         ;
     `
 

@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Nav.css';
 import logo from './otter-logo-1.png'
 import { Typography } from '@mui/material';
+import TestButtons from '../TestButtons/TestButtons';
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -45,6 +46,11 @@ function Nav() {
             Entry: {entryDisplay}<br/>
             Funds: ${fundsDisplay}
           </Typography>
+
+            <Link className="navLink" to="test-buttons">
+              Test Buttons
+            </Link>
+            
             <Link className="navLink" to="/my-bets">
               My Bets 
             </Link>

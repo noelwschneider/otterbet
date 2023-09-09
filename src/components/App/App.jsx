@@ -31,6 +31,7 @@ import Markets from '../Markets/Markets';
 
 // Style
 import './App.css';
+import TestButtons from '../TestButtons/TestButtons';
 
 
 function App() {
@@ -79,6 +80,12 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute
+            exact
+            path="/test-buttons"
+          >
+            <TestButtons />
+          </ProtectedRoute>
           <ProtectedRoute
             exact
             path ="/my-bets"

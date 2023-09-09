@@ -73,7 +73,7 @@ function BetSlip() {
             right: "0px", 
             top: "150px",
         }}
-            className="container" 
+        className="container" 
     >
         <Card sx={{overflow: "scroll"}}>
             <CardHeader title={<Typography variant="h2">Bet Slip</Typography>}/>
@@ -88,7 +88,7 @@ function BetSlip() {
                 : <></>
             }
 
-            <CardActionArea component="div">
+            <CardActionArea disableRipple component="div">
                 <CardActions sx={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
                     {betslip.map( bet => (
                         <BetSlipItem key={bet.id} bet={bet}/>
