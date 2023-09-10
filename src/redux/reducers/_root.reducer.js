@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
 import odds from './odds.reducer';
-import games from './games.reducer';
 import scores from './scores.reducer'
 import myBets from './myBets.reducer';
 import markets from './markets.reducer';
@@ -19,7 +18,6 @@ const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
   odds,
-  games,
   scores,
   myBets,
   markets,

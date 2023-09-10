@@ -19,8 +19,9 @@ function MarketsItem({game}) {
     const betslip = useSelector(store => store.betslip)
     const user = useSelector(store => store.user)
 
-    const {away_team, commence_time, competition, home_team, id, markets} = game
-    // console.log(markets)
+    const {away, commence_time, competition, home, id, markets} = game
+    // console.log('game:', game)
+    // console.log('markets:', markets)
 
     // Add tags to each market for matching to table cell
     for (let market of markets) {
@@ -47,8 +48,8 @@ function MarketsItem({game}) {
                 }
                 x.wager = 0
                 x.user = user.id
-                x.home_team = home_team
-                x.away_team = away_team
+                x.home_team = home
+                x.away_team = away
                 x.commence_time = commence_time
                 x.game_id = id
                 x.competition = competition
@@ -59,7 +60,11 @@ function MarketsItem({game}) {
     }
 
     const getCellText = (outcome, market) => {
+        // console.log(outcome, market)
+
         let cellArray = markets.filter( x => x.outcome === outcome && x.market === market)
+        // console.log(cellArray)
+
         let [cellObject] = cellArray
         // console.log(cellObject)
 
@@ -108,19 +113,19 @@ function MarketsItem({game}) {
 
                 <TableBody >
                     <TableRow className="away-row" sx={{border: "solid 1px black", borderCollapse: "collapse"}}>
-                        <TableCell>{away_team}</TableCell>
+                        <TableCell>{away}</TableCell>
                         <TableCell 
                             className="away-spread"
-                            onClick={() => newAddBet(away_team, 'spreads')}
+                            onClick={() => newAddBet(away, 'spreads')}
                             >
-                            {getCellText(away_team, 'spreads')}
+                            {getCellText(away, 'spreads')}
                         </TableCell>
 
                         <TableCell 
                             className="away-moneyline"
-                            onClick={() => newAddBet(away_team, 'h2h')}
+                            onClick={() => newAddBet(away, 'h2h')}
                             >
-                            {getCellText(away_team, 'h2h')}
+                            {getCellText(away, 'h2h')}
                         </TableCell>
 
                         <TableCell 
@@ -132,19 +137,19 @@ function MarketsItem({game}) {
                     </TableRow>
 
                     <TableRow className="home-row" sx={{border: "solid 1px black", borderCollapse: "collapse"}}>
-                        <TableCell>{home_team}</TableCell>
+                        <TableCell>{home}</TableCell>
                         <TableCell 
                             className="home-spread"
-                            onClick={() => newAddBet(home_team, 'spreads')}
+                            onClick={() => newAddBet(home, 'spreads')}
                             >
-                            {getCellText(home_team, 'spreads')}
+                            {getCellText(home, 'spreads')}
                         </TableCell>
 
                         <TableCell 
                             className="home-moneyline"
-                            onClick={() => newAddBet(home_team, 'h2h')}
+                            onClick={() => newAddBet(home, 'h2h')}
                             >
-                            {getCellText(home_team, 'h2h')}
+                            {getCellText(home, 'h2h')}
                         </TableCell>
 
                         <TableCell 

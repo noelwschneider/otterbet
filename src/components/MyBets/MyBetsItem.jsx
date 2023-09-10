@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 
 function MyBetsItem(props) {
     const {bet} = props
-    let {away_team, commence_time, game_id, home_team, id, market, outcome, point, price, wager} = bet
+    let {away, date, time, game_id, home, id, market, outcome, point, price, wager} = bet
 
     const convertToAmerican = price => {
         // console.log('price is:', price)
@@ -82,9 +82,9 @@ function MyBetsItem(props) {
 
            <Typography variant="subtitle2" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{market}</Typography>
 
-           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{away_team} at {home_team}</Typography>
+           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{away} at {home}</Typography>
 
-           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{commence_time}</Typography>
+           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{date} {time}</Typography>
 
            <Typography variant="h6" sx={{fontWeight: "bold"}}>Wager: ${Number(wager).toFixed(2)}</Typography>
 

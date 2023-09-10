@@ -8,13 +8,12 @@ function TestButtons() {
     const odds = useSelector(store => store.odds)
     console.log('odds in store:', odds)
 
-    const games = useSelector(store => store.games)
 
     const scores = useSelector(store => store.scores)
-    console.log('scores response:', scores)
+    console.log('scores store:', scores)
     
 
-    const [domData, setDomData] = useState('')
+    // ODDS
     const testOddsGet = () => {
         console.log('odds before dispatch:', odds)
         dispatch({ type: 'FETCH_ODDS' })
@@ -26,41 +25,43 @@ function TestButtons() {
         dispatch({ type: 'POST_ODDS', payload: odds })
     }
 
-    const testGamesGet = () => {
-        console.log('games get button works')
-        dispatch({ type: 'FETCH_GAMES' })
-    }
-
-    const testGamesPost = () => {
-        console.log('post games button works')
-        dispatch({ type: 'POST_GAMES', payload: games })
-    }
-
+    // SCORES
     const testScoresGet = () => {
         console.log('button works')
         dispatch({ type: 'FETCH_SCORES' })
     }
 
+    const testScoresPost = () => {
+        console.log('button works')
+        dispatch({ type: 'ADMIN_POST_SCORES', payload: scores})
+    }
+
+
+    // MARKETS PAGE
     const testGetMarketItems = () => {
         console.log('button works')
         dispatch({ type: 'FETCH_MARKETS' })
     }
 
-    const testScoresPost = () => {
-        console.log('button works')
-        dispatch({ type: 'UPDATE_SCORES', payload: scores})
-    }
+    
 
     return (<>
-        <button onClick={testOddsGet} disabled>Test odds GET (API)</button>
+        <h1>Odds</h1>
+        <button onClick={testOddsGet}>Test odds GET (API)</button>
+        <button onClick={testOddsPost}>Test odds.router POST</button>
 
-        <button onClick={testOddsPost} disabled>Test odds.router POST</button>
+        <br/>
+        <br/>
 
-        <button onClick={testScoresGet}>Test scores get (API)</button>
-
-        <button onClick={testGetMarketItems}>Test get market items GET</button>
-
+        <h1>Scores/games</h1>
+        <button onClick={testScoresGet} disabled>Test scores get (API)</button>
         <button onClick={testScoresPost} disabled>Test scores POST</button>
+
+        <br/>
+        <br/>
+
+        <h1>Markets page</h1>
+        <button onClick={testGetMarketItems}>Test get market items GET</button>
     </>)
 }
 

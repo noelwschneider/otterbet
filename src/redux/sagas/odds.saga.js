@@ -34,30 +34,11 @@ function* postOdds(action) {
     }
 }
 
-function* updateGames() {
-    try {
-        console.log('in fetchGames')
-        const config = {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-        };
-        const response = yield axios.get('/api/odds/update-games')
-        yield put({type: 'UPDATE_GAMES', payload: response.data})
-    } catch (error) {
-        console.log('games response server')
-    }
-}
 
-function* postGames(action) {
-    console.log(action.payload)
-    yield axios.post('/api/odds/games', action.payload)
-}
 
 function* oddsSaga() {
     yield takeLatest('FETCH_ODDS', updateOdds)
     yield takeLatest('POST_ODDS', postOdds)
-    yield takeLatest('FETCH_GAMES', updateGames)
-    yield takeLatest('POST_GAMES', postGames)
 }
 
 export default oddsSaga;

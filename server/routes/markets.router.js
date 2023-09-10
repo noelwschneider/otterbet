@@ -23,10 +23,13 @@ router.get('/game-IDs', (req, res) => {
     const gameIDsQuery = `
     SELECT * 
     FROM games
-    WHERE commence_time BETWEEN 
+    WHERE "date" BETWEEN 
         timestamp '2023-09-08' 
-        AND timestamp '2023-09-15'
-    ORDER BY commence_time ASC
+        AND timestamp '2023-09-14'
+    ORDER BY 
+        "date" ASC,
+        "time" ASC,
+        home ASC
     ;`
     
     // GET list of game IDs from database
@@ -51,7 +54,7 @@ router.get('/', async (req, res) => {
     // console.log('game list:', gamesList)
 
     const markets = await Promise.all(gamesList.map( async (game) => {
-        const queryValue = [game.id]
+        const queryValue = game.id
         // console.log('query value:', queryValue)
 
         const queryText = `
@@ -62,11 +65,13 @@ router.get('/', async (req, res) => {
             WHERE game_id = $1
         `
 
-        const response = await pool.query(queryText, queryValue) 
-        // console.log('response from DB:', response.rows)
+        const response = await pool.query(queryText, [queryValue]) 
+        // console.log('response from DB:', response.rows[0])
         return response.rows
         })
     )
+
+    // removing games which don't have a match (which means they )
     // console.log('markets:', markets)
     res.send(markets)
 })

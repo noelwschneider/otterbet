@@ -25,10 +25,11 @@ router.get('/', (req, res) => {
             point,
             price,
             games.id AS game_id,
-            home_team,
-            away_team,
-            commence_time,
-            competition
+            home,
+            away,
+            "date",
+            "time",
+            league
         FROM bets
         	JOIN markets
         		on markets.id = bets.market_id
@@ -36,7 +37,9 @@ router.get('/', (req, res) => {
         		on games.id = markets.game_id
         WHERE user_id = $1
         ORDER BY 
-            commence_time ASC
+            "date" ASC,
+            "time" ASC,
+            home ASC
         ;
     `
 
@@ -55,10 +58,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     req.body.map( wager => {
         const queryText = `
-            INSERT INTO bets (user_id, market_id, wager)
-            VALUES ($1, $2, $3)
+            INSERT INTO bets (user_id, market_id, wager, bet_timestamp)
+            VALUES ($1, $2, $3, CURRENT_TIME AT TIME ZONE 'UTC')
             ;
         `
+
         const queryValues = [wager.user, wager.id, wager.wager]
 
         pool.query(queryText, queryValues)
