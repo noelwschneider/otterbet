@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Styling
-import './MarketsItem.css';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -19,7 +18,7 @@ function MarketsItem({game}) {
     const betslip = useSelector(store => store.betslip)
     const user = useSelector(store => store.user)
 
-    const {away, commence_time, competition, home, id, markets} = game
+    const {away, date, time, competition, home, id, markets} = game
     // console.log('game:', game)
     // console.log('markets:', markets)
 
@@ -37,8 +36,7 @@ function MarketsItem({game}) {
         //& Rename this variable
         for (let x of markets) {
             if(x.tag === `${outcome}_${market}`) {
-                console.log('if has executed for', x)
-                // add it to bet slip
+                // console.log('if has executed for', x)
 
                 for (let bet of betslip) {
                     if (bet.id === x.id) {
@@ -103,7 +101,7 @@ function MarketsItem({game}) {
                 <TableHead >
                     <TableRow sx={{backgroundColor: "lightslategray", border: "solid 2px black", borderCollapse: "collapse"}}>
                         <TableCell>
-                            <Typography variant="subtitle2" sx={{fontStyle: "italic"}}>{commence_time}</Typography>
+                            <Typography variant="subtitle2" sx={{fontStyle: "italic"}}>{date} {time}</Typography>
                         </TableCell>
                         <TableCell sx={{fontWeight: 'bold'}}>Spread</TableCell>
                         <TableCell sx={{fontWeight: 'bold'}}>Moneyline</TableCell>

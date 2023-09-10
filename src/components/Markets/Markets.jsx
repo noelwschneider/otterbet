@@ -6,10 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import MarketsItem from './MarketsItem';
 import BetSlip from './BetSlip';
 
-// Test Buttons
-//& Eventually remove, of course
-import TestButtons from '../TestButtons/TestButtons';
-
 function Markets() {
     const dispatch = useDispatch()
 
@@ -25,8 +21,7 @@ function Markets() {
         <BetSlip/>
         <h1>Markets</h1>
         {markets.map( game => (
-            <MarketsItem key={game.id} game={game}/>
-            
+            <MarketsItem key={game.id} game={game}/>    
         ))}
 
     </>)

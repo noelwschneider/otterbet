@@ -5,12 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 function TestButtons() {
     const dispatch = useDispatch()
     
+    const user = useSelector(store => store.user)
     const odds = useSelector(store => store.odds)
-    console.log('odds in store:', odds)
-
-
     const scores = useSelector(store => store.scores)
-    console.log('scores store:', scores)
     
 
     // ODDS
@@ -36,6 +33,18 @@ function TestButtons() {
         dispatch({ type: 'ADMIN_POST_SCORES', payload: scores})
     }
 
+    // Entries
+    const createEntry = () => {
+        let defaultEntry = {
+            user: user.id,
+            name: 'My first entry',
+            type: 'defaultSandbox',
+            funds: 1000,
+            contest: null
+        }
+
+        dispatch({ type: 'CREATE_ENTRY', payload: defaultEntry})
+    }
 
     // MARKETS PAGE
     const testGetMarketItems = () => {
@@ -47,8 +56,8 @@ function TestButtons() {
 
     return (<>
         <h1>Odds</h1>
-        <button onClick={testOddsGet}>Test odds GET (API)</button>
-        <button onClick={testOddsPost}>Test odds.router POST</button>
+        <button onClick={testOddsGet} disabled>Test odds GET (API)</button>
+        <button onClick={testOddsPost} disabled>Test odds.router POST</button>
 
         <br/>
         <br/>
@@ -59,6 +68,9 @@ function TestButtons() {
 
         <br/>
         <br/>
+
+        <h1>Entries</h1>
+        <button onClick={createEntry}>Create Entry</button>
 
         <h1>Markets page</h1>
         <button onClick={testGetMarketItems}>Test get market items GET</button>

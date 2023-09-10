@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
             ;
         ` 
         : `
-        SELECT *
+            SELECT *
             FROM entries
             WHERE 
                 user_id = $1
@@ -42,6 +42,29 @@ router.get('/', (req, res) => {
         console.log('error in pool query:', error)
     })
     
-} )
+})
+
+router.post('/', (req, res) => {
+    console.log('in entry router post', req.body)
+
+    const {name, funds, default_entry, user_id, contest_id} = req.body
+    
+    const queryText = `
+        INSERT INTO entries ("name", funds, default_entry, user_id, contest_id)
+        VALUES($1, $2, $3, $4, $5)
+        ;
+    `
+
+    const queryValues = [name, funds, default_entry, user_id, contest_id]
+
+    pool.query(queryText, queryValues)
+    .then( response => {
+        res.sendStatus(200)
+    })
+    .catch( error => {
+        console.log('error in entries router post:', error)
+        res.sendStatus(500)
+    })
+})
 
 module.exports = router;
