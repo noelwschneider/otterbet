@@ -4,12 +4,16 @@ import axios from "axios";
 function* submitWagers(action) {
     try {
         const {betslip, wagerSum, user, entry} = action.payload
-
+        console.log("betslip:", betslip)
+        console.log("wagerSum:", wagerSum)
+        console.log("user", user)
+        console.log("entry", entry)
+        
         // send bets to database
         yield axios.post('/api/bets', betslip)
 
         // update user funds in database
-        yield axios.put(`/api/bets/${user.id}`, {wagerSum})
+        yield axios.put(`/api/bets/${user.id}`, {wagerSum, entry})
 
         // update funds in reducer
         const entryObject = {user: {id: user.id}, entryQuery: entry.id}

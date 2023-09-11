@@ -37,15 +37,10 @@ function BetSlip() {
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
     
-    
-
-    console.log('entry', entry)
     const [selectedEntry, setSelectedEntry] = useState(0)
     const [anchorEl, setAnchorEl] = useState(null);
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
-    console.log(selectedEntry)
 
     const handleSubmit = () => {
         console.log('in handleSubmit. Current betslip:', betslip)
@@ -74,9 +69,9 @@ function BetSlip() {
             return
         }
 
-        // empty input fields
-        // update user funds
-            // actually, probably do this in the saga
+        betslip.map( bet => {
+            bet.entry_id = entry[selectedEntry].id
+        })
         
         // send betslip to betslip.saga for POST
         dispatch({type: 'SUBMIT_WAGERS', payload: {betslip, wagerSum, user, entry: entry[selectedEntry]}})
@@ -97,16 +92,19 @@ function BetSlip() {
         <Card sx={{overflow: "scroll"}}>
             <CardHeader title={<Typography variant="h2">Bet Slip</Typography>}/>
             
+            {/* Alert to render when user has not submitted a valid wager */}
             {invalidInputAlert 
                 ? <Alert severity="error" onClose={() => setInvalidInputAlert(false)}>Please enter a positive value for all wagers</Alert> 
                 : <></>
             }
 
+            {/* Alert to render when the user has submitted wagers they cannot afford */}
             {insufficientFundsAlert 
                 ? <Alert severity="error" onClose={() => setInsufficientFundsAlert(false)}>Insufficient funds for entered wagers</Alert> 
                 : <></>
             }
 
+            {/* Render a prompt if the user does not have a valid entry yet, or render a menu of their entries */}
             {entry.length === 0
                 ? <>
                     <Typography variant="h5">You don't have any entries!</Typography>
@@ -115,6 +113,8 @@ function BetSlip() {
                     </Typography>
                 </>
                 : <>
+                
+                    
                     <Button
                         aria-controls="simple-menu"
                         aria-haspopup="true"
@@ -124,6 +124,14 @@ function BetSlip() {
                     >
                         {entry[selectedEntry].name}
                     </Button>
+
+                    <span>
+                        <Typography variant="h5">
+                            <strong>Available funds: </strong>
+                            ${entry[selectedEntry].funds}
+                        </Typography>
+                        
+                    </span>
 
                     <Menu
                         id="simple-menu"

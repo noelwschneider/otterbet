@@ -9,24 +9,24 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    console.log('req.user', req.user)
     const user = JSON.parse(req.user.id)
-    console.log('user:', user)
         
     const queryValues = [user]
-    console.log('queryValues:', queryValues)
 
     const sqlQuery =`
         SELECT *
         FROM entries
         WHERE 
             user_id = $1
+        ORDER BY
+            default_entry DESC NULLS LAST,
+            "name" ASC
         ;
     `
 
     pool.query(sqlQuery, queryValues)
     .then( response => {
-        console.log('response.rows:', response.rows)
+        // console.log('response.rows:', response.rows)
         res.send(response.rows)
     })
     .catch( error => {

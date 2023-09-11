@@ -57,13 +57,14 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     req.body.map( wager => {
+        console.log(wager)
         const queryText = `
-            INSERT INTO bets (user_id, market_id, wager, bet_timestamp)
-            VALUES ($1, $2, $3, CURRENT_TIME AT TIME ZONE 'UTC')
+            INSERT INTO bets (user_id, market_id, wager, bet_timestamp, entry_id)
+            VALUES ($1, $2, $3, CURRENT_TIME AT TIME ZONE 'UTC', $4)
             ;
         `
 
-        const queryValues = [wager.user, wager.id, wager.wager]
+        const queryValues = [wager.user, wager.id, wager.wager, wager.entry_id]
 
         pool.query(queryText, queryValues)
         .catch( error => {
@@ -75,16 +76,16 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const {id} = req.params
-    const {wagerSum} = req.body
+    const {wagerSum, entry} = req.body
 
     const queryText = `
         UPDATE entries 
         SET funds=funds-$1
-        WHERE user_id = $2
+        WHERE id = $2
         ;
     `
 
-    const queryValues = [wagerSum, id]
+    const queryValues = [wagerSum, entry.id]
 
     pool.query(queryText, queryValues)
     .then( response => {
