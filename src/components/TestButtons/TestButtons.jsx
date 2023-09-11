@@ -38,13 +38,19 @@ function TestButtons() {
         let defaultEntry = {
             user_id: user.id,
             name: 'My first entry',
-            type: 'defaultSandbox',
+            type: 'sandbox',
             funds: 1000,
             contest_id: null // contest_id
         }
 
         dispatch({ type: 'CREATE_ENTRY', payload: defaultEntry})
     }
+
+    const getEntry = () => {
+
+        dispatch({ type: 'FETCH_ENTRY'})
+    }
+
 
     // MARKETS PAGE
     const testGetMarketItems = () => {
@@ -70,7 +76,9 @@ function TestButtons() {
         <br/>
 
         <h1>Entries</h1>
+        <button onClick={getEntry}>Get Entry</button>
         <button onClick={createEntry}>Create Entry</button>
+        
 
         <h1>Markets page</h1>
         <button onClick={testGetMarketItems}>Test get market items GET</button>

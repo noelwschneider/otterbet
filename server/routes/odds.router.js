@@ -94,6 +94,11 @@ function makeGamesArray(apiData) {
 }
 
 
+// GET Request for list of in-season sports
+router.get('/in-season', (req, res) => {
+
+})
+
 // GET odds data from API request and send to the reducer
 //! Add reject unauthenticated when this is working?
 router.get('/update-odds', (req, res) => {

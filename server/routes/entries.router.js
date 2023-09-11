@@ -9,39 +9,26 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const user = JSON.parse(req.query.user)
-    const entryID = JSON.parse(req.query.entryQuery)
+    const user = JSON.parse(req.user.id)
+        
+    const queryValues = [user.id]
 
-    const queryValues = entryID === 0
-        ? [user.id]
-        : [user.id, entryID]
-
-    let sqlQuery = entryID === 0 
-        ? `
-            SELECT *
-            FROM entries
-            WHERE 
-                user_id = $1
-                AND default_entry = true
-            ;
-        ` 
-        : `
-            SELECT *
-            FROM entries
-            WHERE 
-                user_id = $1
-                AND id = $2
-            ;
-        `
+    let sqlQuery =`
+        SELECT *
+        FROM entries
+        WHERE 
+            user_id = $1
+        ;
+    `
 
     pool.query(sqlQuery, queryValues)
     .then( response => {
+        console.log(response.rows)
         res.send(response.rows)
     })
     .catch( error => {
         console.log('error in pool query:', error)
-    })
-    
+    }) 
 })
 
 router.post('/', (req, res) => {

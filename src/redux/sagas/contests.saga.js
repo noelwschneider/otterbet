@@ -3,8 +3,11 @@ import axios from 'axios';
 
 function* createContest(action) {
     console.log('in createContest', action.payload)
+    // Is there a way to consolidate this and the contestData declaration? It's a lot of lines for a pretty simple thing.
     const {
-        id,
+        user_id,
+        entry_name,
+        contest_id,
         type,
         contest_start,
         period_duration,
@@ -27,7 +30,8 @@ function* createContest(action) {
     
     
     const contestData = {
-        id,
+        entry_name,
+        id: contest_id,
         type,
         nfl,
         ncaa_fb,
@@ -48,9 +52,20 @@ function* createContest(action) {
         max_users,
         min_wager
     }
+
     console.log('contest data:', contestData)
 
     yield axios.post('/api/contests', contestData)
+
+    const entryData = {
+        id: user_id,
+        name: entry_name,
+        contest_id: contest_id,
+        default_entry: false,
+        funds: period_fund,
+    }
+
+    yield put({type: 'CREATE_ENTRY', payload: entryData})
 }
 
 function* fetchContest(action) {

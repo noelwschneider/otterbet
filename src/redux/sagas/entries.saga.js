@@ -11,12 +11,14 @@ function* fetchEntry(action) {
             params: {}
         };
 
-        config.params = action.payload
  
         const entryResponse = yield axios.get('/api/entries', config)
-        const [entry] = entryResponse.data
+        const entry = entryResponse.data
 
-        yield put({type: 'SET_ENTRY', payload: entry})
+        if(entry.length !== 0) {
+            yield put({type: 'SET_ENTRY', payload: entry})
+        }
+        
 
     } catch (error) {
         console.log('error in fetchEntry:', error)
@@ -26,10 +28,8 @@ function* fetchEntry(action) {
 function* createEntry(action) {
     console.log('in createEntry saga', action.payload)
     
-    let entryQuery
-    
     // post new entry
-    yield axios.post('/api/entries', entryQuery)
+    yield axios.post('/api/entries', action.payload)
 }
 
 function* entriesSaga() {

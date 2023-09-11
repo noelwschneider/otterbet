@@ -8,12 +8,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 
 // Components
 import CreateContest from '../CreateContest/CreateContest';
-
 
 //! This is an unfinished component
 //! I realized an easier solution for my immediate needs
