@@ -8,12 +8,16 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 
 // Hooks
 import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 // Styling
-import './Nav.css';
 import logo from './otter-logo-1.png'
 import { Typography } from '@mui/material';
-import TestButtons from '../TestButtons/TestButtons';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import './Nav.css';
+
 
 function Nav() {
   const user = useSelector((store) => store.user);
@@ -22,11 +26,14 @@ function Nav() {
   const fundsDisplay = entry ? entry.funds.toFixed(2) : null
   const entryDisplay = entry ? entry.name : null
 
+  const [anchorEl, setAnchorEl] = useState(false);
+
+
   return (
     <div className="nav">
       <Link to="/home">
         <h2 className="nav-title">OtterBet</h2>
-        <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128"/>
+        <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" />
       </Link>
       <div>
         {/* If no user is logged in, show these links */}
@@ -38,39 +45,79 @@ function Nav() {
         )}
 
         {/* If a user is logged in, show these links */}
-        {/* ^ On first read, I'm not sure how the following line of code works */}
-        {/* ^ On second read, we definitely went over this briefly in class -- it is a weird conditional syntax */}
-        {user.id && (
-          <>
+        {user.id && (<>
           <Typography variant="h5">
-            Entry: {entryDisplay}<br/>
+            Entry: {entryDisplay}<br />
             Funds: ${fundsDisplay}
           </Typography>
 
-            <Link className="navLink" to="test-buttons">
+          <Button 
+            className="navLink"
+            component={Link}
+            to="/test-buttons">
               Test Buttons
-            </Link>
+          </Button>
+          
+
+          <Button
+            className="navLink"
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+            variant="contained"
+          >
+            My Bets
+          </Button>
+
+          <Menu
+            className="navMenu"
+            id="simple-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(false)}
+          >
+            <MenuItem 
+            onClick={() => setAnchorEl(null)}
+            className="navMenuItem"
+            disableGutters={true}>
+              My Bets
+            </MenuItem>
             
-            <Link className="navLink" to="/my-bets">
-              My Bets 
-            </Link>
-
-            <Link className="navLink" to="/markets">
-              Markets 
-            </Link>
-
-            <Link className="navLink" to="/user">
-              User 
-            </Link>
+            <MenuItem 
+            className="navMenuItem"
+            disableGutters={true}
+            onClick={() => setAnchorEl(null)}>
+              Create Entry
+            </MenuItem>
             
+            <MenuItem 
+            className="navMenuItem"
+            disableGutters={true}
+            onClick={() => setAnchorEl(null)}>
+              Create Contest
+            </MenuItem>
+            
+          </Menu>
 
-            <LogOutButton className="navLink" />
+
+
+          <Button 
+            className="navLink"
+            component={Link}
+            to="/markets">
+              Markets
+          </Button>
+
+          <Button 
+            className="navLink"
+            component={Link}
+            to="/user">
+              User
+          </Button>
+
+          <LogOutButton className="navLink" />
           </>
         )}
-
-        <Link className="navLink" to="/about">
-          About
-        </Link>
       </div>
     </div>
   );
