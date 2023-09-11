@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function* fetchEntry(action) {
     try {
+        console.log('payload in fetchEntry:', action.payload)
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
@@ -13,8 +14,11 @@ function* fetchEntry(action) {
 
  
         const entryResponse = yield axios.get('/api/entries', config)
+        console.log(entryResponse.data)
         const entry = entryResponse.data
+        console.log(entry)
 
+        console.log('entry')
         if(entry.length !== 0) {
             yield put({type: 'SET_ENTRY', payload: entry})
         }
@@ -30,6 +34,7 @@ function* createEntry(action) {
     
     // post new entry
     yield axios.post('/api/entries', action.payload)
+    yield put({type: 'FETCH_ENTRY', payload: action.payload})
 }
 
 function* entriesSaga() {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,10 +21,18 @@ import './Betslip.css'
 function BetSlip() {
     const dispatch = useDispatch()
 
+    const user = useSelector(store => store.user)
+    console.log(user)
+    
+    useEffect( () => {
+        dispatch({ type: 'FETCH_ENTRY', payload: user.id})
+    }, [])
+
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
-    const user = useSelector(store => store.user)
+    
 
+    console.log(entry)
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
 
@@ -88,6 +96,10 @@ function BetSlip() {
                 : <></>
             }
 
+            {entry.length === 0
+                ? <></>
+                : <></>
+            }
             <CardActionArea disableRipple component="div">
                 <CardActions sx={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
                     {betslip.map( bet => (

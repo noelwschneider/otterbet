@@ -36,6 +36,7 @@ function TestButtons() {
     // Entries
     const createEntry = () => {
         let defaultEntry = {
+            default_entry: false,
             user_id: user.id,
             name: 'My first entry',
             type: 'sandbox',
@@ -48,7 +49,7 @@ function TestButtons() {
 
     const getEntry = () => {
 
-        dispatch({ type: 'FETCH_ENTRY'})
+        dispatch({ type: 'FETCH_ENTRY', payload: user.id})
     }
 
 

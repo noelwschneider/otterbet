@@ -9,11 +9,14 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+    console.log('req.user', req.user)
     const user = JSON.parse(req.user.id)
+    console.log('user:', user)
         
-    const queryValues = [user.id]
+    const queryValues = [user]
+    console.log('queryValues:', queryValues)
 
-    let sqlQuery =`
+    const sqlQuery =`
         SELECT *
         FROM entries
         WHERE 
@@ -23,7 +26,7 @@ router.get('/', (req, res) => {
 
     pool.query(sqlQuery, queryValues)
     .then( response => {
-        console.log(response.rows)
+        console.log('response.rows:', response.rows)
         res.send(response.rows)
     })
     .catch( error => {
@@ -34,7 +37,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     console.log('in entry router post', req.body)
 
-    const {name, funds, default_entry, user_id, contest_id} = req.body
+    const {name, funds, default_entry, id, contest_id} = req.body
     
     const queryText = `
         INSERT INTO entries ("name", funds, default_entry, user_id, contest_id)
@@ -42,7 +45,7 @@ router.post('/', (req, res) => {
         ;
     `
 
-    const queryValues = [name, funds, default_entry, user_id, contest_id]
+    const queryValues = [name, funds, default_entry, id, contest_id]
 
     pool.query(queryText, queryValues)
     .then( response => {
