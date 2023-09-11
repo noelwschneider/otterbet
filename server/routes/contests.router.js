@@ -29,13 +29,10 @@ router.post('/', (req, res) => {
         period_duration,
         period_count,
         period_fund,
-        // minimum wager
+        min_wager,
         max_users,
     } = req.body
-
-    console.log(contest_start)
-
-
+    
     const queryText = `
         INSERT INTO contests (
             id,
@@ -57,9 +54,10 @@ router.post('/', (req, res) => {
             period_count,
             period_fund,
             min_wager,
-            max_users,
+            max_users
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20);
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        ;
     `
     const queryValues = [
         id,
@@ -80,9 +78,10 @@ router.post('/', (req, res) => {
         period_duration,
         period_count,
         period_fund,
+        min_wager,
         max_users,
-        max_entries
     ]
+    
     
     pool.query(queryText, queryValues)
     .then( response => {
@@ -90,7 +89,9 @@ router.post('/', (req, res) => {
     })
     .catch( error => {
         console.log('error in contest pool post:', error)
+        res.sendStatus(500)
     })
+    
 })
 
 

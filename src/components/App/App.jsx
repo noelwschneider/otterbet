@@ -27,6 +27,8 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import MyBets from '../MyBets/MyBets';
+import CreateEntry from '../CreateEntry/CreateEntry';
+import CreateContest from '../CreateContest/CreateContest';
 import Markets from '../Markets/Markets';
 
 // Style
@@ -86,11 +88,24 @@ function App() {
           >
             <TestButtons />
           </ProtectedRoute>
+          
           <ProtectedRoute
             exact
             path ="/my-bets"
           >
             <MyBets />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/create-entry">
+            <CreateEntry />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/create-contest">
+            <CreateContest />
           </ProtectedRoute>
 
           <ProtectedRoute

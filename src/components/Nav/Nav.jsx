@@ -35,6 +35,7 @@ function Nav() {
         <h2 className="nav-title">OtterBet</h2>
         <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" />
       </Link>
+
       <div>
         {/* If no user is logged in, show these links */}
         {!user.id && (
@@ -45,12 +46,14 @@ function Nav() {
         )}
 
         {/* If a user is logged in, show these links */}
-        {user.id && (<>
+        {entry && (<>
           <Typography variant="h5">
             Entry: {entryDisplay}<br />
             Funds: ${fundsDisplay}
           </Typography>
+        </>)}
 
+        {user.id && (<>
           <Button 
             className="navLink"
             component={Link}
@@ -58,7 +61,6 @@ function Nav() {
               Test Buttons
           </Button>
           
-
           <Button
             className="navLink"
             aria-controls="simple-menu"
@@ -77,6 +79,8 @@ function Nav() {
             onClose={() => setAnchorEl(false)}
           >
             <MenuItem 
+            component={Link}
+            to="/my-bets"
             onClick={() => setAnchorEl(null)}
             className="navMenuItem"
             disableGutters={true}>
@@ -84,6 +88,8 @@ function Nav() {
             </MenuItem>
             
             <MenuItem 
+            component={Link}
+            to="/create-entry"
             className="navMenuItem"
             disableGutters={true}
             onClick={() => setAnchorEl(null)}>
@@ -91,12 +97,14 @@ function Nav() {
             </MenuItem>
             
             <MenuItem 
+            component={Link}
+            to="/create-contest"
             className="navMenuItem"
             disableGutters={true}
             onClick={() => setAnchorEl(null)}>
               Create Contest
             </MenuItem>
-            
+
           </Menu>
 
 

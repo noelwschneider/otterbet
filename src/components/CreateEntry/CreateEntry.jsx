@@ -21,45 +21,17 @@ import CreateContest from '../CreateContest/CreateContest';
 
 function CreateEntry() {
 
-    const dispatch = useDispatch()
-
-    const [type, setType] = useState('sandbox')
-    const [defaultEntry, setDefaultEntry] = useState(true)
-
-    const handleType = (event) => {
-        setType(event.target.value)
-    }
-
     return (<>
         <Typography 
             variant="h2" 
             sx={{ paddingLeft: "19px" }}>
-            Create New Entry
+            Create New Sandbox
         </Typography>
 
-        <FormControl>
-            <InputLabel
-                htmlFor="period-duration-label">
-                Type
-            </InputLabel>
-            <Select label='Entry Type' onChange={handleType} value={type}>
-                <MenuItem value={'sandbox'}>Sandbox</MenuItem>
-                <MenuItem value={'contest'} disabled>Contest</MenuItem>
-                <MenuItem value={'league'} disabled>League</MenuItem>
-            </Select>
-        </FormControl>
-
-        <FormControlLabel
-            control={<Checkbox checked={defaultEntry} onChange={() => setDefaultEntry(!defaultEntry)} />}
-            label="Default entry?"
+        <CreateContest 
+            type='sandbox' 
         />
 
-        {type === 'sandbox' && 
-            <CreateContest 
-                type='sandbox' 
-                defaultEntry={defaultEntry} 
-            />
-        }
     </>)
 }
 

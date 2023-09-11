@@ -12,21 +12,38 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
 
 function CreateContest(props) {
     const dispatch = useDispatch()
 
     const user = useSelector(store => store.user)
 
-    const { type, defaultEntry } = props
+    let { type } = props
+
+    // Configuration
+    const [privacy, setPrivacy] = useState(true)
+    const [period_duration, setPeriodDuration] = useState('weekly');
+    const [period_fund, setPeriodFund] = useState(1000);
+    const [period_count, setPeriodCount] = useState(0);
+    const [min_wager, setMinWager] = useState(0);
+    const [max_users, setMaxUsers] = useState(1);
+
+    // Eventually, set the start date by finding the nearest Monday
+        // Also maybe give an option for a short or long week if start date is set to the current date
+    const today = new Date()
+    const makeDateString = (date) => {
+        return `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()}`
+    }
+    const [contest_start, setStartDate] = useState(makeDateString(today))
 
     // Leagues
     const [nfl, setNfl] = useState(true);
-    const [ncaaFb, setNcaaFb] = useState(true);
+    const [ncaa_fb, setNcaaFb] = useState(true);
     const [nba, setNba] = useState(true);
     const [wnba, setWnba] = useState(true);
-    const [ncaaMbb, setNcaaMbb] = useState(true);
-    const [ncaaWbb, setNcaaWbb] = useState(true);
+    const [ncaa_mbb, setNcaaMbb] = useState(true);
+    const [ncaa_wbb, setNcaaWbb] = useState(true);
     const [mlb, setMlb] = useState(true);
     const [nhl, setNhl] = useState(true);
     const [epl, setEpl] = useState(true);
@@ -34,47 +51,99 @@ function CreateContest(props) {
     // Markets
     const [spreads, setSpreads] = useState(true);
     const [h2h, setH2h] = useState(true);
-    const [overUnder, setOverUnder] = useState(true);
+    const [over_under, setOverUnder] = useState(true);
 
-    // Configuration
-    const [periodDuration, setPeriodDuration] = useState('weekly');
-    const [periodFund, setPeriodFund] = useState(1000);
-    const [minWager, setMinWager] = useState(0)
-    const [maxUsers, setMaxUsers] = useState(1); // League only
+    const getAnnualPeriods = (duration) => {
+        console.log('in getAnnualPeriods:', duration)
+        switch (duration) {
+            case 'monthly':
+                return 13;
+            case 'weekly':
+                return 53;
+            case 'daily':
+                return 366;
+            default:
+                return 0;
+        }
+    }
 
-    const sendContestData = () => {
+    const formatContestData = () => {
+        // Create contest ID
         const timeNow = new Date().toUTCString()
-
         let id = user.id + '_' + timeNow
+
+        // Set league type
+        type = !type ? 'league' : type
+
+        // Format period_duration
+        const convertDuration = (x) => {
+            switch(x) {
+                case 'daily':
+                    return '0 month 1 day';
+                case 'weekly': 
+                    return '0 month 7 day';
+                case 'monthly':
+                    return '1 month';
+                default:
+                    return null;
+
+            }
+        }
+
         const contestData = {
             id,
             type,
-            defaultEntry,
-            periodDuration,
-            periodFund,
-            type,
-            maxUsers,
+            contest_start,
+            period_duration: convertDuration(period_duration),
+            period_fund,
+            period_count,
+            max_users,
+            min_wager,
             nfl,
-            ncaaFb,
+            ncaa_fb,
             nba,
             wnba,
-            ncaaMbb,
-            ncaaWbb,
+            ncaa_mbb,
+            ncaa_wbb,
             mlb,
             nhl,
             epl,
             spreads,
             h2h,
-            overUnder,
+            over_under,
         };
-
-        dispatch({ type: 'CREATE_CONTESNT', payload: contestData })
+        console.log(contestData)
+        sendContestData(contestData)
     };
 
+    const sendContestData = (data) => {
+        dispatch({ type: 'CREATE_CONTEST', payload: data })
+        // dispatch({ type: 'CREATE_ENTRY', payload: data})
+    }
     return (<>
-
         {/* Configuration */}
         <Typography variant='h4'>Contest settings:</Typography>
+
+        {!type && (<>
+            <FormControl>
+            <InputLabel
+                htmlFor="privacy-label">
+                Privacy
+            </InputLabel>
+
+            <Select
+                labelId="privacy-label"
+                id="privacy"
+                value={privacy}
+                onChange={(event) => setPrivacy(event.target.value)}
+                label="Period Duration"
+            >
+                <MenuItem default value={true}>Private</MenuItem>
+                <MenuItem value={false}>Public</MenuItem>
+            </Select>
+            </FormControl>
+        </>)}
+        
 
         <FormControl>
             <InputLabel
@@ -85,7 +154,7 @@ function CreateContest(props) {
             <Select
                 labelId="period-duration-label"
                 id="period-duration"
-                value={periodDuration}
+                value={period_duration}
                 onChange={(event) => setPeriodDuration(event.target.value)}
                 label="Period Duration"
             >
@@ -95,13 +164,34 @@ function CreateContest(props) {
             </Select>
         </FormControl>
 
+        {type !== 'sandbox' && <>
+            <FormControl variant="outlined">
+                <InputLabel htmlFor="period-count"># of Periods</InputLabel>
+                <Select
+                    label="Period count"
+                    value={period_count}
+                    onChange={event => setPeriodCount(event.target.value)}
+                    inputProps={{
+                        name: 'periodCount',
+                        id: 'period-count',
+                    }}
+                >
+                    {[...Array(getAnnualPeriods(period_duration))].map((_, index) => (
+                        <MenuItem key={index} value={index}>
+                            {index === 0 ? 'No limit' : index}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </>}
+
         <FormControl variant="outlined">
             <TextField
                 label="Period funds"
-                value={periodFund}
+                value={period_fund}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    inputProps: { min: 0 }
+                    inputProps: { min: 0, max: 1000000 }
                 }}
                 onChange={() => setPeriodFund(event.target.value)}
             />
@@ -110,10 +200,10 @@ function CreateContest(props) {
         <FormControl variant="outlined">
             <TextField
                 label="Minimum wager"
-                value={minWager}
+                value={min_wager}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    inputProps: { min: 0 },
+                    inputProps: { min: 0, max: period_fund },
                 }}
                 onChange={(event) => setMinWager(event.target.value)}
             />
@@ -124,7 +214,7 @@ function CreateContest(props) {
                 <InputLabel htmlFor="max-users">Max Users</InputLabel>
                 <Select
                     label="Max Users"
-                    value={maxUsers}
+                    value={max_users}
                     onChange={event => setMaxUsers(event.target.value)}
                     inputProps={{
                         name: 'maxUsers',
@@ -140,6 +230,8 @@ function CreateContest(props) {
             </FormControl>
         </>}
 
+        
+
 
         {/* Leagues */}
         <Typography variant='h4'>Bettable Leagues</Typography>
@@ -149,7 +241,7 @@ function CreateContest(props) {
         />
 
         <FormControlLabel
-            control={<Checkbox checked={ncaaFb} onChange={() => setNcaaFb(!ncaaFb)} />}
+            control={<Checkbox checked={ncaa_fb} onChange={() => setNcaaFb(!ncaa_fb)} />}
             label="NCAA Football"
         />
 
@@ -164,12 +256,12 @@ function CreateContest(props) {
         />
 
         <FormControlLabel
-            control={<Checkbox checked={ncaaMbb} onChange={() => setNcaaMbb(!ncaaMbb)} />}
+            control={<Checkbox checked={ncaa_mbb} onChange={() => setNcaaMbb(!ncaa_mbb)} />}
             label="NCAA Men's Basketball"
         />
 
         <FormControlLabel
-            control={<Checkbox checked={ncaaWbb} onChange={() => setNcaaWbb(!ncaaWbb)} />}
+            control={<Checkbox checked={ncaa_wbb} onChange={() => setNcaaWbb(!ncaa_wbb)} />}
             label="NCAA Women's Basketball"
         />
 
@@ -201,9 +293,16 @@ function CreateContest(props) {
         />
 
         <FormControlLabel
-            control={<Checkbox checked={overUnder} onChange={() => setOverUnder(!overUnder)} />}
+            control={<Checkbox checked={over_under} onChange={() => setOverUnder(!over_under)} />}
             label="Over/Under"
         />
+
+        <Button 
+            variant="contained" 
+            disableRipple
+            onClick={formatContestData}>
+                Submit
+        </Button>
     </>)
 }
 
