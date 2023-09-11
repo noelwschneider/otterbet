@@ -65,7 +65,7 @@ function* getMarketsArray() {
                 }
             })
         }
-        // console.log(games)
+        console.log(games)
 
         yield put({type: 'SET_MARKETS', payload: games})
 

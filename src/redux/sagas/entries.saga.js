@@ -16,14 +16,9 @@ function* fetchEntry(action) {
         const entryResponse = yield axios.get('/api/entries', config)
         console.log(entryResponse.data)
         const entry = entryResponse.data
-        console.log(entry)
-
-        console.log('entry')
-        if(entry.length !== 0) {
-            yield put({type: 'SET_ENTRY', payload: entry})
-        }
+        console.log('entry', entry)
         
-
+        yield put({type: 'SET_ENTRY', payload: entry})
     } catch (error) {
         console.log('error in fetchEntry:', error)
     }

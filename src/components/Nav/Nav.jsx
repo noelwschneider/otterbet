@@ -23,7 +23,7 @@ function Nav() {
   const user = useSelector((store) => store.user);
   const entry = useSelector(store => store.entry)
 
-  const [anchorEl, setAnchorEl] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
 
   return (

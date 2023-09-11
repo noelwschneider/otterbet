@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
 // Components
 import BetSlipItem from './BetSlipItem';
 
@@ -16,14 +16,20 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 import './Betslip.css'
 
 function BetSlip() {
     const dispatch = useDispatch()
 
     const user = useSelector(store => store.user)
-    console.log(user)
-    
+
     useEffect( () => {
         dispatch({ type: 'FETCH_ENTRY', payload: user.id})
     }, [])
@@ -31,16 +37,21 @@ function BetSlip() {
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
     
+    
 
-    console.log(entry)
+    console.log('entry', entry)
+    const [selectedEntry, setSelectedEntry] = useState(0)
+    const [anchorEl, setAnchorEl] = useState(null);
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
+
+    console.log(selectedEntry)
 
     const handleSubmit = () => {
         console.log('in handleSubmit. Current betslip:', betslip)
         
         // validation
-        const userFunds = entry.funds
+        const userFunds = entry[selectedEntry].funds
         let wagerSum = 0
         
         // validate that user has entered a value > 0 in each input field
@@ -68,7 +79,7 @@ function BetSlip() {
             // actually, probably do this in the saga
         
         // send betslip to betslip.saga for POST
-        dispatch({type: 'SUBMIT_WAGERS', payload: {betslip, wagerSum, user, entry}})
+        dispatch({type: 'SUBMIT_WAGERS', payload: {betslip, wagerSum, user, entry: entry[selectedEntry]}})
     }
 
     return (
@@ -97,9 +108,40 @@ function BetSlip() {
             }
 
             {entry.length === 0
-                ? <></>
-                : <></>
-            }
+                ? <>
+                    <Typography variant="h5">You don't have any entries!</Typography>
+                    <Typography variant="h5">
+                        <Link to="/create-entry">Create a sandbox</Link> or <Link>join a contest</Link> to get started!
+                    </Typography>
+                </>
+                : <>
+                    <Button
+                        aria-controls="simple-menu"
+                        aria-haspopup="true"
+                        variant="contained"
+                        endIcon={<KeyboardArrowDownIcon />}
+                        onClick={(event) => setAnchorEl(event.currentTarget)}
+                    >
+                        {entry[selectedEntry].name}
+                    </Button>
+
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={() => setAnchorEl(null)}
+                    >
+                        {entry.map( (entryItem, index) => (
+                            <MenuItem 
+                                key={entryItem.id}
+                                onClick={() => setSelectedEntry(index)}
+                                disableGutters={true}>
+                                    {entryItem.name}
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </>}
+
             <CardActionArea disableRipple component="div">
                 <CardActions sx={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
                     {betslip.map( bet => (
