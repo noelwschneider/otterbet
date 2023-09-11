@@ -29,8 +29,8 @@ router.post('/', (req, res) => {
         period_duration,
         period_count,
         period_fund,
+        // minimum wager
         max_users,
-        max_entries
     } = req.body
 
     console.log(contest_start)
@@ -56,8 +56,8 @@ router.post('/', (req, res) => {
             period_duration,
             period_count,
             period_fund,
+            min_wager,
             max_users,
-            max_entries
         )
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20);
     `

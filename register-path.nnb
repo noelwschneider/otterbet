@@ -1,0 +1,11 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "click register button =>\r\n\r\nRegisterForm\r\n    registration.saga (\"REGISTER\", registerUser)\r\n        error.reducer (\"CLEAR_REGISTRATION_ERROR\")\r\n        user.router ('/register', POST)\r\n            /adds user to \"user\" table in DB\r\n        login.saga ('LOGIN', loginUser)\r\n            error.reducer ('CLEAR_LOGIN_ERROR')\r\n            user.router ('/login', POST)\r\n                /authenticates user\r\n                    /sends 200 if in DB\r\n                    /sends 404 if not\r\n            user.saga ('FETCH_USER', fetchUser)\r\n                user.router ('/', GET)\r\n                    /sends back user object FROM THE SESSION\r\n                user.reducer ('SET_USER', response.data)\r\n                    /sets user in store\r\n    entries.saga ('CREATE_ENTRY', createEntry)\r\n        "
+            ],
+            "outputs": []
+        }
+    ]
+}

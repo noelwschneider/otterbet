@@ -30,12 +30,7 @@ function* createEntry(action) {
     let entryQuery
     let contestQuery
 
-    const today = new Date()
-    const todayString = `${today.getUTCFullYear()}-${today.getUTCMonth()+1}-${today.getUTCDate()}`
-    const timeNow = new Date().toUTCString()
-
-    let contestID = input.user + '_' + timeNow
-
+    
     
     if (input.type === 'defaultSandbox') {
         

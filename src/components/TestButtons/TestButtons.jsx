@@ -36,11 +36,11 @@ function TestButtons() {
     // Entries
     const createEntry = () => {
         let defaultEntry = {
-            user: user.id,
+            user_id: user.id,
             name: 'My first entry',
             type: 'defaultSandbox',
             funds: 1000,
-            contest: null
+            contest_id: null // contest_id
         }
 
         dispatch({ type: 'CREATE_ENTRY', payload: defaultEntry})
