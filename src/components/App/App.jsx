@@ -1,26 +1,40 @@
+// React
 import React, { useEffect } from 'react';
+
+// React Router
 import {
   HashRouter as Router,
-  Redirect,
+  Redirect, //? This seems fairly intuitive, but I should review it
   Route,
-  Switch,
+  Switch, //? I am a little unclear on what this is doing (or at least, why it needs to do it. Why use this over an exact path? More info: https://v5.reactrouter.com/web/api/Switch )
 } from 'react-router-dom';
 
+// Hooks
 import { useDispatch, useSelector } from 'react-redux';
 
+// Universal Components
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
+//^ Review this component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
+// Route Components
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import MyBets from '../MyBets/MyBets';
+import CreateEntry from '../CreateEntry/CreateEntry';
+import CreateContest from '../CreateContest/CreateContest';
+import Markets from '../Markets/Markets';
 
+// Style
 import './App.css';
+import TestButtons from '../TestButtons/TestButtons';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +82,39 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <ProtectedRoute
+            exact
+            path="/test-buttons"
+          >
+            <TestButtons />
+          </ProtectedRoute>
+          
+          <ProtectedRoute
+            exact
+            path ="/my-bets"
+          >
+            <MyBets />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/create-entry">
+            <CreateEntry />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/create-contest">
+            <CreateContest />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path ="/markets"
+          >
+            <Markets />
+          </ProtectedRoute>
+
           <Route
             exact
             path="/login"
@@ -103,7 +150,7 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/my-bets" />
               :
               // Otherwise, show the Landing page
               <LandingPage />

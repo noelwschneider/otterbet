@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import LoginPage from '../LoginPage/LoginPage';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import { useEffect } from 'react';
 
 // A Custom Wrapper Component -- This will keep our code DRY.
 // Responsible for watching redux state, and returning an appropriate component
@@ -16,8 +17,10 @@ import {useSelector} from 'react-redux';
 function ProtectedRoute({ component, children, ...props }) {
   const user = useSelector((store) => store.user);
 
+
   // Component may be passed in as a "component" prop,
   // or as a child component.
+  //^ This is a very foreign line of code to me
   const ProtectedComponent = component || (() => children);
 
   // We return a Route component that gets added to our list of routes

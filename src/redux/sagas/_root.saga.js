@@ -2,6 +2,13 @@ import { all } from 'redux-saga/effects';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
+import oddsSaga from './odds.saga';
+import scoresSaga from './scores.saga';
+import marketsSaga from './markets.saga';
+import myBetsSaga from './myBets.saga';
+import betslipSaga from './betslip.saga';
+import entriesSaga from './entries.saga';
+import contestsSaga from './contests.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -15,5 +22,12 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
+    oddsSaga(),
+    scoresSaga(),
+    marketsSaga(),
+    myBetsSaga(),
+    betslipSaga(),
+    entriesSaga(),
+    contestsSaga(),
   ]);
 }

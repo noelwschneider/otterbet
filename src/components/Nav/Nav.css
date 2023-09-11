@@ -14,29 +14,65 @@
 }
 
 .nav-title {
-  font-size: 24px;
+  font-size: 48px;
   font-weight: 700;
   color: #f2f2f2;
   padding-left: 10px;
   margin: 0;
+  display: inline-block;
 }
 
-.navLink {
+.navLink.MuiButton-root {
   display: inline-block;
   color: #f2f2f2;
   background-color: #00acb0;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
-  font-size: 15px;
-
+  font-size: 32px;
   /* these last two make the logout button in
   the nav bar look like another link */
   border: none;
   cursor: pointer;
   outline: 0;
+  box-shadow: none;
+  border-radius: 0px;
 }
 
-.navLink:hover {
-  background-color: #008183;
+.navLink.MuiButton-root:hover {
+  background-color: #099597;
+  box-shadow: none;
+  border-radius: 0px;
 }
+
+#simple-menu > div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiMenu-paper.MuiPopover-paper.MuiMenu-paper.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper > ul {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  border-radius: none;
+}
+
+.navMenuItem.MuiMenuItem-root {
+  display: inline-block;
+  color: #00acb0;
+  background-color: #f2f2f2;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+  width: 100%;
+  /* these last two make the logout button in
+  the nav bar look like another link */
+  border: none;
+  cursor: pointer;
+  outline: 0;
+  box-shadow: none;
+  border-radius: 0px;
+  padding: 0;
+  margin: 0;
+}
+
+.navMenuItem.MuiMenuItem-root:hover {
+  background-color:#dad8d8;
+}
+
+

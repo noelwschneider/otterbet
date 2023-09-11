@@ -69,3 +69,6 @@ package-lock.json
 
 # Development notes
 notes.nnb
+to-do.nnb
+_sample_data/
+_developer_notes/

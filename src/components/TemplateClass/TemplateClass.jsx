@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // component.
 
 // YOU CANNOT USE HOOKS IN CLASS COMPONENTS -- usually Higher Order Components are used instead
+//^ I want to make sure I understand what this actually means -- what is a class component? How is 'this' a workaround?
 // Class Components have different syntax, including `this`
 
 class TemplateClass extends Component {
@@ -29,4 +30,5 @@ const mapStoreToProps = (reduxStore) => {
   };
 };
 
+//? What is happening here?
 export default connect(mapStoreToProps)(TemplateClass);
