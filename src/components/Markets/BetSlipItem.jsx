@@ -13,10 +13,12 @@ import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
+import { InputLabelProps } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import FormControl from '@mui/material/FormControl';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 function BetSlipItem(props) {
     //& I should further destructure this
@@ -27,6 +29,7 @@ function BetSlipItem(props) {
     const betslip = useSelector(store => store.betslip)
 
     const [payout, newPayout] = useState((0).toFixed(2))
+    const [shrink, setShrink] = useState(false);
 
     //& A slightly different version of this is used in MarketItem.jsx. Long-term plan is to modularize
     const getCellText = (outcome, market) => {
@@ -112,28 +115,26 @@ function BetSlipItem(props) {
                <br/>
         </Typography>
 
-        <FormControl variant="outlined">
-            <TextField
-                label="Sandbox Name"
-                required
-                value={entry_name}
-                onChange={event => updateWager(event.target.value)}
-            />
-        </FormControl>
-
         <TextField 
-        id="wager=input"
-        placeholder="Risk"
-        required 
-        type="number"
-        InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-            inputProps: {min: 0}
-        }}
-        onChange={event => updateWager(event.target.value)}
-        onWheel={event => { event.target.blur(); }}
+            label="Risk"
+            id="wager-input"
+            required 
+            type="number"
+            InputProps={{
+                startAdornment: <AttachMoneyIcon />,
+                inputProps: {min: 0}
+            }}
+            // I need to make sure I get what is going on in the below styling
+            InputLabelProps={{ 
+               sx: {marginLeft: 3},
+                shrink 
+            }}
+            onWheel={event => { event.target.blur(); }}
+            onFocus={() => setShrink(true)}
+            onBlur={(e) => setShrink(!!e.target.value)}
+            onChange={event => updateWager(event.target.value)}
         />
-
+        
         <Typography variant="h6">
             To Win: ${payout}
         </Typography>

@@ -42,6 +42,13 @@ function BetSlip() {
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
 
+
+    const handleEntryClick = (index) => {
+        setSelectedEntry(index);
+        setAnchorEl(null)
+    }
+
+    // This could benefit from modularization
     const handleSubmit = () => {
         console.log('in handleSubmit. Current betslip:', betslip)
         
@@ -142,7 +149,7 @@ function BetSlip() {
                         {entry.map( (entryItem, index) => (
                             <MenuItem 
                                 key={entryItem.id}
-                                onClick={() => setSelectedEntry(index)}
+                                onClick={() => handleEntryClick(index)}
                                 disableGutters={true}>
                                     {entryItem.name}
                             </MenuItem>

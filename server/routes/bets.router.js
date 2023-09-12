@@ -67,7 +67,7 @@ router.post('/', async (req, res) => {
     `
     
     //! Note: it seems to be working, but mind that 
-    //! they usual url syntax for put routes ends 
+    //! the usual url syntax for put routes ends 
     //! with /:id. I think that is just to let us
     //! access the id through req.params earlier on,
     //! but I should watch for possible side effects
