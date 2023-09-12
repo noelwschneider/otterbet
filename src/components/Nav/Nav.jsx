@@ -23,10 +23,7 @@ function Nav() {
   const user = useSelector((store) => store.user);
   const entry = useSelector(store => store.entry)
 
-  const fundsDisplay = entry ? entry.funds.toFixed(2) : null
-  const entryDisplay = entry ? entry.name : null
-
-  const [anchorEl, setAnchorEl] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
 
   return (
@@ -44,14 +41,6 @@ function Nav() {
             Login / Register
           </Link>
         )}
-
-        {/* If a user is logged in, show these links */}
-        {entry && (<>
-          <Typography variant="h5">
-            Entry: {entryDisplay}<br />
-            Funds: ${fundsDisplay}
-          </Typography>
-        </>)}
 
         {user.id && (<>
           <Button 

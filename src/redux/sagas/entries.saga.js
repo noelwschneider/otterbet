@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function* fetchEntry(action) {
     try {
+        console.log('payload in fetchEntry:', action.payload)
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
@@ -11,13 +12,12 @@ function* fetchEntry(action) {
             params: {}
         };
 
-        config.params = action.payload
- 
         const entryResponse = yield axios.get('/api/entries', config)
-        const [entry] = entryResponse.data
-
+        console.log(entryResponse.data)
+        const entry = entryResponse.data
+        console.log('entry', entry)
+        
         yield put({type: 'SET_ENTRY', payload: entry})
-
     } catch (error) {
         console.log('error in fetchEntry:', error)
     }
@@ -26,10 +26,9 @@ function* fetchEntry(action) {
 function* createEntry(action) {
     console.log('in createEntry saga', action.payload)
     
-    let entryQuery
-    
     // post new entry
-    yield axios.post('/api/entries', entryQuery)
+    yield axios.post('/api/entries', action.payload)
+    yield put({type: 'FETCH_ENTRY', payload: action.payload})
 }
 
 function* entriesSaga() {

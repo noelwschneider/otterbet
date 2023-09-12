@@ -1,4 +1,4 @@
-const entriesReducer = (state = '', action) => {
+const entriesReducer = (state = [], action) => {
 
     switch(action.type) {
         case 'SET_ENTRY':

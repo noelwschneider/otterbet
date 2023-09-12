@@ -9,45 +9,35 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const user = JSON.parse(req.query.user)
-    const entryID = JSON.parse(req.query.entryQuery)
+    const user = JSON.parse(req.user.id)
+        
+    const queryValues = [user]
 
-    const queryValues = entryID === 0
-        ? [user.id]
-        : [user.id, entryID]
-
-    let sqlQuery = entryID === 0 
-        ? `
-            SELECT *
-            FROM entries
-            WHERE 
-                user_id = $1
-                AND default_entry = true
-            ;
-        ` 
-        : `
-            SELECT *
-            FROM entries
-            WHERE 
-                user_id = $1
-                AND id = $2
-            ;
-        `
+    const sqlQuery =`
+        SELECT *
+        FROM entries
+        WHERE 
+            user_id = $1
+        ORDER BY
+            default_entry DESC NULLS LAST,
+            "name" ASC
+        ;
+    `
 
     pool.query(sqlQuery, queryValues)
     .then( response => {
+        // console.log('response.rows:', response.rows)
         res.send(response.rows)
     })
     .catch( error => {
         console.log('error in pool query:', error)
-    })
-    
+    }) 
 })
 
 router.post('/', (req, res) => {
     console.log('in entry router post', req.body)
 
-    const {name, funds, default_entry, user_id, contest_id} = req.body
+    const {name, funds, default_entry, id, contest_id} = req.body
     
     const queryText = `
         INSERT INTO entries ("name", funds, default_entry, user_id, contest_id)
@@ -55,7 +45,7 @@ router.post('/', (req, res) => {
         ;
     `
 
-    const queryValues = [name, funds, default_entry, user_id, contest_id]
+    const queryValues = [name, funds, default_entry, id, contest_id]
 
     pool.query(queryText, queryValues)
     .then( response => {

@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 function CreateContest(props) {
     const dispatch = useDispatch()
@@ -22,6 +23,7 @@ function CreateContest(props) {
     let { type } = props
 
     // Configuration
+    const [entry_name, setEntryName] = useState('')
     const [privacy, setPrivacy] = useState(true)
     const [period_duration, setPeriodDuration] = useState('weekly');
     const [period_fund, setPeriodFund] = useState(1000);
@@ -70,7 +72,7 @@ function CreateContest(props) {
     const formatContestData = () => {
         // Create contest ID
         const timeNow = new Date().toUTCString()
-        let id = user.id + '_' + timeNow
+        let contest_id = user.id + '_' + timeNow
 
         // Set league type
         type = !type ? 'league' : type
@@ -91,7 +93,9 @@ function CreateContest(props) {
         }
 
         const contestData = {
-            id,
+            user_id: user.id,
+            entry_name,
+            contest_id,
             type,
             contest_start,
             period_duration: convertDuration(period_duration),
@@ -113,8 +117,19 @@ function CreateContest(props) {
             over_under,
         };
         console.log(contestData)
+        if(validation(contestData)) {
+            return
+        }
         sendContestData(contestData)
     };
+
+    //! Validate the user submission
+        //! League name, at least one sport, at least one market
+        //! Return something from this function to indicate which alerts should render
+        //! Write conditional rendering for alerts
+    const validation = (data) => {
+
+    }
 
     const sendContestData = (data) => {
         dispatch({ type: 'CREATE_CONTEST', payload: data })
@@ -123,6 +138,15 @@ function CreateContest(props) {
     return (<>
         {/* Configuration */}
         <Typography variant='h4'>Contest settings:</Typography>
+
+        <FormControl variant="outlined">
+            <TextField
+                label="Sandbox Name"
+                required
+                value={entry_name}
+                onChange={() => setEntryName(event.target.value)}
+            />
+        </FormControl>
 
         {!type && (<>
             <FormControl>

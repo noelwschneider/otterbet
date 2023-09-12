@@ -8,6 +8,11 @@ import CreateEntry from '../CreateEntry/CreateEntry';
 
 // Styling
 import Typography from '@mui/material/Typography';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 
 function MyBets() {
     const dispatch = useDispatch();
@@ -18,8 +23,11 @@ function MyBets() {
 
     const user = useSelector(store => store.user)
     const userBets = useSelector(store => store.myBets)
+    const entry = useSelector(store => store.entry)
+
 
     return (<>
+        
         <Typography variant="h2" sx={{paddingLeft: "19px"}}>My Bets</Typography>
         {userBets.map( bet => (
             <MyBetsItem key={bet.id} bet={bet}/>
