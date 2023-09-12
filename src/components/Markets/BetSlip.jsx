@@ -128,7 +128,7 @@ function BetSlip() {
                     <span>
                         <Typography variant="h5">
                             <strong>Available funds: </strong>
-                            ${entry[selectedEntry].funds}
+                            ${entry[selectedEntry].funds.toFixed(2)}
                         </Typography>
                         
                     </span>

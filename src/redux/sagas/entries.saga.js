@@ -12,7 +12,6 @@ function* fetchEntry(action) {
             params: {}
         };
 
- 
         const entryResponse = yield axios.get('/api/entries', config)
         console.log(entryResponse.data)
         const entry = entryResponse.data

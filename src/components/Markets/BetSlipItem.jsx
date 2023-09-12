@@ -16,6 +16,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
+import FormControl from '@mui/material/FormControl';
 
 function BetSlipItem(props) {
     //& I should further destructure this
@@ -110,6 +111,15 @@ function BetSlipItem(props) {
                {market}
                <br/>
         </Typography>
+
+        <FormControl variant="outlined">
+            <TextField
+                label="Sandbox Name"
+                required
+                value={entry_name}
+                onChange={event => updateWager(event.target.value)}
+            />
+        </FormControl>
 
         <TextField 
         id="wager=input"

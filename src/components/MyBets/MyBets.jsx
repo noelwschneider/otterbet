@@ -27,23 +27,7 @@ function MyBets() {
 
 
     return (<>
-        <FormControl>
-            <InputLabel
-                htmlFor="privacy-label">
-                Privacy
-            </InputLabel>
-
-            <Select
-                labelId="privacy-label"
-                id="entry"
-                value={entry}
-                onChange={() => console.log('hi')}
-                label="Period Duration"
-            >
-                <MenuItem default value={true}>Private</MenuItem>
-                <MenuItem value={false}>Public</MenuItem>
-            </Select>
-            </FormControl>
+        
         <Typography variant="h2" sx={{paddingLeft: "19px"}}>My Bets</Typography>
         {userBets.map( bet => (
             <MyBetsItem key={bet.id} bet={bet}/>

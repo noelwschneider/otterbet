@@ -1,7 +1,6 @@
 // This router is for user bets
 
 const express = require('express');
-const axios = require('axios')
 
 const {
     rejectUnauthenticated,
@@ -55,46 +54,69 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
-    req.body.map( wager => {
-        console.log(wager)
-        const queryText = `
-            INSERT INTO bets (user_id, market_id, wager, bet_timestamp, entry_id)
-            VALUES ($1, $2, $3, CURRENT_TIME AT TIME ZONE 'UTC', $4)
-            ;
-        `
+router.post('/', async (req, res) => {
 
-        const queryValues = [wager.user, wager.id, wager.wager, wager.entry_id]
+    const {betslip, user, entry, wagerSum} = req.body
 
-        pool.query(queryText, queryValues)
-        .catch( error => {
-            console.log('error in bets router post:', error)
-        })
-    })
-    res.sendStatus(200)
-})
+    const connection = await pool.connect()
 
-router.put('/:id', (req, res) => {
-    const {id} = req.params
-    const {wagerSum, entry} = req.body
-
-    const queryText = `
+    const postText = `
+        INSERT INTO bets (user_id, market_id, wager, bet_timestamp, entry_id)
+        VALUES ($1, $2, $3, CURRENT_TIME AT TIME ZONE 'UTC', $4)
+        ;
+    `
+    
+    //! Note: it seems to be working, but mind that 
+    //! they usual url syntax for put routes ends 
+    //! with /:id. I think that is just to let us
+    //! access the id through req.params earlier on,
+    //! but I should watch for possible side effects
+    const putText = `
         UPDATE entries 
         SET funds=funds-$1
         WHERE id = $2
         ;
     `
+    const putValues = [wagerSum, entry.id]
 
-    const queryValues = [wagerSum, entry.id]
+    const getText = `
+        SELECT *
+        FROM entries
+        WHERE 
+            user_id = $1
+        ORDER BY
+            default_entry DESC NULLS LAST,
+            "name" ASC
+        ;
+    `
+    const getValues = [user.id]
 
-    pool.query(queryText, queryValues)
-    .then( response => {
-        res.sendStatus(200)
-    })
-    .catch( error => {
-        console.log('error in bets router PUT:', error)
+    try {
+        await connection.query('BEGIN')
+
+        // Insert each new bet into the bet table
+        await betslip.map( wager => { 
+            console.log('current wager is:', wager)
+            
+            const postValues = [wager.user, wager.id, wager.wager, wager.entry_id]
+            connection.query(postText, postValues)
+        })
+
+        // Subtract wagered funds from entry
+        await connection.query(putText, putValues)
+
+        // Get updated entries from database
+        const queryResponse = await connection.query(getText, getValues)
+
+        await connection.query('COMMIT')
+        res.send(queryResponse)
+    } catch (error) {
+        console.log('catch triggered', error)
+        await connection.query('ROLLBACK')
         res.sendStatus(500)
-    })
+    } finally {
+        connection.release()
+    }
 })
 
 module.exports = router;
