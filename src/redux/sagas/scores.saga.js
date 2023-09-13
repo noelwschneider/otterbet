@@ -15,8 +15,41 @@ function* getScores() {
     yield put({type: 'GET_SCORES', payload: response.data})
 }
 
-function* updateScores() {
+function* updateScores(action) {
+    console.log('in updateScores:', action.payload)
 
+    const {competition, date} = action.payload
+
+    const config = {
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+        params: {
+            competition,
+            date
+        }
+    };
+
+    
+    // ROUTER
+    // - make score API request for a given competition/date
+    // - compare games received to games in the database
+    //    - end up with a list of games which have ended since the last update
+    // - loop through the list of games
+    //    - update markets for games which ended (result column)
+    //       - *this will require separate logic for spreads, h2h, and over/under
+    //       - update all wagers placed on this market and their relevant entries
+
+    const response = yield(axios.get('/api/scores/games/update', config))
+    console.log(response.data)
+    
+    
+    
+    // SAGA
+    // - update global state where appropriate
+
+    yield put({type: 'SET_TEST', payload: response.data})
 }
 
 function* postScores(action) {

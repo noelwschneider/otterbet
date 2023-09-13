@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 function TestButtons() {
     const dispatch = useDispatch()
     
+    const testData = useSelector(store => store.test)
     const user = useSelector(store => store.user)
     const odds = useSelector(store => store.odds)
     const scores = useSelector(store => store.scores)
     
+    const [testString, setTestString] = useState('')
+    const [testArray, setTestArray] = useState([])
 
     // ODDS
     const testOddsGet = () => {
@@ -31,6 +34,20 @@ function TestButtons() {
     const testScoresPost = () => {
         console.log('button works')
         dispatch({ type: 'ADMIN_POST_SCORES', payload: scores})
+    }
+
+    const testScoresUpdate = async () => {
+        // console.log('scores update button')
+
+        const scoresData = {
+            competition: 'american-football', 
+            date: null
+        }
+        
+        await dispatch({ type: 'UPDATE_SCORES', payload: scoresData})
+
+        // await console.log(testData)
+        // await setTestArray(testData)
     }
 
     // Entries
@@ -59,8 +76,6 @@ function TestButtons() {
         dispatch({ type: 'FETCH_MARKETS' })
     }
 
-    
-
     return (<>
         <h1>Odds</h1>
         <button onClick={testOddsGet} disabled>Test odds GET (API)</button>
@@ -72,17 +87,26 @@ function TestButtons() {
         <h1>Scores/games</h1>
         <button onClick={testScoresGet} disabled>Test scores get (API)</button>
         <button onClick={testScoresPost} disabled>Test scores POST</button>
+        <button onClick={testScoresUpdate} >Test scores update</button>
 
         <br/>
         <br/>
 
         <h1>Entries</h1>
-        <button onClick={getEntry}>Get Entry</button>
-        <button onClick={createEntry}>Create Entry</button>
+        <button onClick={getEntry} disabled>Get Entry</button>
+        <button onClick={createEntry} disabled>Create Entry</button>
         
 
         <h1>Markets page</h1>
-        <button onClick={testGetMarketItems}>Test get market items GET</button>
+        <button onClick={testGetMarketItems} disabled>Test get market items GET</button>
+
+        
+{/* 
+        <h1>TEST DATA</h1>
+        {testData.map( thing => (<>
+            <p>{JSON.stringify(thing)}</p>
+        </>))} 
+*/}
     </>)
 }
 
