@@ -10,8 +10,15 @@ const userStrategy = require('../strategies/user.strategy');
 
 const router = express.Router();
 
+const {
+    removeSpaces,
+    formattedResponse,
+    makeDateString
+} = require('../modules/helpers')
+
 const APIKey = process.env.SPORTS_API_KEY
 
+/*
 function removeSpaces(string) {
     let unspaced = []
     for (let character of string) {
@@ -23,6 +30,8 @@ function removeSpaces(string) {
     }
     return unspaced.join('')
 }
+*/
+
 
 // Get games from database for a specified day
 router.get('/' , (req, res) => {
@@ -30,17 +39,356 @@ router.get('/' , (req, res) => {
 })
 
 // Get score updates from sports-api for live or recent games
-router.get('/games/update', (req, res) => {
-    // logic:
-    // - query database for dates of games where:
-    //   - commence time is today or earlier
-    //   - status is not complete
-    //   ? This will likely occur in the saga, I'm thinking
+router.get('/games/update', async (req, res) => {
+    // console.log('in games/update router', req.query)
+    const {competition, date} = req.query
+    
+    const connection = await pool.connect()
 
-    // THIS IS THE PART THAT IS HAPPENING IN THIS REQUEST
-    // - query api-sports for each date returned in the above query
+    const config = {
+        headers: {
+            'x-apisports-key': APIKey
+        }
+    }
 
-    // - use a PUT route to update
+    // Get list of (potential) games to update from database
+    const gamesToUpdateText = `
+        SELECT 
+            "id",
+            status,
+            timer
+        FROM "games"
+            JOIN "competitions"
+                on games.league = competitions.title
+        WHERE
+            competitions.sports_api_name = $1
+            AND "status" <> 'FT'
+            AND "date" <= $2
+        ;
+    `
+    const gamesToUpdateValues = [competition, makeDateString(date)]
+
+    // Update the scores and status of games that have had changes
+    const updateScoreText = `
+        UPDATE "games"
+        SET
+            status = $1,
+            timer = $2,
+            home_score = $3,
+            home_1q = $4,
+            home_2q = $5,
+            home_3q = $6,
+            home_4q = $7,
+            home_overtime = $8,
+            away_score = $9,
+            away_1q = $10,
+            away_2q = $11,
+            away_3q = $12,
+            away_4q = $13,
+            away_overtime = $14
+        WHERE id = $15
+        ;
+    `
+
+    const updateMarketText = `
+    UPDATE "markets"
+    SET result =
+    CASE -- OPEN A
+    WHEN market = 'spreads'
+        THEN CASE -- OPEN B
+        WHEN outcome = $2
+        	THEN CASE -- OPEN C
+            	WHEN $4 + point < 0
+                	THEN FALSE
+                WHEN $4 + point > 0
+                    THEN TRUE
+                ELSE NULL
+                END -- END C
+        WHEN outcome = $3
+        	THEN CASE -- OPEN D
+            WHEN $5 + point < 0
+            	THEN FALSE
+            WHEN $5 + point > 0
+                THEN TRUE
+            ELSE NULL
+            END -- END D
+        END -- END B
+    WHEN market = 'h2h'
+        THEN CASE -- OPEN E
+        WHEN outcome = $6
+            THEN TRUE
+        ELSE FALSE
+        END -- END E
+    WHEN market = 'totals'
+        THEN CASE -- OPEN F
+            WHEN outcome = 'Over'
+            	THEN CASE -- OPEN G
+        		WHEN point < $7
+        			THEN TRUE
+        		WHEN point > $7
+        			THEN FALSE
+        		WHEN point = $7
+        			THEN NULL
+        		END -- END G
+            WHEN outcome = 'Under'
+            	THEN CASE -- OPEN H
+        		WHEN point > $7
+        			THEN TRUE
+        		WHEN point < $7
+        			THEN FALSE
+        		WHEN point = $7
+        			THEN NULL
+        		END -- END H
+            END -- END F
+    	END -- END A
+WHERE game_id = $1
+;
+    `
+    /*
+        1 - id
+        2 - home_team
+        3 - away_team
+        4 - home_margin
+        5 - away_margin
+        6 - winning_team
+        7 - total_score
+    */
+
+    // Query to get id and result for each changed wager with a payout
+    //& I could save myself a query by joining this and the bets query, as the result column would be redundant
+    const fetchWagersText = `
+    SELECT 
+        markets."id" AS market_id,
+        bets."id" AS bets_id,
+        entry_id,
+        result,
+        wager,
+        price
+    FROM markets
+        JOIN bets
+            on markets."id" = bets.market_id
+    WHERE 
+        markets.game_id = $1
+        AND (
+            result <> FALSE
+            OR RESULT IS NULL
+        )
+    ;
+    `
+
+    
+    // Query to update wagers
+    const updateTrueEntriesText = `
+        UPDATE entries
+        SET funds = funds + (
+            CAST($2 as numeric) * 
+            CAST($3 as numeric)
+        )
+        WHERE "id" = $1
+        ;
+    `
+
+    const updateNullEntriesText = `
+        UPDATE entries
+        SET funds = funds + CAST($2 as numeric)
+        WHERE "id" = $1
+        ;
+    `
+    // 1 - 
+    // 2 - 
+    // 3 - 
+    // 4 - 
+
+    try {
+        await connection.query('BEGIN')
+
+        // Request scores from api-sports
+        console.log('making API request')
+        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&season=2023`, config)
+
+        // Format API response (namely, dates)
+        console.log('formatting API response')
+        const formattedAPI = formattedResponse(apiResponse.data.response)
+
+        // Creating a list of unfinished games on or before the given date
+        console.log('getting list of games to update')
+        const gamesToUpdate = await connection.query(gamesToUpdateText, gamesToUpdateValues)
+
+        // Creating an array of game data which has changed since the last database update
+        console.log('creating array for game data')
+        let updatedGames = []
+        await Promise.all(gamesToUpdate.rows.map( game => {
+            for (let response of formattedAPI) {
+                // console.log('response is:', response)
+                // console.log('response.id:', response.id)
+                // console.log('game.id:', game.id)
+                // Find the matching game, then check if its status or timer are different
+                    //^ The timer alone would be fine in most situations
+                if (game.id === response.id && (game.status !== response.status || game.timer !== response.timer)) {
+                    updatedGames.push({
+                        id: game.id,
+                        status: response.game.status.short,
+                        timer: response.game.status.time,
+                        home: response.teams.home.name,
+                        home_score: response.scores.home.total,
+                        home_1q: response.scores.home.quarter_1,
+                        home_2q: response.scores.home.quarter_2,
+                        home_3q: response.scores.home.quarter_3,
+                        home_4q: response.scores.home.quarter_4,
+                        home_overtime: response.scores.home.overtime,
+                        away: response.teams.away.name,
+                        away_score: response.scores.away.total,
+                        away_1q: response.scores.away.quarter_1,
+                        away_2q: response.scores.away.quarter_2,
+                        away_3q: response.scores.away.quarter_3,
+                        away_4q: response.scores.away.quarter_4,
+                        away_overtime: response.scores.away.overtime,
+                    })
+                }
+            }
+        }))
+        //! I think I might need a conditional to get out of this thing if updatedGames is empty
+        //! Or maybe the transaction will take care of that for me!
+
+        // Updating games
+        console.log('updating game data')
+        await Promise.all(updatedGames.map( game => {
+            const updateValues = [
+                game.status,
+                game.timer,
+                game.home_score,
+                game.home_1q,
+                game.home_2q,
+                game.home_3q,
+                game.home_4q,
+                game.home_overtime,
+                game.away_score,
+                game.away_1q,
+                game.away_2q,
+                game.away_3q,
+                game.away_4q,
+                game.away_overtime,
+                game.id 
+            ]
+            connection.query(updateScoreText, updateValues)
+        }))
+        
+        // Creating an array to update markets as needed
+        console.log('Creating an array of markets to update')
+        const marketResults = []
+        await Promise.all(updatedGames.map( game => { 
+            const findWinner = () => {
+                if (game.home_score > game.away_score) {
+                    return game.home
+                } else if (game.home_score < game.away_score) {
+                    return game.away 
+                } else if (game.home_score === game.away_score) {
+                    return 'PUSH'
+                }
+            }
+
+            const market = {
+                id: game.id,
+                home: game.home,
+                away: game.away,
+                home_margin: game.home_score - game.away_score,
+                away_margin: game.away_score - game.home_score,
+                winning_team: findWinner(game),
+                total: game.home_score + game.away_score
+            }
+            marketResults.push(market)
+        }))
+
+        // Updating markets
+        console.log('updating markets')
+        await Promise.all(marketResults.map( market => {
+            const updateMarketValues = [
+                market.id,
+                market.home,
+                market.away,
+                market.home_margin,
+                market.away_margin,
+                market.winning_team,
+                market.total
+            ]
+            connection.query(updateMarketText, updateMarketValues)
+        }))
+
+        // Getting list of wagers to update
+        console.log('getting list of wagers to update')
+        // const wagersToUpdate = []
+        console.log('marketResults', marketResults)
+
+        // Get list of wagers to update from the database
+        const wagersToUpdate = await Promise.all( 
+            marketResults.map( market => {
+                const responseRow = connection.query(fetchWagersText, [market.id])
+                return responseRow
+            })
+        )
+        console.log('array with all response rows:', wagersToUpdate)
+
+        const extractRows = [] 
+        wagersToUpdate.map( wager => {
+            if (wager.rows.length !== 0) {
+                extractRows.push(wager.rows)
+            }
+        })
+        console.log('extract rows:', extractRows)
+
+        // Flattening array from previous query
+        console.log('flattening array')
+        const flattenArray = (arrayToFlatten) => {
+            if (arrayToFlatten.length === 0) {
+                return arrayToFlatten
+            }
+            
+            let arrayToReturn = Promise.all(arrayToFlatten.reduce( (accumulator, currentValue) => {
+                console.log('in reduce:', accumulator, currentValue)
+                accumulator.concat(currentValue)
+            }))
+            return arrayToReturn
+        }
+
+        const mergedWagerArrays  = await flattenArray(extractRows)
+
+        // Updating entries
+        console.log('updating entries', mergedWagerArrays)
+        
+        await Promise.all(mergedWagerArrays.map( wager => {
+            console.log('in final map', wager)
+            
+            const updateEntriesValues = [
+                wager.entry_id,
+                Number(wager.wager),
+                Number(wager.price)
+            ]
+
+            console.log('updateEntriesValues:', updateEntriesValues)
+            let updateEntriesText
+
+            if (wager.result === true) {
+                updateEntriesText = updateTrueEntriesText
+                console.log('if met for TRUE:', updateTrueEntriesText)
+            } else if (wager.result === null) {
+                updateEntriesText = updateNullEntriesText
+                console.log('if met for NULL:', updateNullEntriesText)
+            }
+
+            connection.query(updateEntriesText, updateEntriesValues)
+        }))
+        
+        // End connection and send success status
+        await connection.query('COMMIT')
+        res.sendStatus(200)
+    } catch (error) {
+        await connection.query('ROLLBACK')
+        console.log('error in connection:', error)
+        res.sendStatus(500)
+    } finally {
+        connection.release()
+    }
+
 })
 
 // THIS IS ADMINISTRATIVE

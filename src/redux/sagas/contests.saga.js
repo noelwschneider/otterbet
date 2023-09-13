@@ -28,7 +28,6 @@ function* createContest(action) {
         h2h,
         over_under } = action.payload
     
-    
     const contestData = {
         entry_name,
         id: contest_id,
