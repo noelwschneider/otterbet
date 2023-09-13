@@ -78,8 +78,8 @@ function TestButtons() {
 
     return (<>
         <h1>Odds</h1>
-        <button onClick={testOddsGet} disabled>Test odds GET (API)</button>
-        <button onClick={testOddsPost} disabled>Test odds.router POST</button>
+        <button onClick={testOddsGet} >Test odds GET (API)</button>
+        <button onClick={testOddsPost} >Test odds.router POST</button>
 
         <br/>
         <br/>
