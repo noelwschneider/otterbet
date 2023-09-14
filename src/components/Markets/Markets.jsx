@@ -9,12 +9,24 @@ import BetSlip from './BetSlip';
 function Markets() {
     const dispatch = useDispatch()
 
+    const user = useSelector(store => store.user)
+    const betslip = useSelector(store => store.betslip)
+    const entry = useSelector(store => store.entry)
+
+    const [startDate, setStartDate] = useState('2023-09-13')
+    const [endDate, setEndDate] = useState('2023-09-20')
+
+    const dateRange = {
+        startDate,
+        endDate
+    }
+
     useEffect( () => {
-        dispatch({type: 'FETCH_MARKETS'})
+        dispatch({type: 'FETCH_ODDS', payload: dateRange})
     }, [])
     
-    const markets = useSelector(store => store.markets)
-    // console.log('markets from store', markets)
+    const markets = useSelector(store => store.odds)
+    console.log('markets from store', markets)
 
     return (<>
         {/* <TestButtons /> */}

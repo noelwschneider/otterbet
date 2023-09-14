@@ -21,6 +21,13 @@ function TestButtons() {
     const sport = 'americanfootball_nfl'
 
     // ODDS
+    // get odds from the database
+    const testGetMarketItems = () => {
+        console.log('button works')
+        dispatch({ type: 'FETCH_ODDS' , payload: datesObject})
+    }
+
+    // get odds from API and update database
     const testOddsGet = () => {
         console.log('odds before dispatch:', odds)
 
@@ -29,14 +36,11 @@ function TestButtons() {
             endDate: datesObject.endDate,
             sport: sport
         }
-        dispatch({ type: 'FETCH_ODDS', payload: oddsObject })
+        dispatch({ type: 'UPDATE_ODDS', payload: oddsObject })
         console.log('odds after dispatch', odds)
     }
 
-    const testOddsPost = () => {
-        console.log('post button works')
-        dispatch({ type: 'POST_ODDS', payload: odds })
-    }
+
 
     // SCORES
     const testScoresGet = () => {
@@ -86,16 +90,12 @@ function TestButtons() {
     
     
     // MARKETS PAGE
-    const testGetMarketItems = () => {
-        console.log('button works')
-        dispatch({ type: 'FETCH_MARKETS' , payload: datesObject})
-    }
+    
 
     return (<>
         <h1>Odds</h1>
-        <button onClick={testOddsGet} >Test odds GET (API)</button>
-        <button onClick={testOddsPost} >Test odds.router POST</button>
-
+        <button onClick={testOddsGet} >Test odds update (API)</button>
+        <button onClick={testGetMarketItems} >Test odds fetch </button>
         <br/>
         <br/>
 
@@ -113,7 +113,7 @@ function TestButtons() {
         
 
         <h1>Markets page</h1>
-        <button onClick={testGetMarketItems} >Test get market items GET</button>
+        
 
         
 {/* 

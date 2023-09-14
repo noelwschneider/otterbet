@@ -1,6 +1,6 @@
 const oddsReducer = (state = [], action) => {
     switch (action.type) {
-        case 'UPDATE_ODDS':
+        case 'SET_ODDS':
             return action.payload;
         default:
             return state;

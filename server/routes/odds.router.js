@@ -142,8 +142,6 @@ router.get('/in-season', (req, res) => {
 })
 
 router.get('/update-odds', async (req, res) => {
-    
-
     // Format is 'YYYY-MM-DD'
     const {startDate, endDate, sport} = req.query
     const connection = await pool.connect()
@@ -344,40 +342,6 @@ router.get('/update-odds', async (req, res) => {
     } finally {
         connection.release()
     }
-})
-
-// POST odds from store to the database
-router.post('/update-odds', (req, res) => {
-
-    let queryText = `
-        INSERT INTO markets (
-            bookmaker, 
-            game_id, 
-            outcome, 
-            market, 
-            point, 
-            price, 
-            last_update
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-    `
-
-    req.body.map( newMarket => {
-        const { game_id, bookmaker, market, outcome, price, point, last_update } = newMarket
-
-        // console.log('newMarket:', newMarket)
-        let queryData = [bookmaker, game_id, outcome, market, point, price, last_update]
-
-        pool.query(queryText, queryData)
-        .then(response => {
-            console.log('successful market post:', queryData)
-        })
-        .catch(error => {
-            console.log('error in pool query:', error)
-            res.sendStatus(500)
-        })
-    })
-    res.sendStatus(200)
 })
 
 

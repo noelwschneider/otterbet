@@ -22,7 +22,13 @@ router.get('/game-IDs', (req, res) => {
     // get IDs from Games
     //& timestamps in the WHERE sections should be variables later
     const gameIDsQuery = `
-        SELECT "id"
+        SELECT 
+            "id",
+            away,
+            date,
+            time,
+            league,
+            home
         FROM games
         WHERE "date" BETWEEN 
             $1
@@ -37,7 +43,6 @@ router.get('/game-IDs', (req, res) => {
     // GET list of game IDs from database
     pool.query(gameIDsQuery, queryValues)
     .then( response => {
-        // console.log('database response:', response.rows)
         res.send(response.rows)
     })
 
@@ -48,16 +53,17 @@ router.get('/game-IDs', (req, res) => {
 
 // GET all markets for each game
 router.get('/', async (req, res) => {
-    // console.log('in /markets GET')
-    // console.log('req.query:', req.query)
+    console.log('in /markets GET')
+    console.log('req.query:', req.query)
 
     //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.
     const gamesList = req.query.gamesList.map(game => JSON.parse(game))
     // console.log('game list:', gamesList)
 
-    const markets = await Promise.all(gamesList.map( async (game) => {
-        const queryValue = game.id
-        // console.log('query value:', queryValue)
+    let markets = []
+    markets = await Promise.all(gamesList.map( async (game) => {
+        const queryValue = game
+        console.log('query value:', queryValue)
 
         const queryText = `
             SELECT
@@ -65,17 +71,41 @@ router.get('/', async (req, res) => {
             FROM 
                 markets
             WHERE game_id = $1
+            ;
         `
 
         const response = await pool.query(queryText, [queryValue]) 
-        // console.log('response from DB:', response.rows[0])
-        return response.rows
-        })
-    )
+        console.log('response from DB:', response.rows[0])
+        return response.rows    
+    }))
+
+    // console.log('markets:', markets)
+    const removeEmptyArrays = arrayToEmpty => {
+        // console.log('in removeEmptyArrays:', arrayToEmpty)
+        
+        const unemptyArray = []
+        for (let i = arrayToEmpty.length-1; i >= 0; i--) {
+            
+            // console.log('in for loop', arrayToEmpty[i])
+
+            if(arrayToEmpty[i].length != 0) {
+                // console.log('if condition met')
+                unemptyArray.push(arrayToEmpty[i])
+            }
+
+            // console.log('\n')
+        }
+        unemptyArray.reverse()
+        // console.log('database response:', unemptyArray)
+        return unemptyArray
+    }
+    const arrayToSend = await Promise.all(removeEmptyArrays(markets))
+    // console.log('ARRAY TO SEND:', arrayToSend)
+   
 
     // removing games which don't have a match (which means they )
     // console.log('markets:', markets)
-    res.send(markets)
+    res.send(arrayToSend)
 })
 
 module.exports = router;
