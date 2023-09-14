@@ -15,25 +15,27 @@ const router = express.Router();
 
 // GET list of game IDs from database
 router.get('/game-IDs', (req, res) => {
-
-    // console.log('in /markets/game-IDs GET')
+    console.log('in /markets/game-IDs GET')
+    
+    const {startDate, endDate} = req.query
+    console.log('dates:', startDate, endDate)
     // get IDs from Games
-
     //& timestamps in the WHERE sections should be variables later
     const gameIDsQuery = `
-    SELECT * 
-    FROM games
-    WHERE "date" BETWEEN 
-        timestamp '2023-09-08' 
-        AND timestamp '2023-09-14'
-    ORDER BY 
-        "date" ASC,
-        "time" ASC,
-        home ASC
-    ;`
+        SELECT "id"
+        FROM games
+        WHERE "date" BETWEEN 
+            $1
+            AND $2
+        ORDER BY 
+            "date" ASC,
+            "time" ASC,
+            home ASC
+        ;`
     
+    const queryValues = [startDate, endDate]
     // GET list of game IDs from database
-    pool.query(gameIDsQuery)
+    pool.query(gameIDsQuery, queryValues)
     .then( response => {
         // console.log('database response:', response.rows)
         res.send(response.rows)

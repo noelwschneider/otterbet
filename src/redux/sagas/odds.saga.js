@@ -3,13 +3,20 @@ import axios from "axios";
 
 //& This whole saga should be renamed -- right now it isn't clear from the name why it is any different from markets.saga, but its purpose is distinct: this one deals with the odds-api, where as markets.saga deals with what is already in the database
 
-function* updateOdds() {
+function* updateOdds(action) {
+    const {startDate, endDate} = action.payload
+    
     try {
-        console.log('in fetchOdds')
         const config = {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
+            params: {
+                startDate,
+                endDate
+            }
         };
+
+        console.log('dates in odds saga:', startDate, endDate)
 
         // GET most recent data from odds-api
         const response = yield axios.get('/api/odds/update-odds', config);

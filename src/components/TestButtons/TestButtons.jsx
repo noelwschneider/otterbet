@@ -16,7 +16,7 @@ function TestButtons() {
     // ODDS
     const testOddsGet = () => {
         console.log('odds before dispatch:', odds)
-        dispatch({ type: 'FETCH_ODDS' })
+        dispatch({ type: 'FETCH_ODDS', payload: datesObject })
         console.log('odds after dispatch', odds)
     }
 
@@ -70,10 +70,15 @@ function TestButtons() {
     }
 
 
+    const datesObject = {
+        startDate: `2023-09-12`,
+        endDate: `2023-09-19`
+    }
+    
     // MARKETS PAGE
     const testGetMarketItems = () => {
         console.log('button works')
-        dispatch({ type: 'FETCH_MARKETS' })
+        dispatch({ type: 'FETCH_MARKETS' , payload: datesObject})
     }
 
     return (<>
@@ -85,7 +90,7 @@ function TestButtons() {
         <br/>
 
         <h1>Scores/games</h1>
-        <button onClick={testScoresGet} disabled>Test scores get (API)</button>
+        <button onClick={testScoresGet}>Test scores get (API)</button>
         <button onClick={testScoresPost} disabled>Test scores POST</button>
         <button onClick={testScoresUpdate} >Test scores update</button>
 
@@ -98,7 +103,7 @@ function TestButtons() {
         
 
         <h1>Markets page</h1>
-        <button onClick={testGetMarketItems} disabled>Test get market items GET</button>
+        <button onClick={testGetMarketItems} >Test get market items GET</button>
 
         
 {/* 

@@ -54,7 +54,7 @@ router.get('/games/update', async (req, res) => {
     // Get list of (potential) games to update from database
     const gamesToUpdateText = `
         SELECT 
-            "id",
+            games."id",
             status,
             timer
         FROM "games"
@@ -167,8 +167,6 @@ router.get('/games/update', async (req, res) => {
                     case game.home_inning_9 != null:
                         game.timer = 'Bottom 9'                        
                         break;
-
-                    
 
                     default:
                         break;
@@ -542,7 +540,6 @@ router.post('/games/all', (req, res) => {
     let queryText = `
         INSERT INTO games (
             "id",
-            api_sports_id,
             "date",
             "time",
             stage,
@@ -567,12 +564,11 @@ router.post('/games/all', (req, res) => {
             venue_city,
             venue_name
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
     `
 
     let queryValues = [
-        obj.id, // id
-        obj.game.id, // api_sports_id
+        obj.game.id, // id
         obj.game.date.date, // date
         obj.game.date.time, // time
         obj.game.stage, // stage

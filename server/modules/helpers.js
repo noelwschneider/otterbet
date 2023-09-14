@@ -1,4 +1,3 @@
-
 // used in makeGameID
 function fixTimestamp(timestamp) {
     let fixedTimestamp = []

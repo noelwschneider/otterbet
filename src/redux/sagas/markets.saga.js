@@ -2,9 +2,10 @@ import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 
 // Saga for getting array of markets for each game
-function* getMarketsArray() {
+function* getMarketsArray(action) {
     // console.log('in saga')
 
+    const {startDate, endDate} = action.payload
     try {
         //& I use this like 50 times, should I just put it somewhere else and import it?
         const config = {
@@ -12,7 +13,10 @@ function* getMarketsArray() {
                 'Content-Type': 'application/json',
         },
             withCredentials: true,
-            params: {}
+            params: {
+                startDate,
+                endDate
+            }
         };
 
         // GET list of game IDs from the database
@@ -21,13 +25,15 @@ function* getMarketsArray() {
         
         const games = gamesResponse.data 
         config.params = {gamesList: gamesResponse.data}
-        // console.log('games response:', games)
+        console.log('game ID list response:', games)
 
         // GET markets for each game
         const marketsResponse = yield axios.get('/api/markets', config)
         const markets = marketsResponse.data 
-        // console.log('markets response:', markets)
+        console.log('markets response:', markets)
 
+        //! I need to find the right place to get rid of games that don't habe a matching market array, as they create erors
+            // probably make an empty array and just push matches into there
         for (let game of games) {
             for (let market of markets) {
                 if (market[0].game_id === game.id) {
