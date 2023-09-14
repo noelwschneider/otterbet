@@ -13,10 +13,23 @@ function TestButtons() {
     const [testString, setTestString] = useState('')
     const [testArray, setTestArray] = useState([])
 
+    const datesObject = {
+        startDate: `2023-09-12`,
+        endDate: `2023-09-19`
+    }
+
+    const sport = 'americanfootball_nfl'
+
     // ODDS
     const testOddsGet = () => {
         console.log('odds before dispatch:', odds)
-        dispatch({ type: 'FETCH_ODDS', payload: datesObject })
+
+        const oddsObject = {
+            startDate: datesObject.startDate,
+            endDate: datesObject.endDate,
+            sport: sport
+        }
+        dispatch({ type: 'FETCH_ODDS', payload: oddsObject })
         console.log('odds after dispatch', odds)
     }
 
@@ -70,10 +83,7 @@ function TestButtons() {
     }
 
 
-    const datesObject = {
-        startDate: `2023-09-12`,
-        endDate: `2023-09-19`
-    }
+    
     
     // MARKETS PAGE
     const testGetMarketItems = () => {

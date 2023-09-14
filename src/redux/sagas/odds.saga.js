@@ -4,15 +4,17 @@ import axios from "axios";
 //& This whole saga should be renamed -- right now it isn't clear from the name why it is any different from markets.saga, but its purpose is distinct: this one deals with the odds-api, where as markets.saga deals with what is already in the database
 
 function* updateOdds(action) {
-    const {startDate, endDate} = action.payload
-    
+    const {startDate, endDate, sport} = action.payload
+    console.log('action.payload:', action.payload)
+    console.log('sport is:', sport)
     try {
         const config = {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
             params: {
                 startDate,
-                endDate
+                endDate,
+                sport
             }
         };
 

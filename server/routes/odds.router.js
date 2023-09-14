@@ -142,25 +142,20 @@ router.get('/in-season', (req, res) => {
 })
 
 router.get('/update-odds', async (req, res) => {
-    // Format is 'YYYY-MM-DD'
-    const {startDate, endDate} = req.query
+    
 
+    // Format is 'YYYY-MM-DD'
+    const {startDate, endDate, sport} = req.query
     const connection = await pool.connect()
 
     try {
-        // for checking execution time
-        const startTime = Date.now()
-
         // Begin the database connection
         await connection.query('BEGIN')
         // console.log('update odds with:', req.query)
     
         // Get odds from odds-api
-        const oddsResponse = await axios.get(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?sport=americanfootball_nfl&markets=h2h,spreads,totals&bookmakers=betmgm&apiKey=${oddsAPIKey}`)
-
-        // Checking request speed
-        const oddsAPITime = Date.now()
-        console.log('time to retrieve request:', oddsAPITime-startTime)
+        //! use a variable for the sport
+        const oddsResponse = await axios.get(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?sport=${sport}&markets=h2h,spreads,totals&bookmakers=betmgm&apiKey=${oddsAPIKey}`)
 
         // Array to hold flattened odds object for each game
         let marketsArray = await makeMarketsArray(oddsResponse.data)
@@ -218,10 +213,102 @@ router.get('/update-odds', async (req, res) => {
             }
         }
         
+        // Getting existing markets from database
+        // Making array of markets to check against
+        const oldMarketsQueryText = `
+            SELECT
+                "id",
+                game_id,
+                market,
+                outcome,
+                point,
+                price
+            FROM markets
+            WHERE 
+                game_id = $1
+                AND outcome = $2
+                AND market = $3
+            ORDER BY last_update
+            LIMIT 1
+            ;
+        `
+        const oldMarkets = await Promise.all(marketsArray.map( market => {
+            const oldMarketsQueryValues = [
+                market.game_id,
+                market.outcome,
+                market.market
+            ]
+            const responseRow = connection.query(oldMarketsQueryText, oldMarketsQueryValues)
+            return responseRow
+        }))
+        const extractRows = [] 
+        oldMarkets.map( wager => {
+            if (wager.rows.length !== 0) {
+                extractRows.push(wager.rows)
+            }
+        })
+        // console.log('extract rows:', extractRows)
+
+        const marketsToSend = []
+        for (let market of marketsArray) {
+            let marketString = `${market.game_id}_${market.market}_${market.outcome}`
+
+            market.marketString = marketString
+
+            for (let row of extractRows) {
+                let rowString = `${row[0].game_id}_${row[0].market}_${row[0].outcome}`
+
+                // console.log('NEW TEST:')                
+
+                const stringCheck = marketString === rowString
+                const priceCheck = market.price !== Number(row[0].price)
+                const pointCheck = market.point !== Number(row[0].point)
+                const undefinedCheck = market.point !== undefined && Number(row[0].point) !== undefined
+
+                if (stringCheck && (priceCheck || (pointCheck && undefinedCheck))) {
+                   
+                    if (stringCheck) {
+                        console.log('string comparison evaluates true:')
+                        console.log('market:', marketString)
+                        console.log('row:   ', rowString)
+                        console.log('\n')
+                    } 
+    
+                    if (priceCheck) {
+                        console.log('price evaluates true')
+                        console.log('market:', market.price)
+                        console.log('row:   ', Number(row[0].price))
+                        console.log('\n')
+                    }
+                    
+                    if (pointCheck) {
+                        console.log('point evaluates true')
+                        console.log('market:', market.point)
+                        console.log('row:   ', Number(row[0].point))
+                        console.log('\n')
+                    }
+
+                    if (undefinedCheck) {
+                        console.log('undefined evaluates true')
+                        console.log('market:', market.point)
+                        console.log('row:   ', Number(row[0].point))
+                        console.log('\n')
+                    }
+
+
+                    marketsToSend.push(market)
+                }
+                // console.log('------------')
+                // console.log('\n')
+            }
+        }
+        // console.log('marketsToSend:', marketsToSend)
+
         // Sending updated markets to the database
         const oddsQueryText = `
             INSERT INTO markets (
                 bookmaker, 
+                market_string,
                 game_id, 
                 outcome, 
                 market, 
@@ -229,11 +316,13 @@ router.get('/update-odds', async (req, res) => {
                 price, 
                 last_update
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `
-        await Promise.all(marketsArray.map( market => {
+    
+        await Promise.all(marketsToSend.map( market => {
             const oddsQueryValues = [
                 market.bookmaker,
+                market.marketString,
                 market.game_id,
                 market.outcome,
                 market.market,
@@ -248,8 +337,7 @@ router.get('/update-odds', async (req, res) => {
         connection.query('COMMIT')
 
         // Checking execution speed
-        const endTime = Date.now()
-        console.log('time for full process:', endTime - startTime)
+        
         
     } catch (error) {
         console.log('error in odds router get:', error)
