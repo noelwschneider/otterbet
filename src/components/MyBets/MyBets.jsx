@@ -19,6 +19,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Button from '@mui/material/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 function MyBets() {
     const dispatch = useDispatch();
@@ -32,26 +34,22 @@ function MyBets() {
         dispatch({ type: 'FETCH_MYBETS', payload: user })
     }, [])
 
-    const [selectedEntry, setSelectedEntry] = useState(0)
+    const [selectedEntry, setSelectedEntry] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [entryView, setEntryView] = useState(true)
+    const [entryView, setEntryView] = useState(true);
+    const [alertMessage, setAlertMessage] = useState(false);
 
     const handleEntryClick = (index) => {
         setSelectedEntry(index);
         setAnchorEl(null)
     }
 
-    userBets.map( bet => {
-        console.log(entryView === !(bet.status === 'FT' || bet.status === 'AOT'))
-    })
-
-    
     const countBetsToRender = () => {
         let count = 0;
         for (let bet of userBets) {
-            if (bet.entry_id === entry[selectedEntry].id 
-                && entryView === 
-                    !(bet.status === 'FT' 
+            if (bet.entry_id === entry[selectedEntry].id
+                && entryView ===
+                !(bet.status === 'FT'
                     || bet.status === 'AOT')) {
                 count++
             }
@@ -59,14 +57,23 @@ function MyBets() {
         return count
     }
     let renderEmptyMessage = countBetsToRender()
-    console.log('render empty message:', renderEmptyMessage)
+
+    const renderWarning = () => {
+        setAlertMessage(true)
+    }
+
+    const handleConfirm = () => {
+        console.log('in handleConfirm')
+        dispatch({ type: 'DELETE_ENTRY', payload: entry });
+        setAlertMessage(false);
+    };
 
     return (<>
         {entry.length === 0
             ? <></>
             : <>
                 <Typography variant="h2" sx={{ paddingLeft: "19px" }}>My Bets</Typography>
-                
+
                 <Button
                     aria-controls="simple-menu"
                     aria-haspopup="true"
@@ -77,12 +84,45 @@ function MyBets() {
                     {entry[selectedEntry].name}
                 </Button>
 
+                <br />
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={renderWarning}
+                >
+                    Delete Entry
+                </Button>
+
+                {alertMessage && (
+                    <Alert severity="warning">
+                        <AlertTitle>Confirm Deletion</AlertTitle>
+                        Are you sure you want to delete this entry?
+                        
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={() => handleConfirm()}
+                        >
+                            Confirm
+                        </Button>
+
+                        <Button
+                            variant="contained"
+                            onClick={() => setAlertMessage(false)}
+                        >
+                            Cancel
+                        </Button>
+                        
+                    </Alert>
+                )}
+
+
                 <span>
                     <Typography variant="h5">
                         <strong>Available funds: </strong>
                         ${Number(entry[selectedEntry].funds).toFixed(2)}
                     </Typography>
-                    
+
                 </span>
 
                 <Menu
@@ -91,12 +131,12 @@ function MyBets() {
                     open={Boolean(anchorEl)}
                     onClose={() => setAnchorEl(null)}
                 >
-                    {entry.map( (entryItem, index) => (
-                        <MenuItem 
+                    {entry.map((entryItem, index) => (
+                        <MenuItem
                             key={entryItem.id}
                             onClick={() => handleEntryClick(index)}
                             disableGutters={true}>
-                                {entryItem.name}
+                            {entryItem.name}
                         </MenuItem>
                     ))}
                 </Menu>
@@ -119,7 +159,7 @@ function MyBets() {
                     </ToggleButton>
                 </ToggleButtonGroup>
 
-                {renderEmptyMessage === 0 && <>
+                {(renderEmptyMessage === 0 && entryView) && <>
                     <Typography variant="h3">No active bets.</Typography>
                     <Typography variant="h6">
                         Head to <Link to="/markets">Markets</Link> to view available lines.
@@ -128,11 +168,12 @@ function MyBets() {
 
                 {userBets.map(bet => {
                     return (
-                    bet.entry_id === entry[selectedEntry].id
-                    && entryView === !(bet.status === 'FT' || bet.status === 'AOT')
-                    ? <MyBetsItem key={bet.id} bet={bet} />
-                    : <></>
-                )})}
+                        bet.entry_id === entry[selectedEntry].id
+                            && entryView === !(bet.status === 'FT' || bet.status === 'AOT')
+                            ? <MyBetsItem key={bet.id} bet={bet} />
+                            : <></>
+                    )
+                })}
             </>
         }
 

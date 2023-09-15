@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography';
 
 function MyBetsItem(props) {
     const {bet} = props
-    console.log(bet)
     let {away, date, time, game_id, home, id, market, outcome, point, price, wager} = bet
 
     const convertToAmerican = price => {

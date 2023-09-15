@@ -29,9 +29,14 @@ function* createEntry(action) {
     yield put({type: 'FETCH_ENTRY', payload: action.payload})
 }
 
+function* deleteEntry(action) {
+    yield console.log('in deleteEntry', action.payload)
+}
+
 function* entriesSaga() {
     yield takeLatest('FETCH_ENTRY', fetchEntry);
     yield takeLatest('CREATE_ENTRY', createEntry);
+    yield deleteEntry('DELETE_ENTRY', deleteEntry)
   }
   
   export default entriesSaga;

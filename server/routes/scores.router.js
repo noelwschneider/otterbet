@@ -63,6 +63,7 @@ router.get('/games/update', async (req, res) => {
         WHERE
             competitions.sports_api_name = $1
             AND "status" <> 'FT'
+            AND "status" <> 'AOT'
             AND "date" <= $2
         ;
     `
@@ -319,27 +320,31 @@ router.get('/games/update', async (req, res) => {
 
         // Request scores from api-sports
         console.log('making API request')
-        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&season=2023`, config)
+        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&date=2023-09-15`, config)
 
         // Format API response (namely, dates)
         console.log('formatting API response')
+        /*
         const formattedAPI = formattedResponse(apiResponse.data.response)
+        console.log('formatted API:', formattedAPI)
+        */
 
         // Creating a list of unfinished games on or before the given date
         console.log('getting list of games to update')
         const gamesToUpdate = await connection.query(gamesToUpdateText, gamesToUpdateValues)
+        console.log('games to update:', gamesToUpdate.rows)
 
         // Creating an array of game data which has changed since the last database update
         console.log('creating array for game data')
         let updatedGames = []
         await Promise.all(gamesToUpdate.rows.map( game => {
-            for (let response of formattedAPI) {
+            for (let response of apiResponse.data.response) {
                 // console.log('response is:', response)
-                // console.log('response.id:', response.id)
-                // console.log('game.id:', game.id)
+                console.log('response.id:', response.game.id)
+                console.log('game.id:', game.id)
                 // Find the matching game, then check if its status or timer are different
                     //^ The timer alone would be fine in most situations
-                if (game.id === response.id && (game.status !== response.status || game.timer !== response.timer)) {
+                if (game.id === response.game.id && (game.status !== response.status || game.timer !== response.timer)) {
                     updatedGames.push({
                         id: game.id,
                         status: response.game.status.short,

@@ -57,10 +57,12 @@ function formattedResponse(response) {
 }
 
 const makeDateString = (date) => {
+    console.log('in makeDateString')
     if (!date) {
+        console.log('if condition met')
         date = new Date()
     }
-    
+    console.log(`date string to return: ${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`)
     return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
 }
 
