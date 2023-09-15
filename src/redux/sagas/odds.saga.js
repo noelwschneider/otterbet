@@ -95,17 +95,17 @@ function* getOdds(action) {
                         // console.log('if condition met:', game)
                     }
                 }
-                console.log('game after loop:', game)
+                // console.log('game after loop:', game)
                 
             }
-            console.log('games:', arrayToReturn)
+            // console.log('games:', arrayToReturn)
             return arrayToReturn
         }
 
         games = yield matchGamesToMarkets(games, markets)
 
         for (let game of games) {
-            yield console.log(game)
+            // yield console.log(game)
             yield game.markets.map( market => {
                 market.price = {
                     european: market.price,

@@ -36,14 +36,11 @@ function BetSlip() {
         dispatch({ type: 'FETCH_ENTRY', payload: user.id})
         console.log(selectedEntry)
     }, [])
-
-    
     
     const [selectedEntry, setSelectedEntry] = useState(0)
     const [anchorEl, setAnchorEl] = useState(null);
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
 
     const handleEntryClick = (index) => {
         setSelectedEntry(index);
@@ -122,8 +119,6 @@ function BetSlip() {
                     </Typography>
                 </>
                 : <>
-                
-                    
                     <Button
                         aria-controls="simple-menu"
                         aria-haspopup="true"
@@ -137,7 +132,7 @@ function BetSlip() {
                     <span>
                         <Typography variant="h5">
                             <strong>Available funds: </strong>
-                            ${entry[selectedEntry].funds}
+                            ${Number(entry[selectedEntry].funds).toFixed(2)}
                         </Typography>
                         
                     </span>

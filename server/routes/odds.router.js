@@ -264,7 +264,7 @@ router.get('/update-odds', async (req, res) => {
                 const undefinedCheck = market.point !== undefined && Number(row[0].point) !== undefined
 
                 if (stringCheck && (priceCheck || (pointCheck && undefinedCheck))) {
-                   
+                    /*
                     if (stringCheck) {
                         console.log('string comparison evaluates true:')
                         console.log('market:', marketString)
@@ -292,7 +292,7 @@ router.get('/update-odds', async (req, res) => {
                         console.log('row:   ', Number(row[0].point))
                         console.log('\n')
                     }
-
+                    */
 
                     marketsToSend.push(market)
                 }
@@ -339,6 +339,7 @@ router.get('/update-odds', async (req, res) => {
         
     } catch (error) {
         console.log('error in odds router get:', error)
+        res.sendStatus(500)
     } finally {
         connection.release()
     }

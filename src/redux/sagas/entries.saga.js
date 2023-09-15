@@ -1,15 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* fetchEntry(action) {
+function* fetchEntry() {
     try {
-        console.log('payload in fetchEntry:', action.payload)
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
         },
             withCredentials: true,
-            params: {}
         };
 
         const entryResponse = yield axios.get('/api/entries', config)

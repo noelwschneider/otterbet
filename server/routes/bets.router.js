@@ -20,6 +20,8 @@ router.get('/', (req, res) => {
             bets.id AS "id",
             wager,
             outcome,
+            entry_id,
+            bet_timestamp,
             market,
             point,
             price,
