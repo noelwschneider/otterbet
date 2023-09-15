@@ -20,15 +20,19 @@ router.get('/', (req, res) => {
             bets.id AS "id",
             wager,
             outcome,
+            entry_id,
+            bet_timestamp,
             market,
             point,
             price,
+            result,
             games.id AS game_id,
             home,
             away,
             "date",
             "time",
-            league
+            league,
+            status
         FROM bets
         	JOIN markets
         		on markets.id = bets.market_id

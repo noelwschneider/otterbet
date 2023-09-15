@@ -29,19 +29,18 @@ function BetSlip() {
     const dispatch = useDispatch()
 
     const user = useSelector(store => store.user)
+    const betslip = useSelector(store => store.betslip)
+    const entry = useSelector(store => store.entry)
 
     useEffect( () => {
         dispatch({ type: 'FETCH_ENTRY', payload: user.id})
+        console.log(selectedEntry)
     }, [])
-
-    const betslip = useSelector(store => store.betslip)
-    const entry = useSelector(store => store.entry)
     
     const [selectedEntry, setSelectedEntry] = useState(0)
     const [anchorEl, setAnchorEl] = useState(null);
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
 
     const handleEntryClick = (index) => {
         setSelectedEntry(index);
@@ -120,8 +119,6 @@ function BetSlip() {
                     </Typography>
                 </>
                 : <>
-                
-                    
                     <Button
                         aria-controls="simple-menu"
                         aria-haspopup="true"
@@ -135,7 +132,7 @@ function BetSlip() {
                     <span>
                         <Typography variant="h5">
                             <strong>Available funds: </strong>
-                            ${entry[selectedEntry].funds.toFixed(2)}
+                            ${Number(entry[selectedEntry].funds).toFixed(2)}
                         </Typography>
                         
                     </span>

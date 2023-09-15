@@ -16,6 +16,7 @@ import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import './Nav.css';
 
 
@@ -83,8 +84,9 @@ function Nav() {
             disableGutters={true}
             onClick={() => setAnchorEl(null)}>
               Create Entry
-            </MenuItem>
-            
+            </MenuItem> 
+           
+{/*             
             <MenuItem 
             component={Link}
             to="/create-contest"
@@ -92,8 +94,8 @@ function Nav() {
             disableGutters={true}
             onClick={() => setAnchorEl(null)}>
               Create Contest
-            </MenuItem>
-
+            </MenuItem> 
+*/}
           </Menu>
 
 

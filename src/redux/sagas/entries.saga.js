@@ -1,15 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* fetchEntry(action) {
+function* fetchEntry() {
     try {
-        console.log('payload in fetchEntry:', action.payload)
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
         },
             withCredentials: true,
-            params: {}
         };
 
         const entryResponse = yield axios.get('/api/entries', config)
@@ -31,9 +29,14 @@ function* createEntry(action) {
     yield put({type: 'FETCH_ENTRY', payload: action.payload})
 }
 
+function* deleteEntry(action) {
+    yield console.log('in deleteEntry', action.payload)
+}
+
 function* entriesSaga() {
     yield takeLatest('FETCH_ENTRY', fetchEntry);
     yield takeLatest('CREATE_ENTRY', createEntry);
+    yield deleteEntry('DELETE_ENTRY', deleteEntry)
   }
   
   export default entriesSaga;

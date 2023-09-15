@@ -54,7 +54,7 @@ router.get('/games/update', async (req, res) => {
     // Get list of (potential) games to update from database
     const gamesToUpdateText = `
         SELECT 
-            "id",
+            games."id",
             status,
             timer
         FROM "games"
@@ -63,33 +63,150 @@ router.get('/games/update', async (req, res) => {
         WHERE
             competitions.sports_api_name = $1
             AND "status" <> 'FT'
+            AND "status" <> 'AOT'
             AND "date" <= $2
         ;
     `
     const gamesToUpdateValues = [competition, makeDateString(date)]
 
     // Update the scores and status of games that have had changes
-    const updateScoreText = `
-        UPDATE "games"
-        SET
-            status = $1,
-            timer = $2,
-            home_score = $3,
-            home_1q = $4,
-            home_2q = $5,
-            home_3q = $6,
-            home_4q = $7,
-            home_overtime = $8,
-            away_score = $9,
-            away_1q = $10,
-            away_2q = $11,
-            away_3q = $12,
-            away_4q = $13,
-            away_overtime = $14
-        WHERE id = $15
-        ;
-    `
+    //^ baseball and soccer need slightly different query text
+    const getUpdateScoreText = competition => {
+        switch (competition) {
+            case 'american-football':
+                return `
+                UPDATE "games"
+                SET
+                    status = $1,
+                    timer = $2,
+                    home_score = $3,
+                    home_1q = $4,
+                    home_2q = $5,
+                    home_3q = $6,
+                    home_4q = $7,
+                    home_overtime = $8,
+                    away_score = $9,
+                    away_1q = $10,
+                    away_2q = $11,
+                    away_3q = $12,
+                    away_4q = $13,
+                    away_overtime = $14
+                WHERE id = $15
+                ;
+                `
+                
+            
+            case 'baseball':
+                return `
+                UPDATE "games"
+                SET
+                    status = $1,
+                    timer = $2,
+                    home_score = $3,
+                    home_inning_1 = $4
+                    home_inning_2 = $5
+                    home_inning_3 = $6
+                    home_inning_4 = $7
+                    home_inning_5 = $8
+                    home_inning_6 = $9
+                    home_inning_7 = $10
+                    home_inning_8 = $11
+                    home_inning_9 = $12
+                    home_extra_innings = $13,
+                    away_score = $14,
+                    away_inning_1 = $15
+                    away_inning_2 = $16
+                    away_inning_3 = $17
+                    away_inning_4 = $18
+                    away_inning_5 = $19
+                    away_inning_6 = $20
+                    away_inning_7 = $21
+                    away_inning_8 = $22
+                    away_inning_9 = $23
+                    away_extra_innings = $24,
+                    away_overtime = $25
+                WHERE id = $26
+                ;
+            `
+        
+            default:
+                break;
+        }
+    }
 
+    const getUpdateScoreValues = (competition, game) => {
+        switch (competition) {
+            case 'american-football':
+                return [
+                    game.status,
+                    game.timer,
+                    game.home_score,
+                    game.home_1q,
+                    game.home_2q,
+                    game.home_3q,
+                    game.home_4q,
+                    game.home_overtime,
+                    game.away_score,
+                    game.away_1q,
+                    game.away_2q,
+                    game.away_3q,
+                    game.away_4q,
+                    game.away_overtime,
+                    game.id 
+                ]
+            
+            case 'baseball':
+                switch (true) {
+                    case game.home_extra_innings != null:
+                        game.timer = 'Extra Innings'                        
+                        break;
+                
+                    case game.away_extra_innings != null:
+                        game.timer = 'Extra Innings'                        
+                        break;
+
+                    case game.home_inning_9 != null:
+                        game.timer = 'Bottom 9'                        
+                        break;
+
+                    default:
+                        break;
+                }
+                return [
+                    game.status,
+                    game.timer,
+                    game.home_score,
+                    game.home_inning_1,
+                    game.home_inning_2,
+                    game.home_inning_3,
+                    game.home_inning_4,
+                    game.home_inning_5,
+                    game.home_inning_6,
+                    game.home_inning_7,
+                    game.home_inning_8,
+                    game.home_inning_9,
+                    game.home_extra_innings,
+                    game.away_score,
+                    game.home_inning_1,
+                    game.home_inning_2,
+                    game.home_inning_3,
+                    game.home_inning_4,
+                    game.home_inning_5,
+                    game.home_inning_6,
+                    game.home_inning_7,
+                    game.home_inning_8,
+                    game.home_inning_9,
+                    game.home_extra_innings,
+                    game.id 
+                ]
+        
+            default:
+                break;    
+        }
+    }
+
+    const updateScoreText = getUpdateScoreText(competition)
+    
     const updateMarketText = `
     UPDATE "markets"
     SET result =
@@ -141,7 +258,7 @@ router.get('/games/update', async (req, res) => {
         		END -- END H
             END -- END F
     	END -- END A
-WHERE game_id = $1
+    WHERE game_id = $1
 ;
     `
     /*
@@ -155,7 +272,6 @@ WHERE game_id = $1
     */
 
     // Query to get id and result for each changed wager with a payout
-    //& I could save myself a query by joining this and the bets query, as the result column would be redundant
     const fetchWagersText = `
     SELECT 
         markets."id" AS market_id,
@@ -204,27 +320,31 @@ WHERE game_id = $1
 
         // Request scores from api-sports
         console.log('making API request')
-        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&season=2023`, config)
+        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&date=2023-09-15`, config)
 
         // Format API response (namely, dates)
         console.log('formatting API response')
+        /*
         const formattedAPI = formattedResponse(apiResponse.data.response)
+        console.log('formatted API:', formattedAPI)
+        */
 
         // Creating a list of unfinished games on or before the given date
         console.log('getting list of games to update')
         const gamesToUpdate = await connection.query(gamesToUpdateText, gamesToUpdateValues)
+        console.log('games to update:', gamesToUpdate.rows)
 
         // Creating an array of game data which has changed since the last database update
         console.log('creating array for game data')
         let updatedGames = []
         await Promise.all(gamesToUpdate.rows.map( game => {
-            for (let response of formattedAPI) {
+            for (let response of apiResponse.data.response) {
                 // console.log('response is:', response)
-                // console.log('response.id:', response.id)
-                // console.log('game.id:', game.id)
+                console.log('response.id:', response.game.id)
+                console.log('game.id:', game.id)
                 // Find the matching game, then check if its status or timer are different
                     //^ The timer alone would be fine in most situations
-                if (game.id === response.id && (game.status !== response.status || game.timer !== response.timer)) {
+                if (game.id === response.game.id && (game.status !== response.status || game.timer !== response.timer)) {
                     updatedGames.push({
                         id: game.id,
                         status: response.game.status.short,
@@ -253,23 +373,7 @@ WHERE game_id = $1
         // Updating games
         console.log('updating game data')
         await Promise.all(updatedGames.map( game => {
-            const updateValues = [
-                game.status,
-                game.timer,
-                game.home_score,
-                game.home_1q,
-                game.home_2q,
-                game.home_3q,
-                game.home_4q,
-                game.home_overtime,
-                game.away_score,
-                game.away_1q,
-                game.away_2q,
-                game.away_3q,
-                game.away_4q,
-                game.away_overtime,
-                game.id 
-            ]
+            const updateValues = getUpdateScoreValues(competition, game)
             connection.query(updateScoreText, updateValues)
         }))
         
@@ -441,7 +545,6 @@ router.post('/games/all', (req, res) => {
     let queryText = `
         INSERT INTO games (
             "id",
-            api_sports_id,
             "date",
             "time",
             stage,
@@ -466,12 +569,11 @@ router.post('/games/all', (req, res) => {
             venue_city,
             venue_name
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
     `
 
     let queryValues = [
-        obj.id, // id
-        obj.game.id, // api_sports_id
+        obj.game.id, // id
         obj.game.date.date, // date
         obj.game.date.time, // time
         obj.game.stage, // stage
