@@ -30,7 +30,8 @@ router.get('/', (req, res) => {
             away,
             "date",
             "time",
-            league
+            league,
+            status
         FROM bets
         	JOIN markets
         		on markets.id = bets.market_id
