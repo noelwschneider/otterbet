@@ -25,6 +25,7 @@ router.get('/', (req, res) => {
             market,
             point,
             price,
+            result,
             games.id AS game_id,
             home,
             away,

@@ -33,6 +33,8 @@ router.get('/game-IDs', (req, res) => {
         WHERE "date" BETWEEN 
             $1
             AND $2
+            AND status <> 'FT'
+            AND status <> 'AOT'
         ORDER BY 
             "date" ASC,
             "time" ASC,

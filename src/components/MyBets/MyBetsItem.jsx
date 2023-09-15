@@ -16,7 +16,7 @@ import Typography from '@mui/material/Typography';
 
 function MyBetsItem(props) {
     const {bet} = props
-    let {away, date, time, game_id, home, id, market, outcome, point, price, wager} = bet
+    let {away, date, time, game_id, home, id, market, outcome, point, price, wager, result} = bet
 
     const convertToAmerican = price => {
         // console.log('price is:', price)
@@ -70,6 +70,49 @@ function MyBetsItem(props) {
     }
     const cellText = getCellText(outcome, market)
 
+    const getColor = bet => {
+        if (result === true) {
+            return "green"
+        } else if (result === false) {
+            return "red"
+        }
+    }
+    let statusColor = getColor()
+    
+    const winStyle = bet => {
+        if (result === true) {
+            return {
+                color: "green",
+                fontWeight: "bold"
+            }
+        } else if (result === false) {
+            return {
+                // fontWeight: "bold",
+                textDecoration: "line-through",
+                fontStyle: "italic"
+            }
+        } else if (result === null) {
+            return {fontWeight: "bold"}
+        }
+    }
+
+    const loseStyle = bet => {
+        if (result === true) {
+            return {
+                // fontWeight: "bold",
+                textDecoration: "line-through",
+                fontStyle: "italic"
+            }
+        } else if (result === false) {
+            return {
+                color: "red",
+                fontWeight: "bold"
+            }
+        } else if (result === null) {
+            return {fontWeight: "bold"}
+        }
+    }
+
     return (<>
         <Box 
         sx={{
@@ -77,23 +120,19 @@ function MyBetsItem(props) {
         }}
             className="container" 
     >
-        <Card sx={{overflow: "scroll"}}>
-           <Typography variant="h6" sx={{fontWeight: "bold"}}>{outcome} {cellText}</Typography>
+        <Card sx={{overflow: "scroll",}}>
+           <Typography variant="h6" sx={{fontWeight: "bold",}}>{outcome} {cellText}</Typography>
 
-           <Typography variant="subtitle2" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{market}</Typography>
+           {/* <Typography variant="subtitle2" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{market}</Typography> */}
 
            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{away} at {home}</Typography>
 
            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{date} {time}</Typography>
 
-           <Typography variant="h6" sx={{fontWeight: "bold"}}>Wager: ${Number(wager).toFixed(2)}</Typography>
+           <Typography variant="h6" sx={loseStyle}>Wager: ${Number(wager).toFixed(2)}</Typography>
 
-           <Typography variant="h6" sx={{fontWeight: "bold"}}>To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
+           <Typography variant="h6" sx={winStyle}>To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
            
-
-           
-
-
         </Card>
     </Box>
     </>)

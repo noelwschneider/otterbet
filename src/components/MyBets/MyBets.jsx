@@ -29,6 +29,8 @@ function MyBets() {
     const userBets = useSelector(store => store.myBets)
     const entry = useSelector(store => store.entry)
 
+    console.log('user bets:', userBets)
+
     useEffect(() => {
         dispatch({ type: 'FETCH_ENTRY' })
         dispatch({ type: 'FETCH_MYBETS', payload: user })

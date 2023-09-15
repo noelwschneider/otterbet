@@ -34,7 +34,6 @@ function* getOdds(action) {
 
     const {startDate, endDate} = action.payload
     try {
-        //& I use this like 50 times, should I just put it somewhere else and import it?
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
