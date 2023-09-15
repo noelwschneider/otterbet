@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 // Styling
 import logo from './otter-logo-1.png'
+import moneyLogo from './money-otter-logo-1.png'
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,14 +26,18 @@ function Nav() {
   const entry = useSelector(store => store.entry)
 
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [otter, setOtter] = useState(true)
 
   return (
     <div className="nav">
-      <Link to="/home">
+
         <h2 className="nav-title">OtterBet</h2>
-        <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" />
-      </Link>
+        {otter 
+          ? <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" onClick={() => setOtter(!otter)}/>
+          : <img className="nav-logo" src={moneyLogo} alt="OtterBet logo" width="128" height="128" onClick={() => setOtter(!otter)}/>
+        }
+        
+
 
       <div>
         {/* If no user is logged in, show these links */}
