@@ -25,44 +25,55 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-// import './Nav.css';
 
 
 function Nav() {
   // Store variables
   const user = useSelector(store => store.user);
-  const entry = useSelector(store => store.entry)
 
   // Custom theming
+  //? Why does this work even when I comment out the theme? How is the file getting access without the hook? I use the global theme in this file.
   const theme = useTheme()
   const ComponentTheme = styled(Grid)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
-    height: "115px",
-    margin: "0px 0px 0px 0px"
+    height: "125px",
+    position: "sticky",
+    top: "0px"
   }));
-
-  //! I don't think I use this here anymore
-  const [anchorEl, setAnchorEl] = useState(null)
-
-  //! Will almost certainly be moving down to its local component
-  const [otter, setOtter] = useState(true)
 
   return (<>
 
     {/* If no user is logged in, show these links */}
-    {user.id && (
 
-      <ComponentTheme container>
 
-        {/* Logo Section */}
-        <LogoContainer className="navLogo" />
+    {user.id
+      ? (
+        <ComponentTheme container>
 
-        {/* Menu Section */}
-        <MenuItems />
+          {/* Logo Section */}
+          <LogoContainer className="navLogo" />
 
-      </ComponentTheme>
-      
-    )}
+          {/* Menu Section */}
+          <MenuItems />
+
+        </ComponentTheme>
+      )
+      : (
+        // Setting up this structure so I can tweak the Nav for when nobody is logged in
+        <ComponentTheme container>
+
+          {/* Logo Section */}
+          <LogoContainer className="navLogo" />
+
+          {/* Menu Section */}
+          <MenuItems />
+
+        </ComponentTheme>
+      )
+
+    }
+
+
 
   </>);
 }

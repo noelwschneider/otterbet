@@ -30,7 +30,8 @@ import RegisterPage from '../RegisterPage/RegisterPage';
 import MyBets from '../MyBets/MyBets';
 import CreateEntry from '../CreateEntry/CreateEntry';
 import CreateContest from '../CreateContest/CreateContest';
-import Markets from '../Markets/Markets';
+import MarketsPage from '../MarketsPage/MarketsPage';
+
 
 
 // Style
@@ -170,7 +171,7 @@ function App() {
             exact
             path ="/markets"
           >
-            <Markets />
+            <MarketsPage />
           </ProtectedRoute>
 
           <Route

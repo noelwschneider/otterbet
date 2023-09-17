@@ -22,6 +22,9 @@ function LogoPicture() {
         border: "0px dashed black"
     }));
 
+    // To toggle the otter to money eyes
+    const [otter, setOtter] = useState(true)
+
     return (<ComponentTheme item xs={3} >
 
         <img
