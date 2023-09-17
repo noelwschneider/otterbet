@@ -17,6 +17,7 @@ import Alert from '@mui/material/Alert';
 
 function CreateContest(props) {
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const user = useSelector(store => store.user)
 
@@ -28,7 +29,7 @@ function CreateContest(props) {
     const [period_duration, setPeriodDuration] = useState('weekly');
     const [period_fund, setPeriodFund] = useState(1000);
     const [period_count, setPeriodCount] = useState(0);
-    const [min_wager, setMinWager] = useState(0);
+    const [min_wager, setMinWager] = useState(1);
     const [max_users, setMaxUsers] = useState(1);
 
     // Eventually, set the start date by finding the nearest Monday
@@ -121,6 +122,8 @@ function CreateContest(props) {
             return
         }
         sendContestData(contestData)
+
+        history.push('/my-bets')
     };
 
     //! Validate the user submission
@@ -141,7 +144,7 @@ function CreateContest(props) {
 
         <FormControl variant="outlined">
             <TextField
-                label="Sandbox Name"
+                label="Entry Name"
                 required
                 value={entry_name}
                 onChange={() => setEntryName(event.target.value)}
@@ -257,8 +260,8 @@ function CreateContest(props) {
         
 
 
-        {/* Leagues */}
-        <Typography variant='h4'>Bettable Leagues</Typography>
+        {/* LEAGUES */}
+        {/* <Typography variant='h4'>Bettable Leagues</Typography>
         <FormControlLabel
             control={<Checkbox checked={nfl} onChange={() => setNfl(!nfl)} />}
             label="NFL"
@@ -302,10 +305,10 @@ function CreateContest(props) {
         <FormControlLabel
             control={<Checkbox checked={epl} onChange={() => setEpl(!epl)} />}
             label="Premier League"
-        />
+        /> */}
 
         {/* Markets */}
-        <Typography variant='h4'>Bettable Markets</Typography>
+        {/* <Typography variant='h4'>Bettable Markets</Typography>
         <FormControlLabel
             control={<Checkbox checked={spreads} onChange={() => setSpreads(!spreads)} />}
             label="Spreads"
@@ -319,7 +322,10 @@ function CreateContest(props) {
         <FormControlLabel
             control={<Checkbox checked={over_under} onChange={() => setOverUnder(!over_under)} />}
             label="Over/Under"
-        />
+        /> */}
+
+        <br/>
+        <br/>
 
         <Button 
             variant="contained" 

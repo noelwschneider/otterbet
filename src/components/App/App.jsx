@@ -20,6 +20,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Route Components
+
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
@@ -31,25 +32,71 @@ import CreateEntry from '../CreateEntry/CreateEntry';
 import CreateContest from '../CreateContest/CreateContest';
 import Markets from '../Markets/Markets';
 
+
 // Style
 import './App.css';
-import TestButtons from '../TestButtons/TestButtons';
+import { createTheme, useTheme, ThemeProvider, styled } from '@mui/material/styles';
 
+
+//! DEVELOPER TOOLS
+import TestButtons from '../TestButtons/TestButtons';
+import StylePlayground from '../_StylePlayground/_StylePlayground';
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#b16300',
+    },
+    secondary: {
+      main: '#ecc8a1',
+    },
+    tertiary: {
+      main: "#6b6b6b",
+      light: '#bbbbbb',
+      dark: "#000000",
+    },
+  },
+  typography: {
+    fontFamily: 'Josefin Sans',
+    body2: {
+      fontFamily: 'Montserrat',
+      fontWeight: 500,
+    },
+    caption: {
+      fontFamily: 'Montserrat',
+    },
+    body1: {
+      fontWeight: 500,
+      fontFamily: 'Montserrat',
+    },
+    h5: {
+      fontFamily: 'Josefin Slab',
+      fontWeight: 600,
+    },
+    h6: {
+      fontFamily: 'Josefin Slab',
+      fontWeight: 600,
+    },
+  },
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+  },
+})
 
 function App() {
   const dispatch = useDispatch();
 
   const user = useSelector(store => store.user);
-  
-  const dispatches = async () => {
-    
-  }
+
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
-  return (
+  return (<ThemeProvider theme={theme}>
     <Router>
       <div>
         <Nav />
@@ -91,6 +138,13 @@ function App() {
             path="/test-buttons"
           >
             <TestButtons />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path="/style"
+          >
+            <StylePlayground />
           </ProtectedRoute>
           
           <ProtectedRoute
@@ -157,7 +211,8 @@ function App() {
               <Redirect to="/my-bets" />
               :
               // Otherwise, show the Landing page
-              <LandingPage />
+              // <LandingPage />
+              <LoginPage />
             }
           </Route>
 
@@ -166,9 +221,10 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

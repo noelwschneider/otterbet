@@ -3,128 +3,68 @@ import React from 'react';
 // Router
 import { Link } from 'react-router-dom';
 
-// Logout button component
+// App Components
 import LogOutButton from '../LogOutButton/LogOutButton';
+import MenuItems from './MenuItems/MenuItems';
+import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 
+// Style Tools
+import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
+
+// Style Components
+import Grid from '@mui/material/Grid';
+
 // Styling
-import logo from './otter-logo-1.png'
-import moneyLogo from './money-otter-logo-1.png'
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import './Nav.css';
+// import './Nav.css';
 
 
 function Nav() {
-  const user = useSelector((store) => store.user);
+  // Store variables
+  const user = useSelector(store => store.user);
   const entry = useSelector(store => store.entry)
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  // Custom theming
+  const theme = useTheme()
+  const ComponentTheme = styled(Grid)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    height: "115px",
+    margin: "0px 0px 0px 0px"
+  }));
+
+  //! I don't think I use this here anymore
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  //! Will almost certainly be moving down to its local component
   const [otter, setOtter] = useState(true)
 
-  return (
-    <div className="nav">
+  return (<>
 
-        <h2 className="nav-title">OtterBet</h2>
-        {otter 
-          ? <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" onClick={() => setOtter(!otter)}/>
-          : <img className="nav-logo" src={moneyLogo} alt="OtterBet logo" width="128" height="128" onClick={() => setOtter(!otter)}/>
-        }
-        
+    {/* If no user is logged in, show these links */}
+    {user.id && (
 
+      <ComponentTheme container>
 
-      <div>
-        {/* If no user is logged in, show these links */}
-        {!user.id && (
-          // If there's no user, show login/registration links
-          <Link className="navLink" to="/login">
-            Login / Register
-          </Link>
-        )}
+        {/* Logo Section */}
+        <LogoContainer className="navLogo" />
 
-        {user.id && (<>
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/test-buttons">
-              Test Buttons
-          </Button>
-          
-          <Button
-            className="navLink"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={(event) => setAnchorEl(event.currentTarget)}
-            variant="contained"
-          >
-            My Bets
-          </Button>
+        {/* Menu Section */}
+        <MenuItems />
 
-          <Menu
-            className="navMenu"
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(false)}
-          >
-            <MenuItem 
-            component={Link}
-            to="/my-bets"
-            onClick={() => setAnchorEl(null)}
-            className="navMenuItem"
-            disableGutters={true}>
-              My Bets
-            </MenuItem>
-            
-            <MenuItem 
-            component={Link}
-            to="/create-entry"
-            className="navMenuItem"
-            disableGutters={true}
-            onClick={() => setAnchorEl(null)}>
-              Create Entry
-            </MenuItem> 
-           
-{/*             
-            <MenuItem 
-            component={Link}
-            to="/create-contest"
-            className="navMenuItem"
-            disableGutters={true}
-            onClick={() => setAnchorEl(null)}>
-              Create Contest
-            </MenuItem> 
-*/}
-          </Menu>
+      </ComponentTheme>
+      
+    )}
 
-
-
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/markets">
-              Markets
-          </Button>
-
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/user">
-              User
-          </Button>
-
-          <LogOutButton className="navLink" />
-          </>
-        )}
-      </div>
-    </div>
-  );
+  </>);
 }
 
 export default Nav;

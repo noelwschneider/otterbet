@@ -87,13 +87,13 @@ function MyBets() {
                 </Button>
 
                 <br />
-                <Button
+                {/* <Button
                     variant="contained"
                     color="error"
                     onClick={renderWarning}
                 >
                     Delete Entry
-                </Button>
+                </Button> */}
 
                 {alertMessage && (
                     <Alert severity="warning">
