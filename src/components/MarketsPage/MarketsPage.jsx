@@ -21,7 +21,8 @@ function MarketsPage() {
     
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: theme.palette.secondary.light
+        backgroundColor: theme.palette.secondary.light,
+        height: "100vh"
     }));
 
     return (

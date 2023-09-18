@@ -129,7 +129,7 @@ function MyBetsItem(props) {
         let hours = Number(time[0] + time[1])
         let minutes = Number(time[3] + time[4])
 
-        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
+        console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
         
@@ -152,18 +152,21 @@ function MyBetsItem(props) {
             hours = (hours + offset) - 24
         } else {
             hours = hours + offset
+            console.log('hours:', hours)
         }
 
-        // Adjust to 12-hour format
-        if (hours > 12) {
-            hours -= 12
-        } 
+       
         
         if (hours === 0 || hours < 12) {
             segmentIndicator = 'am'
         } else if (hours >= 12 && hours !== 24) {
             segmentIndicator = 'pm'
         }
+
+         // Adjust to 12-hour format
+         if (hours > 12) {
+            hours -= 12
+        } 
 
         if (minutes < 10) {
             const minutesString = `${minutes}`
@@ -198,9 +201,9 @@ function MyBetsItem(props) {
 
            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{getDateTimeData(date, time)}</Typography>
 
-           <Typography variant="h6" sx={loseStyle}>Wager: ${Number(wager).toFixed(2)}</Typography>
+           <Typography variant="h6" >Wager: ${Number(wager).toFixed(2)}</Typography>
 
-           <Typography variant="h6" sx={winStyle}>To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
+           <Typography variant="h6" >To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
            
         </Card>
         </ComponentTheme>

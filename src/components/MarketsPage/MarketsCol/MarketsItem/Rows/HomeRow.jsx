@@ -78,6 +78,7 @@ function HomeRow( {game} ) {
                 x.away_team = away
                 x.commence_date = date
                 x.commence_time = time
+                x.dateString = getDateTimeData(date, time)
                 x.game_id = id
                 x.competition = competition
                 console.log('state of new bet before sending', x)
@@ -86,17 +87,75 @@ function HomeRow( {game} ) {
         }
     }
 
+    const getDateTimeData = (date, time) => {
+
+        // UTC offset for central time right now
+        //& eventually this will be a variable
+        const offset = -5 
+
+        let month = Number(date[5] + date[6])
+        let day = Number(date[8] + date[9])
+        let hours = Number(time[0] + time[1])
+        let minutes = Number(time[3] + time[4])
+
+        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
+        // AM or PM
+        //& There is probably a real-world name for this. My current name is not descriptive
+        
+        let segmentIndicator = ''
+        // Adjust for user timezone
+        //& This does not currently have anything for month crossover
+        if (hours + offset < 0) {
+            // console.log('hours+ offset < 0condition met')
+            // Move day back
+            day--
+            // Adjust time
+            hours = 24 + (hours + offset)
+            // console.log('adjusted day:', day)
+            // console.log('adjusted hours:', hours)
+        } else if (hours + offset > 24) {
+            // Move day forward
+            day++
+            
+            // Adjust time
+            hours = (hours + offset) - 24
+        } else {
+            hours = hours + offset
+        }
+
+        // Adjust to 12-hour format
+        if (hours > 12) {
+            hours -= 12
+        } 
+        
+        if (hours === 0 || hours < 12) {
+            segmentIndicator = 'am'
+        } else if (hours >= 12 && hours !== 24) {
+            segmentIndicator = 'pm'
+        }
+
+        if (minutes < 10) {
+            const minutesString = `${minutes}`
+            minutes = minutesString.padStart(2, 0)
+        }
+
+        return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`
+    }
+
     // Custom theming
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: "white"
+        backgroundColor: "white",
+        paddingTop: "5px",
+        paddingBottom: "5px",
+        border: "1px solid black"
     }));
 
     return (
     <ComponentTheme container item>
         
         {/* TEAM */}
-        <Grid item xs={6}>{home}</Grid>
+        <Grid item xs={6} style={{paddingLeft: "5px", alignSelf: "center"}}>{home}</Grid>
         
         {/* SPREAD */}
         <Grid 
@@ -104,23 +163,25 @@ function HomeRow( {game} ) {
             container 
             xs={2} 
             style={{
-                flexDirection: "column"
+                flexDirection: "column",  
+                alignItems: "center", 
+                alignSelf: "center"
             }}
             onClick={() => newAddBet(home, 'spreads')}
         >
             {/* Point */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", justifyContent: "center"}}>
                 {getCellText(home, 'spreads').point}
             </Grid>
 
             {/* Price */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", justifyContent: "center"}}>
                 ({getCellText(home, 'spreads').price.american})
             </Grid>
         </Grid>
 
         {/* MONEYLINE*/}
-        <Grid item  xs={2} onClick={() => newAddBet(home, 'h2h')}>
+        <Grid item  xs={2} onClick={() => newAddBet(home, 'h2h')} style={{display: "flex", justifyContent: "center", alignSelf: "center"}}>
             {getCellText(home, 'h2h')}
         </Grid>
 
@@ -130,16 +191,18 @@ function HomeRow( {game} ) {
             container 
             xs={2} 
             style={{
-                flexDirection: "column"
+                flexDirection: "column",
+                alignItems: "center",
+                alignSelf: "center"
             }}
             onClick={() => newAddBet('Under', 'totals')}>
             {/* Point */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", }}>
                 {getCellText('Under', 'totals').point}
             </Grid>
 
             {/* Price */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", }}>
                 ({getCellText('Under', 'totals').price.american})
             </Grid>
         </Grid>

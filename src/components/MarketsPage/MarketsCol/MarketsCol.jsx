@@ -17,12 +17,7 @@ import Typography from '@mui/material/Typography';
 function MarketsCol() {
     const dispatch = useDispatch()
 
-    // Custom theming
-    const theme = useTheme()
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-
-    }));
-
+    
     const user = useSelector(store => store.user)
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
@@ -42,6 +37,13 @@ function MarketsCol() {
 
     const markets = useSelector(store => store.odds)
     
+    // Custom theming
+    const theme = useTheme()
+    const ComponentTheme = styled(Grid)(({ theme }) => ({
+        height: "100%"
+    }));
+
+
     return (<ComponentTheme item xs={7}>
 
         <Typography variant="h2">NFL</Typography>

@@ -9,6 +9,7 @@ import { styled } from '@mui/system';
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { ClassNames } from '@emotion/react';
 
 function AwayRow( {game}) {
     const dispatch = useDispatch()
@@ -21,13 +22,14 @@ function AwayRow( {game}) {
     // Get text for each cell of the Market Item
     //! Long-term, this might be better as its own component, which I just feed props and render accordingly. This component is currently a burden to read and not very flexible.
     const getCellText = (outcome, market) => {
-        // console.log(outcome, market)
+        console.log("markets:", markets)
+        console.log('outcome and market:', outcome, market)
 
         let cellArray = markets.filter(x => x.outcome === outcome && x.market === market)
-        // console.log(cellArray)
+        console.log('cell array:', cellArray)
 
         let [cellObject] = cellArray
-        // console.log(cellObject)
+        console.log(cellObject)
 
         if (cellObject.market === 'h2h') {
             return cellObject.price.american
@@ -57,6 +59,7 @@ function AwayRow( {game}) {
         cellObject.string = cellString 
         return cellObject
     }
+
 
     // Handler function for adding markets to betslip
     const newAddBet = (outcome, market) => {
@@ -90,36 +93,40 @@ function AwayRow( {game}) {
     // Custom theming
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: "white"
+        backgroundColor: "white",
+        paddingTop: "5px",
+        paddingBottom: "5px",
+        border: "1px solid black",
     }));
 
     return (
     <ComponentTheme container item>
-        <Grid item xs={6}>{away}</Grid>
+        <Grid item xs={6} style={{paddingLeft: "5px", alignSelf: "center"}}>{away}</Grid>
         
         {/* SPREAD */}
         {/* Each cell needs an onHover setup */}
         <Grid 
+       
             item 
             container 
             xs={2} 
             style={{
-                flexDirection: "column"
+                flexDirection: "column", alignItems: "center", alignSelf: "center", 
             }}
             onClick={() => newAddBet(away, 'spreads')}>
             {/* Point */}
-            <Grid item xs={6} >
+            <Grid  item xs={6} style={{display: "flex", justifyContent: "center", }}>
                 {getCellText(away, 'spreads').point}
             </Grid>
 
             {/* Price */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", justifyContent: "center"}}>
                 ({getCellText(away, 'spreads').price.american})
             </Grid>
         </Grid>
 
         {/* MONEYLINE*/}
-        <Grid item xs={2} onClick={() => newAddBet(away, 'h2h')}>
+        <Grid item xs={2} onClick={() => newAddBet(away, 'h2h')} style={{display: "flex", justifyContent: "center", alignSelf: "center"}}>
             {getCellText(away, 'h2h')}
         </Grid>
 
@@ -129,16 +136,18 @@ function AwayRow( {game}) {
             container 
             xs={2} 
             style={{
-                flexDirection: "column"
+                flexDirection: "column",
+                alignItems: "center",
+                alignSelf: "center"
             }}
             onClick={() => newAddBet('Over', 'totals')}>
             {/* Point */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", }}>
                 {getCellText('Over', 'totals').point}
             </Grid>
 
             {/* Price */}
-            <Grid item xs={6}>
+            <Grid item xs={6} style={{display: "flex", }}>
                 ({getCellText('Over', 'totals').price.american})
             </Grid>
         </Grid>

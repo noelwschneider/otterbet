@@ -80,14 +80,18 @@ function MarketItemHeader( {game} ) {
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: theme.palette.primary.main, 
         border: "solid 2px black",
+        fontWeight: "bold",
+        paddingBottom: "2px",
+        display: "flex"
+        
     }));
 
     return (
-    <ComponentTheme container item>
-        <Grid item xs={6}>{gameDate}</Grid>
-        <Grid item xs={2}>Spread</Grid>
-        <Grid item xs={2}>ML</Grid>
-        <Grid item xs={2}>O/U</Grid>
+    <ComponentTheme container item xs={12}>
+        <Grid item xs={6} style={{paddingLeft: "5px"}}>{gameDate}</Grid>
+        <Grid item xs={2} style={{display: "flex", justifyContent: "center"}}>Spread</Grid>
+        <Grid item xs={2} style={{display: "flex", justifyContent: "center"}}>ML</Grid>
+        <Grid item xs={2} style={{display: "flex", justifyContent: "center"}}>O/U</Grid>
     </ComponentTheme>)
 }
 

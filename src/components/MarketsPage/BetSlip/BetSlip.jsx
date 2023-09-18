@@ -95,7 +95,8 @@ function BetSlip() {
     // Custom theming
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-
+        paddingTop: "2vh",
+        maxHeight: "500px"
     }));
 
     return (
@@ -116,7 +117,6 @@ function BetSlip() {
                         <Grid item xs={12}>
                             <EntryMenuContainer />
                         </Grid>
-
 
                         <Grid container item xs={12}>
                             <BetSlipItemContainer />

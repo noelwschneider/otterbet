@@ -42,48 +42,13 @@ function MarketsItem({ game }) {
     }
     // console.log('markets with tags added:', markets)
 
-    const getCellText = (outcome, market) => {
-        // console.log(outcome, market)
 
-        let cellArray = markets.filter(x => x.outcome === outcome && x.market === market)
-        // console.log(cellArray)
-
-        let [cellObject] = cellArray
-        // console.log(cellObject)
-
-        if (cellObject.market === 'h2h') {
-            return cellObject.price.american
-        }
-
-        let prefix = ''
-        if (cellObject.market === 'spreads') {
-            prefix = '+'
-        }
-        //! I need to figure out what odds-api will give me for the point property if the line is 0 -- it will probably be a string, but could be 0
-        if (cellObject.point >= 0) {
-            cellObject.point = `${prefix}${Number(cellObject.point).toFixed(1)}`
-        } else if (cellObject.point < 0) {
-            // console.log('less than 0:', cellObject.point)
-            cellObject.point = `${Number(cellObject.point).toFixed(1)}`
-        } else if (!cellObject.point) {
-            // console.log('null:', cellObject.point)
-            cellObject.point = ''
-        } else {
-            console.log('some unforeseen value:', cellObject.point)
-        }
-
-        //& eventually let the user determine which odds format they prefer
-        let cellString = `${cellObject.point} (${cellObject.price.american})`
-        // console.log('cell string:', cellString)
-
-        return cellString
-    }
 
     // Custom theming
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         width: "45vw",
-        margin: "10px",
+        margin: "10px"
     }));
 
     //& Row header styling is inelegant and makes it hard to read. 
