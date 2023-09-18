@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-// Styling
+// Style Tools
+import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
+
+// Styling Components
+import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -112,6 +117,11 @@ function MyBetsItem(props) {
             return {fontWeight: "bold"}
         }
     }
+
+    const theme = useTheme()
+    const ComponentTheme = styled(Grid)(({ theme }) => ({
+        backgroundColor: theme.palette.secondary.light
+    }));
 
     return (<>
         <Box 

@@ -78,9 +78,6 @@ function BetSlipForm({ bet }) {
                 </Typography>
             </Grid>
 
-
-
-
         </Grid>)
 }
 

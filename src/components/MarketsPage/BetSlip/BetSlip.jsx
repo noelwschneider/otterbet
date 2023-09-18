@@ -116,21 +116,6 @@ function BetSlip() {
                         <Grid item xs={12}>
                             <EntryMenuContainer />
                         </Grid>
-                        
-
-
-
-{/*                         
-                        <Grid container item xs={12}>
-
-                            <Grid item xs={6}>
-                                <EntryMenuContainer />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Button onClick={handleSubmit}>Submit</Button>
-                            </Grid>
-                        </Grid> */}
 
 
                         <Grid container item xs={12}>

@@ -170,10 +170,10 @@ function MyBets() {
 
                 {userBets.map(bet => {
                     return (
-                        bet.entry_id === entry[selectedEntry].id
-                            && entryView === !(bet.status === 'FT' || bet.status === 'AOT')
-                            ? <MyBetsItem key={bet.id} bet={bet} />
-                            : <></>
+                        (bet.entry_id === entry[selectedEntry].id
+                            && entryView === !(bet.status === 'FT' || bet.status === 'AOT'))
+                            && <MyBetsItem key={bet.id} bet={bet} />
+                            
                     )
                 })}
             </>

@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
         `
 
         const response = await pool.query(queryText, [queryValue]) 
-        console.log('response from DB:', response.rows[0])
+        // console.log('response from DB:', response.rows[0])
         return response.rows    
     }))
 

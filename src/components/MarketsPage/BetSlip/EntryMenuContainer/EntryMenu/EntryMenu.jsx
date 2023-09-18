@@ -51,22 +51,20 @@ function EntryMenu() {
 
     const trackWagerData = () => {
         console.log('in trackWagerData. Current betslip:', betslip)
-        let wagerSum = 0
-        let maxWinnings = 0
-
+        setWagerSum(0)
+        setMaxWinnings(0)
         for (let bet of betslip) {
-            console.log('current bet:', bet)
-            wagerSum += bet.wager
-            maxWinnings += (bet.wager * bet.price.european)
+            // add wager value to wagerSum
+            // add winnings to maxWinnings
+            setWagerSum(wagerSum + bet.wager)
+            setMaxWinnings(maxWinnings + (bet.wager * bet.price.european))
         }
         console.log('wagerSum:', wagerSum)
         console.log('max winnings:', maxWinnings)
     }
 
-    useEffect(() => {
-        trackWagerData()
-    }, [betslip])
-
+    // Use effect to reload when betslip is changed in store
+    
 
     // This could benefit from modularization
     const handleSubmit = () => {
@@ -76,16 +74,18 @@ function EntryMenu() {
         const userFunds = entry[selectedEntry].funds
         
         // validate that user has entered a value > 0 in each input field
+        let wagerSum = 0
         for (let bet of betslip) {
             console.log('current bet:', bet)
             if (bet.wager <= 0) {
-                // alert the user
-                // I need access to info to notify user of the specific bet that failed the check
+                //! I need access to info to notify user of the specific bet that failed the check
                 // terminate submission
                 console.log('empty or negative wager')
                 setInvalidInputAlert(true)
                 return
             }
+            wagerSum += bet.wager
+            console.log('wager sum is:', wagerSum)
         }
 
         // Validate that user has funds to place current wagers
@@ -100,6 +100,8 @@ function EntryMenu() {
 
         // send betslip to betslip.saga for POST
         dispatch({ type: 'SUBMIT_WAGERS', payload: { betslip, wagerSum, user, entry: entry[selectedEntry] } })
+
+        setWagerSum(0)
     }
 
     // Custom theming
@@ -132,7 +134,9 @@ function EntryMenu() {
 
                 {/* Submit button */}
                 <Grid item xs={6}>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button onClick={handleSubmit}>
+                        Submit
+                    </Button>
                 </Grid>
 
             </Grid>

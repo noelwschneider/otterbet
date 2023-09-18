@@ -38,7 +38,8 @@ function Nav() {
     backgroundColor: theme.palette.primary.main,
     height: "125px",
     position: "sticky",
-    top: "0px"
+    top: "0px",
+    zIndex: "1"
   }));
 
   return (<>
