@@ -89,8 +89,7 @@ function BetSlipItemContainer() {
             <CardActions sx={{ display: 'flex', flexDirection: 'column', alignItems: "start" }}>
                 {betslip.map(bet => (
                     <BetSlipItem key={bet.id} bet={bet} />
-                ))}
-                
+                ))}       
             </CardActions>
         </CardActionArea>
     </ComponentTheme>)

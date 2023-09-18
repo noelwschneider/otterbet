@@ -84,7 +84,7 @@ function EntryMenu() {
                 setInvalidInputAlert(true)
                 return
             }
-            wagerSum += bet.wager
+            wagerSum += Number(bet.wager)
             console.log('wager sum is:', wagerSum)
         }
 

@@ -25,6 +25,7 @@ function MarketItemHeader( {game} ) {
         let hours = Number(time[0] + time[1])
         let minutes = Number(time[3] + time[4])
 
+        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
         
@@ -32,25 +33,32 @@ function MarketItemHeader( {game} ) {
         // Adjust for user timezone
         //& This does not currently have anything for month crossover
         if (hours + offset < 0) {
+            // console.log('hours+ offset < 0condition met')
             // Move day back
             day--
             // Adjust time
             hours = 24 + (hours + offset)
-
+            // console.log('adjusted day:', day)
+            // console.log('adjusted hours:', hours)
         } else if (hours + offset > 24) {
             // Move day forward
             day++
             
             // Adjust time
             hours = (hours + offset) - 24
+        } else {
+            hours = hours + offset
         }
 
         // Adjust to 12-hour format
         if (hours > 12) {
             hours -= 12
-            segmentIndicator = 'pm'
-        } else if (hours <= 12) {
+        } 
+        
+        if (hours === 0 || hours < 12) {
             segmentIndicator = 'am'
+        } else if (hours >= 12 && hours !== 24) {
+            segmentIndicator = 'pm'
         }
 
         if (minutes < 10) {
@@ -61,6 +69,7 @@ function MarketItemHeader( {game} ) {
         return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`
     }
     let gameDate = getDateTimeData(date, time)
+    // console.log("game date:", gameDate)
 
     const dispatch = useDispatch()
     const betslip = useSelector(store => store.betslip)

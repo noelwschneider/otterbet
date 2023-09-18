@@ -93,8 +93,6 @@ function BetSlipItem(props) {
         dispatch({ type: 'DELETE_WAGER', payload: newBetslip })
     }
 
-
-
     // Custom theming
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
@@ -104,19 +102,9 @@ function BetSlipItem(props) {
     return (
         <ComponentTheme container item xs={12}>
 
-            <Grid item xs={1}>
-                <IconButton 
-                style={{
-                    
-                }}
-                onClick={() => setInfo(!info)}
-                >
-                    {/* Market info dropdown */}
-                    <InfoIcon />
-                </IconButton>
-            </Grid>
 
-            <Grid item xs={9}>
+
+            <Grid item xs={10}>
                 <Typography variant="h6" sx={{ display: "inline" }}>
                     {outcome} {cellText}
                 </Typography>
@@ -128,9 +116,9 @@ function BetSlipItem(props) {
                 </IconButton>
             </Grid>
 
-            {info && 
+            
             <ItemInfoDropdown key={bet.id} bet={bet} />
-            }
+            
             
             <BetSlipForm key={id} bet={bet}/>
 

@@ -89,6 +89,19 @@ function ItemInfoDropdown(props) {
     return (
         <Grid container item xs={12}>
 
+            {/* '{away} at {home}' */}
+            <Grid item xs={12}>
+                <Typography variant="caption">
+                    {gameInfo}
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant="caption">
+                    {dateString}
+                </Typography>
+            </Grid>
+
             {/* Market type */}
             <Grid item xs={12}>
                 <Typography variant="caption">
@@ -97,26 +110,9 @@ function ItemInfoDropdown(props) {
 
             </Grid>
 
-            {/* '{away} at {home}' */}
-            <Grid item xs={12}>
-                <Typography variant="caption">
-                    {gameInfo}
-                </Typography>
 
-            </Grid>
 
-            <Grid item xs={12}>
-                <Typography variant="caption">
-                    {dateString}
-                </Typography>
 
-            </Grid>
-
-            <Grid item xs={12}>
-                <Typography variant="caption">
-                    What does this mean?
-                </Typography>
-            </Grid>
 
         </Grid>
     )
