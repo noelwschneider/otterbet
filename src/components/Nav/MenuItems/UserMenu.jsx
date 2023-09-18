@@ -20,7 +20,15 @@ function UserMenu() {
         alignSelf: "flex-end",
         backgroundColor: theme.palette.primary.dark,
         borderRadius: 0,
-        
+ 
+            width: "100%",
+            color: theme.palette.primary.contrastText,
+            border: "1px solid black",
+                borderRadius: "10px 10px 0px 0px",
+                overflow: "hidden",
+                backgroundClip: "border-box"
+            
+
     }));
 
     // This component exists because the menu dropdown can't access the anchor element if it is declared outside of a component wrapping the button
@@ -33,7 +41,7 @@ function UserMenu() {
             history.push(event.currentTarget.id)
         }
 
-        return (<>
+        return (< >
             <Button
             id="simple-button"
             className="navLink"
@@ -47,7 +55,9 @@ function UserMenu() {
 
             style={{  
                 width: "100%",
-                color: theme.palette.primary.contrastText
+                color: theme.palette.primary.contrastText,
+                
+                
             }}
         >
             User

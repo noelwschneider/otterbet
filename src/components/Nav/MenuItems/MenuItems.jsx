@@ -19,6 +19,8 @@ function MenuItems() {
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         height: "inherit",
+        borderBottom: "solid 1px black"
+        
     }));
 
     return (<ComponentTheme item xs={5} >
@@ -28,7 +30,8 @@ function MenuItems() {
             style={{ 
                 height: "inherit", 
                 width: "100%",
-                // height: "auto"
+                // height: "auto",
+                
                 }}>
 
             <UserMenu />

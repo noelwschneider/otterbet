@@ -26,6 +26,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
+//!REMOVE BEFORE PRESENTATION!!!!!
+import Palette from '../_StylePlayground/Palette';
 
 function Nav() {
   // Store variables
@@ -39,7 +41,9 @@ function Nav() {
     height: "125px",
     position: "sticky",
     top: "0px",
-    zIndex: "1"
+    zIndex: "1",
+    borderBottom: "2px solid black",
+    boxShadow: "1px",
   }));
 
   return (<>
@@ -74,6 +78,7 @@ function Nav() {
 
     }
 
+    <Palette />
 
 
   </>);

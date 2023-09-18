@@ -118,33 +118,92 @@ function MyBetsItem(props) {
         }
     }
 
+    const getDateTimeData = (date, time) => {
+
+        // UTC offset for central time right now
+        //& eventually this will be a variable
+        const offset = -5 
+
+        let month = Number(date[5] + date[6])
+        let day = Number(date[8] + date[9])
+        let hours = Number(time[0] + time[1])
+        let minutes = Number(time[3] + time[4])
+
+        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
+        // AM or PM
+        //& There is probably a real-world name for this. My current name is not descriptive
+        
+        let segmentIndicator = ''
+        // Adjust for user timezone
+        //& This does not currently have anything for month crossover
+        if (hours + offset < 0) {
+            // console.log('hours+ offset < 0condition met')
+            // Move day back
+            day--
+            // Adjust time
+            hours = 24 + (hours + offset)
+            // console.log('adjusted day:', day)
+            // console.log('adjusted hours:', hours)
+        } else if (hours + offset > 24) {
+            // Move day forward
+            day++
+            
+            // Adjust time
+            hours = (hours + offset) - 24
+        } else {
+            hours = hours + offset
+        }
+
+        // Adjust to 12-hour format
+        if (hours > 12) {
+            hours -= 12
+        } 
+        
+        if (hours === 0 || hours < 12) {
+            segmentIndicator = 'am'
+        } else if (hours >= 12 && hours !== 24) {
+            segmentIndicator = 'pm'
+        }
+
+        if (minutes < 10) {
+            const minutesString = `${minutes}`
+            minutes = minutesString.padStart(2, 0)
+        }
+
+        return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`
+        }
+
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: theme.palette.secondary.light
     }));
 
     return (<>
-        <Box 
+        <ComponentTheme container>
+        <Card 
         sx={{
+            backgroundColor: theme.palette.primary.contrastText,
+            width: "300px",
+            margin: "10px 0px 0px 0px",
+            border: "1px solid black",
+            boxShadow: "1px",
+            padding: "10px"
+        }}>
 
-        }}
-            className="container" 
-    >
-        <Card sx={{overflow: "scroll",}}>
            <Typography variant="h6" sx={{fontWeight: "bold",}}>{outcome} {cellText}</Typography>
 
            {/* <Typography variant="subtitle2" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{market}</Typography> */}
 
            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{away} at {home}</Typography>
 
-           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{date} {time}</Typography>
+           <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{getDateTimeData(date, time)}</Typography>
 
            <Typography variant="h6" sx={loseStyle}>Wager: ${Number(wager).toFixed(2)}</Typography>
 
            <Typography variant="h6" sx={winStyle}>To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
            
         </Card>
-    </Box>
+        </ComponentTheme>
     </>)
 }
 

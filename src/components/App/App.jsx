@@ -97,7 +97,11 @@ function App() {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
-  return (<ThemeProvider theme={theme}>
+  const ComponentTheme = styled('div')(({ theme }) => ({
+    backgroundColor: theme.palette.secondary.light
+}));
+
+  return (<ThemeProvider theme={theme} >
     <Router>
       <div>
         <Nav />
@@ -184,6 +188,7 @@ function App() {
               <Redirect to="/user" />
               :
               // Otherwise, show the login page
+              
               <LoginPage />
             }
           </Route>
