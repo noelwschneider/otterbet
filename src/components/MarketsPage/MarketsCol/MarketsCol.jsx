@@ -41,8 +41,7 @@ function MarketsCol() {
     }, [])
 
     const markets = useSelector(store => store.odds)
-    console.log('markets from store', markets)
-
+    
     return (<ComponentTheme item xs={7}>
 
         <Typography variant="h2">NFL</Typography>

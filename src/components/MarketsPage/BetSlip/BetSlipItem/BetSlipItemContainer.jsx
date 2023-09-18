@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-// Components
-
-import BetSlipItemContainer from './BetSlipItem/BetSlipItemContainer';
-import BetSlipAlerts from './BetSlipAlerts';
-import EntryMenuContainer from './EntryMenuContainer/EntryMenuContainer';
+// Comonents
+import BetSlipItem from './BetSlipItem';
 
 // Style Tools
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
@@ -16,9 +13,6 @@ import { styled } from '@mui/system';
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-
-// Styling
-import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -34,27 +28,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-function BetSlip() {
+function BetSlipItemContainer() {
+    console.log('in BetSlipItem container')
+
     const dispatch = useDispatch()
 
     const user = useSelector(store => store.user)
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
 
-    useEffect(() => {
-        dispatch({ type: 'FETCH_ENTRY', payload: user.id })
-        console.log(selectedEntry)
-    }, [])
-
     const [selectedEntry, setSelectedEntry] = useState(0)
     const [anchorEl, setAnchorEl] = useState(null);
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
-    const handleEntryClick = (index) => {
-        setSelectedEntry(index);
-        setAnchorEl(null)
-    }
 
     // This could benefit from modularization
     const handleSubmit = () => {
@@ -98,49 +84,16 @@ function BetSlip() {
 
     }));
 
-    return (
-        <ComponentTheme container item xs={5}>
-            <Grid item xs={12}>
-                <Card style={{ overflow: "scroll" }}>
-
-                    <Grid container>
-                        {/* Bet Slip Title */}
-                        <Grid item xs={12}>
-                            <CardHeader title={<Typography variant="h2">Bet Slip</Typography>} />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <BetSlipAlerts />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <EntryMenuContainer />
-                        </Grid>
-                        
-
-
-
-{/*                         
-                        <Grid container item xs={12}>
-
-                            <Grid item xs={6}>
-                                <EntryMenuContainer />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Button onClick={handleSubmit}>Submit</Button>
-                            </Grid>
-                        </Grid> */}
-
-
-                        <Grid container item xs={12}>
-                            <BetSlipItemContainer />
-                        </Grid>
-
-                    </Grid>
-                </Card>
-            </Grid>
-        </ComponentTheme>)
+    return (<ComponentTheme item xs={12}>
+        <CardActionArea disableRipple component="div">
+            <CardActions sx={{ display: 'flex', flexDirection: 'column', alignItems: "start" }}>
+                {betslip.map(bet => (
+                    <BetSlipItem key={bet.id} bet={bet} />
+                ))}
+                
+            </CardActions>
+        </CardActionArea>
+    </ComponentTheme>)
 }
 
-export default BetSlip
+export default BetSlipItemContainer

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -61,7 +61,6 @@ function HomeRow( {game} ) {
     const newAddBet = (outcome, market) => {
         console.log('in newAddBet:', outcome, market)
 
-
         //& Rename this variable
         for (let x of markets) {
             if (x.tag === `${outcome}_${market}`) {
@@ -77,6 +76,7 @@ function HomeRow( {game} ) {
                 x.user = user.id
                 x.home_team = home
                 x.away_team = away
+                x.commence_date = date
                 x.commence_time = time
                 x.game_id = id
                 x.competition = competition
@@ -120,7 +120,7 @@ function HomeRow( {game} ) {
         </Grid>
 
         {/* MONEYLINE*/}
-        <Grid item  xs={2} onClick={() => newAddBet(away, 'h2h')}>
+        <Grid item  xs={2} onClick={() => newAddBet(home, 'h2h')}>
             {getCellText(home, 'h2h')}
         </Grid>
 
@@ -132,7 +132,7 @@ function HomeRow( {game} ) {
             style={{
                 flexDirection: "column"
             }}
-            onClick={() => newAddBet('Over', 'totals')}>
+            onClick={() => newAddBet('Under', 'totals')}>
             {/* Point */}
             <Grid item xs={6}>
                 {getCellText('Under', 'totals').point}

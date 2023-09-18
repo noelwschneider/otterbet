@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -16,8 +16,7 @@ function AwayRow( {game}) {
     const user = useSelector(store => store.user)
 
     const { away, date, time, competition, home, id, markets } = game
-    console.log('game:', game)
-    console.log("date:", date)
+
 
     // Get text for each cell of the Market Item
     //! Long-term, this might be better as its own component, which I just feed props and render accordingly. This component is currently a burden to read and not very flexible.
@@ -61,7 +60,7 @@ function AwayRow( {game}) {
 
     // Handler function for adding markets to betslip
     const newAddBet = (outcome, market) => {
-        console.log('in newAddBet:', outcome, market)
+    
 
 
         //& Rename this variable
@@ -80,9 +79,9 @@ function AwayRow( {game}) {
                 x.home_team = home
                 x.away_team = away
                 x.commence_time = time
+                x.commence_date = date
                 x.game_id = id
                 x.competition = competition
-                console.log('state of new bet before sending', x)
                 dispatch({ type: 'SET_BETSLIP', payload: x })
             }
         }

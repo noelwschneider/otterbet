@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -30,7 +30,7 @@ function MarketsItem({ game }) {
     const betslip = useSelector(store => store.betslip)
     const user = useSelector(store => store.user)
 
-    const { away, date, time, competition, home, id, markets } = game
+    const { markets } = game
     // console.log('game:', game)
     // console.log('markets:', markets)
 
@@ -41,33 +41,6 @@ function MarketsItem({ game }) {
         // console.log(market.tag)
     }
     // console.log('markets with tags added:', markets)
-
-    const newAddBet = (outcome, market) => {
-        console.log('in newAddBet:', outcome, market)
-
-        //& Rename this variable
-        for (let x of markets) {
-            if (x.tag === `${outcome}_${market}`) {
-                // console.log('if has executed for', x)
-
-                for (let bet of betslip) {
-                    if (bet.id === x.id) {
-                        console.log('duplicate wager, not sending to store')
-                        return
-                    }
-                }
-                x.wager = 0
-                x.user = user.id
-                x.home_team = home
-                x.away_team = away
-                x.commence_time = time
-                x.game_id = id
-                x.competition = competition
-                console.log('state of new bet before sending', x)
-                dispatch({ type: 'SET_BETSLIP', payload: x })
-            }
-        }
-    }
 
     const getCellText = (outcome, market) => {
         // console.log(outcome, market)

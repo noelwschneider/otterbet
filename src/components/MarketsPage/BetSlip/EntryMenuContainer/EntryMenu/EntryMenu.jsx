@@ -1,13 +1,11 @@
+// Hooks
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Components
-
-import BetSlipItemContainer from './BetSlipItem/BetSlipItemContainer';
-import BetSlipAlerts from './BetSlipAlerts';
-import EntryMenuContainer from './EntryMenuContainer/EntryMenuContainer';
+import EntryMenuDropdown from './EntryMenuDropdown';
 
 // Style Tools
 import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
@@ -34,27 +32,41 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-function BetSlip() {
+function EntryMenu() {
+
     const dispatch = useDispatch()
 
     const user = useSelector(store => store.user)
     const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
 
-    useEffect(() => {
-        dispatch({ type: 'FETCH_ENTRY', payload: user.id })
-        console.log(selectedEntry)
-    }, [])
-
+    // State
     const [selectedEntry, setSelectedEntry] = useState(0)
-    const [anchorEl, setAnchorEl] = useState(null);
+    const [wagerSum, setWagerSum] = useState(0)
+    const [maxWinnings, setMaxWinnings] = useState(0)
+
+    // Validation state
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
 
-    const handleEntryClick = (index) => {
-        setSelectedEntry(index);
-        setAnchorEl(null)
+    const trackWagerData = () => {
+        console.log('in trackWagerData. Current betslip:', betslip)
+        let wagerSum = 0
+        let maxWinnings = 0
+
+        for (let bet of betslip) {
+            console.log('current bet:', bet)
+            wagerSum += bet.wager
+            maxWinnings += (bet.wager * bet.price.european)
+        }
+        console.log('wagerSum:', wagerSum)
+        console.log('max winnings:', maxWinnings)
     }
+
+    useEffect(() => {
+        trackWagerData()
+    }, [betslip])
+
 
     // This could benefit from modularization
     const handleSubmit = () => {
@@ -62,8 +74,7 @@ function BetSlip() {
 
         // validation
         const userFunds = entry[selectedEntry].funds
-        let wagerSum = 0
-
+        
         // validate that user has entered a value > 0 in each input field
         for (let bet of betslip) {
             console.log('current bet:', bet)
@@ -75,7 +86,6 @@ function BetSlip() {
                 setInvalidInputAlert(true)
                 return
             }
-            wagerSum += Number(bet.wager)
         }
 
         // Validate that user has funds to place current wagers
@@ -94,53 +104,41 @@ function BetSlip() {
 
     // Custom theming
     const theme = useTheme()
+    //! CHANGE TO APPROPRIOATE COMPONENT
     const ComponentTheme = styled(Grid)(({ theme }) => ({
 
     }));
 
     return (
-        <ComponentTheme container item xs={5}>
+        <ComponentTheme container>
+
+            {/* Available funds display */}
             <Grid item xs={12}>
-                <Card style={{ overflow: "scroll" }}>
-
-                    <Grid container>
-                        {/* Bet Slip Title */}
-                        <Grid item xs={12}>
-                            <CardHeader title={<Typography variant="h2">Bet Slip</Typography>} />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <BetSlipAlerts />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <EntryMenuContainer />
-                        </Grid>
-                        
-
-
-
-{/*                         
-                        <Grid container item xs={12}>
-
-                            <Grid item xs={6}>
-                                <EntryMenuContainer />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <Button onClick={handleSubmit}>Submit</Button>
-                            </Grid>
-                        </Grid> */}
-
-
-                        <Grid container item xs={12}>
-                            <BetSlipItemContainer />
-                        </Grid>
-
-                    </Grid>
-                </Card>
+                <span>
+                    <Typography variant="h5">
+                        <strong>Available funds: </strong>
+                        ${Number(entry[selectedEntry].funds).toFixed(2)}
+                    </Typography>
+                </span>
             </Grid>
-        </ComponentTheme>)
+
+
+            <Grid container item xs={12}>
+
+                {/* Dropdown menu */}
+                <Grid item xs={6}>
+                    <EntryMenuDropdown />
+                </Grid>
+
+                {/* Submit button */}
+                <Grid item xs={6}>
+                    <Button onClick={handleSubmit}>Submit</Button>
+                </Grid>
+
+            </Grid>
+
+        </ComponentTheme>
+    )
 }
 
-export default BetSlip
+export default EntryMenu

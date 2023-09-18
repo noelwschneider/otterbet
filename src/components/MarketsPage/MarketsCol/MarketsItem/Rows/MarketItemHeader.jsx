@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,8 +13,6 @@ import Typography from '@mui/material/Typography';
 function MarketItemHeader( {game} ) {
 
     const { away, date, time, competition, home, id, markets } = game
-    console.log('game:', game)
-    console.log("date:", date)
 
     const getDateTimeData = (date, time) => {
 
@@ -58,7 +56,6 @@ function MarketItemHeader( {game} ) {
         if (minutes < 10) {
             const minutesString = `${minutes}`
             minutes = minutesString.padStart(2, 0)
-            console.log('new minutes:', minutes)
         }
 
         return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`

@@ -30,10 +30,9 @@ function StylePlayground() {
         {/* Palette demo */}
         <Palette />
 
-        {/* Nav */}
+        {/* THIS IS WHAT GETS COPIED TO THE ACTUAL COMPONENT */}
         <ComponentTheme container>  
-            <Markets />
-            <BetSlip />
+
         </ComponentTheme>
     </>)
 }
