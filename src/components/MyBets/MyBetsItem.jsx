@@ -20,7 +20,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 function MyBetsItem(props) {
-    const {bet} = props
+    const {bet, view} = props
+    console.log('view', view)
     let {away, date, time, game_id, home, id, market, outcome, point, price, wager, result} = bet
 
     const convertToAmerican = price => {
@@ -85,7 +86,11 @@ function MyBetsItem(props) {
     let statusColor = getColor()
     
     const winStyle = bet => {
-        if (result === true) {
+        if (view) {
+            return {
+                fontWeight: "bold"
+            }
+        } else if (result === true) {
             return {
                 color: "green",
                 fontWeight: "bold"
@@ -102,7 +107,11 @@ function MyBetsItem(props) {
     }
 
     const loseStyle = bet => {
-        if (result === true) {
+        if (view) {
+            return {
+                fontWeight: "bold"
+            }
+        } else if (result === true) {
             return {
                 // fontWeight: "bold",
                 textDecoration: "line-through",
@@ -167,7 +176,7 @@ function MyBetsItem(props) {
          if (hours > 12) {
             hours -= 12
         } 
-
+        
         if (minutes < 10) {
             const minutesString = `${minutes}`
             minutes = minutesString.padStart(2, 0)
@@ -187,7 +196,7 @@ function MyBetsItem(props) {
         sx={{
             backgroundColor: theme.palette.primary.contrastText,
             width: "300px",
-            margin: "10px 0px 0px 0px",
+            margin: "10px 0px 10px 0px",
             border: "1px solid black",
             boxShadow: "1px",
             padding: "10px"
@@ -201,9 +210,9 @@ function MyBetsItem(props) {
 
            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{getDateTimeData(date, time)}</Typography>
 
-           <Typography variant="h6" >Wager: ${Number(wager).toFixed(2)}</Typography>
+           <Typography variant="h6" sx={loseStyle}>Wager: ${Number(wager).toFixed(2)}</Typography>
 
-           <Typography variant="h6" >To win: ${(Number(wager) * (price.european - 1)).toFixed(2)}</Typography>
+           <Typography variant="h6" sx={winStyle}>Payout: ${(Number(wager) * (price.european)).toFixed(2)}</Typography>
            
         </Card>
         </ComponentTheme>

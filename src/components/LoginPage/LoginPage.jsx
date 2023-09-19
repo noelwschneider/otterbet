@@ -12,20 +12,10 @@ function LoginPage() {
   const theme = useTheme()
 
   return (
-    <div style={{backgroundColor: theme.palette.secondary.light, height: "100vh"}}>
+    <div style={{backgroundColor: theme.palette.secondary.light, height: "100vh", display: "flex", alignItems: "center"}}>
       <LoginForm />
 
-      <center >
-        <button
-          type="button"
-          className="btn btn_asLink"
-          onClick={() => {
-            history.push('/registration');
-          }}
-        >
-          Register
-        </button>
-      </center>
+
     </div>
   );
 }

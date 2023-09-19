@@ -155,7 +155,7 @@ function MyBets() {
                     return (
                         (bet.entry_id === entry[selectedEntry].id
                             && entryView === !(bet.status === 'FT' || bet.status === 'AOT'))
-                            && <MyBetsItem key={bet.id} bet={bet} />     
+                            && <MyBetsItem key={bet.id} view={entryView}bet={bet} />     
                     )
                 })}
                 </Grid>

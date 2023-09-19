@@ -27,8 +27,10 @@ function MarketsPage() {
 
     return (
         <ComponentTheme container>  
-
+            <Grid item xs={7}>
             <MarketsCol />
+            </Grid>
+            
 
             <BetSlip />
             

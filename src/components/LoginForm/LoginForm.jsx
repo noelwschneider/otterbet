@@ -80,6 +80,19 @@ function LoginForm() {
       <div >
         <input className="btn" type="submit" name="submit" value="Log In" style={{backgroundColor: theme.palette.primary.main, fontWeight: "bold"}}/>
       </div>
+
+      <center >
+        <button
+          type="button"
+          className="btn btn_asLink"
+          onClick={() => {
+            history.push('/registration');
+          }}
+        >
+          Register
+        </button>
+      </center>
+    
     </form>
     
   );

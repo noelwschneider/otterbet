@@ -78,7 +78,7 @@ function Nav() {
 
     }
 
-    <Palette />
+    {/* <Palette /> */}
 
 
   </>);
