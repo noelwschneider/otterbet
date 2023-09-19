@@ -65,19 +65,20 @@ router.get('/', async (req, res) => {
     let markets = []
     markets = await Promise.all(gamesList.map( async (game) => {
         const queryValue = game
-        console.log('query value:', queryValue)
-
+        console.log('queryValue:', queryValue)
         const queryText = `
-            SELECT
-                *
-            FROM 
-                markets
-            WHERE game_id = $1
-            ;
+        SELECT
+        *
+    FROM 
+        markets
+    WHERE game_id = $1
+    ORDER BY last_update DESC
+    LIMIT 6
+    ;
         `
 
         const response = await pool.query(queryText, [queryValue]) 
-        console.log('response from DB:', response.rows[0])
+        console.log('response from DB:', response.rows)
         return response.rows    
     }))
 

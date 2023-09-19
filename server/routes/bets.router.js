@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     //! The below console log runs like 20 times on page load. Is that an issue?
-    // console.log('in bets router GET:', req.query)
+    console.log('in bets router GET:', req.query)
 
     const queryText = `
         SELECT
@@ -82,7 +82,8 @@ router.post('/', async (req, res) => {
         ;
     `
     const putValues = [wagerSum, entry.id]
-
+    console.log('put values:', putValues)
+    
     const getText = `
         SELECT *
         FROM entries
@@ -106,8 +107,10 @@ router.post('/', async (req, res) => {
             connection.query(postText, postValues)
         })
 
+        console.log('before put')
         // Subtract wagered funds from entry
         await connection.query(putText, putValues)
+        console.log('after put')
 
         // Get updated entries from database
         const queryResponse = await connection.query(getText, getValues)

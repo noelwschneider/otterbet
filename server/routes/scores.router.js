@@ -40,7 +40,7 @@ router.get('/' , (req, res) => {
 
 // Get score updates from sports-api for live or recent games
 router.get('/games/update', async (req, res) => {
-    // console.log('in games/update router', req.query)
+    console.log('in games/update router', req.query)
     const {competition, date} = req.query
     
     const connection = await pool.connect()
@@ -320,10 +320,12 @@ router.get('/games/update', async (req, res) => {
 
         // Request scores from api-sports
         console.log('making API request')
-        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&date=2023-09-15`, config)
+        const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&date=2023-09-18`, config)
 
+        console.log('sports-api response:', apiResponse.data.response)
+        
         // Format API response (namely, dates)
-        console.log('formatting API response')
+        // console.log('formatting API response')
         /*
         const formattedAPI = formattedResponse(apiResponse.data.response)
         console.log('formatted API:', formattedAPI)
@@ -369,7 +371,7 @@ router.get('/games/update', async (req, res) => {
         }))
         //! I think I might need a conditional to get out of this thing if updatedGames is empty
         //! Or maybe the transaction will take care of that for me!
-
+        console.log('updated games:', updatedGames)
         // Updating games
         console.log('updating game data')
         await Promise.all(updatedGames.map( game => {
@@ -420,17 +422,24 @@ router.get('/games/update', async (req, res) => {
 
         // Getting list of wagers to update
         console.log('getting list of wagers to update')
-        // const wagersToUpdate = []
+        
         console.log('marketResults', marketResults)
 
         // Get list of wagers to update from the database
         const wagersToUpdate = await Promise.all( 
             marketResults.map( market => {
                 const responseRow = connection.query(fetchWagersText, [market.id])
+                // console.log('fetchWagersText:', fetchWagersText)
+                console.log('game id:', market.id)
                 return responseRow
             })
         )
-        console.log('array with all response rows:', wagersToUpdate)
+        // console.log('array with all response rows:', wagersToUpdate)
+        wagersToUpdate.map( wager => {
+
+                console.log('wager row:', wager.rows)
+            
+        })
 
         const extractRows = [] 
         wagersToUpdate.map( wager => {
@@ -448,8 +457,13 @@ router.get('/games/update', async (req, res) => {
             }
             
             let arrayToReturn = Promise.all(arrayToFlatten.reduce( (accumulator, currentValue) => {
-                console.log('in reduce:', accumulator, currentValue)
-                accumulator.concat(currentValue)
+                console.log('in reduce:',)
+                console.log('accumulator:', accumulator)
+                console.log('current value:', currentValue)
+
+                
+
+                return accumulator.concat(currentValue)
             }))
             return arrayToReturn
         }

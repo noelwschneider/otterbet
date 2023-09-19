@@ -3,123 +3,85 @@ import React from 'react';
 // Router
 import { Link } from 'react-router-dom';
 
-// Logout button component
+// App Components
 import LogOutButton from '../LogOutButton/LogOutButton';
+import MenuItems from './MenuItems/MenuItems';
+import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 
+// Style Tools
+import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
+
+// Style Components
+import Grid from '@mui/material/Grid';
+
 // Styling
-import logo from './otter-logo-1.png'
 import { Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import './Nav.css';
 
+//!REMOVE BEFORE PRESENTATION!!!!!
+import Palette from '../_StylePlayground/Palette';
 
 function Nav() {
-  const user = useSelector((store) => store.user);
-  const entry = useSelector(store => store.entry)
+  // Store variables
+  const user = useSelector(store => store.user);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  // Custom theming
+  //? Why does this work even when I comment out the theme? How is the file getting access without the hook? I use the global theme in this file.
+  const theme = useTheme()
+  const ComponentTheme = styled(Grid)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    height: "125px",
+    position: "sticky",
+    top: "0px",
+    zIndex: "1",
+    borderBottom: "2px solid black",
+    boxShadow: "1px",
+  }));
 
+  return (<>
 
-  return (
-    <div className="nav">
-      <Link to="/home">
-        <h2 className="nav-title">OtterBet</h2>
-        <img className="nav-logo" src={logo} alt="OtterBet logo" width="128" height="128" />
-      </Link>
-
-      <div>
-        {/* If no user is logged in, show these links */}
-        {!user.id && (
-          // If there's no user, show login/registration links
-          <Link className="navLink" to="/login">
-            Login / Register
-          </Link>
-        )}
-
-        {user.id && (<>
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/test-buttons">
-              Test Buttons
-          </Button>
-          
-          <Button
-            className="navLink"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={(event) => setAnchorEl(event.currentTarget)}
-            variant="contained"
-          >
-            My Bets
-          </Button>
-
-          <Menu
-            className="navMenu"
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(false)}
-          >
-            <MenuItem 
-            component={Link}
-            to="/my-bets"
-            onClick={() => setAnchorEl(null)}
-            className="navMenuItem"
-            disableGutters={true}>
-              My Bets
-            </MenuItem>
-            
-            <MenuItem 
-            component={Link}
-            to="/create-entry"
-            className="navMenuItem"
-            disableGutters={true}
-            onClick={() => setAnchorEl(null)}>
-              Create Entry
-            </MenuItem> 
-           
-{/*             
-            <MenuItem 
-            component={Link}
-            to="/create-contest"
-            className="navMenuItem"
-            disableGutters={true}
-            onClick={() => setAnchorEl(null)}>
-              Create Contest
-            </MenuItem> 
-*/}
-          </Menu>
+    {/* If no user is logged in, show these links */}
 
 
+    {user.id
+      ? (
+        <ComponentTheme container>
 
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/markets">
-              Markets
-          </Button>
+          {/* Logo Section */}
+          <LogoContainer className="navLogo" />
 
-          <Button 
-            className="navLink"
-            component={Link}
-            to="/user">
-              User
-          </Button>
+          {/* Menu Section */}
+          <MenuItems />
 
-          <LogOutButton className="navLink" />
-          </>
-        )}
-      </div>
-    </div>
-  );
+        </ComponentTheme>
+      )
+      : (
+        // Setting up this structure so I can tweak the Nav for when nobody is logged in
+        <ComponentTheme container>
+
+          {/* Logo Section */}
+          <LogoContainer className="navLogo" />
+
+          {/* Menu Section */}
+          <MenuItems />
+
+        </ComponentTheme>
+      )
+
+    }
+
+    {/* <Palette /> */}
+
+
+  </>);
 }
 
 export default Nav;

@@ -72,3 +72,6 @@ notes.nnb
 to-do.nnb
 _sample_data/
 _developer_notes/
+
+# Components no longer in use
+src/components/_retiredComponents/

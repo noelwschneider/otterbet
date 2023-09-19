@@ -1,3 +1,6 @@
+//! THIS COMPONENT IS NO LONGER IN USE
+//! IT HAS BEEN REPLACED BY 'src/components/Nav/MenuItems/LogOutButton
+//! Delete this file once all style refactoring is complete
 import React from 'react';
 import { useDispatch } from 'react-redux';
 

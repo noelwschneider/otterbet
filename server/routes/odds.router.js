@@ -43,7 +43,7 @@ function getTime(timestamp) {
     for (let i = 11; i < 16; i++) {
         timeArray.push(timestamp[i])
       }
-      console.log(timeArray.join(''))
+      // console.log(timeArray.join(''))
       return timeArray.join('')
 }
 
