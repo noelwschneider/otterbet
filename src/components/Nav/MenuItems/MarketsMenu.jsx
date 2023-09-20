@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-
 
 function MarketsMenu() {
 

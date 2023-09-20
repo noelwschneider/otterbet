@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 
 // Components
-import CreateContest from '../CreateContest/CreateContest';
+import CreateContest from '../_inDevelopmentComponents/CreateContest/CreateContest';
 
 //! This is an unfinished component
 //! I realized an easier solution for my immediate needs

@@ -117,22 +117,10 @@ function CreateContest(props) {
             h2h,
             over_under,
         };
-        console.log(contestData)
-        if(validation(contestData)) {
-            return
-        }
         sendContestData(contestData)
 
         history.push('/my-bets')
     };
-
-    //! Validate the user submission
-        //! League name, at least one sport, at least one market
-        //! Return something from this function to indicate which alerts should render
-        //! Write conditional rendering for alerts
-    const validation = (data) => {
-
-    }
 
     const sendContestData = (data) => {
         dispatch({ type: 'CREATE_CONTEST', payload: data })

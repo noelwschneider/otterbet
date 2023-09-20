@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 
 function HomeRow( {game} ) {
 
@@ -20,13 +18,10 @@ function HomeRow( {game} ) {
 
     //! Long-term, this might be better as its own component, which I just feed props and render accordingly. This component is currently a burden to read and not very flexible.
     const getCellText = (outcome, market) => {
-        // console.log(outcome, market)
 
         let cellArray = markets.filter(x => x.outcome === outcome && x.market === market)
-        // console.log(cellArray)
 
         let [cellObject] = cellArray
-        // console.log(cellObject)
 
         if (cellObject.market === 'h2h') {
             return cellObject.price.american
@@ -40,10 +35,8 @@ function HomeRow( {game} ) {
         if (cellObject.point >= 0) {
             cellObject.point = `${prefix}${Number(cellObject.point).toFixed(1)}`
         } else if (cellObject.point < 0) {
-            // console.log('less than 0:', cellObject.point)
             cellObject.point = `${Number(cellObject.point).toFixed(1)}`
         } else if (!cellObject.point) {
-            // console.log('null:', cellObject.point)
             cellObject.point = ''
         } else {
             console.log('some unforeseen value:', cellObject.point)
@@ -51,7 +44,6 @@ function HomeRow( {game} ) {
 
         //& eventually let the user determine which odds format they prefer
         let cellString = `${cellObject.point} (${cellObject.price.american})`
-        // console.log('cell string:', cellString)
 
         cellObject.string = cellString 
         return cellObject
@@ -98,7 +90,6 @@ function HomeRow( {game} ) {
         let hours = Number(time[0] + time[1])
         let minutes = Number(time[3] + time[4])
 
-        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
         
@@ -106,13 +97,10 @@ function HomeRow( {game} ) {
         // Adjust for user timezone
         //& This does not currently have anything for month crossover
         if (hours + offset < 0) {
-            // console.log('hours+ offset < 0condition met')
             // Move day back
             day--
             // Adjust time
             hours = 24 + (hours + offset)
-            // console.log('adjusted day:', day)
-            // console.log('adjusted hours:', hours)
         } else if (hours + offset > 24) {
             // Move day forward
             day++
@@ -143,7 +131,6 @@ function HomeRow( {game} ) {
     }
 
     // Custom theming
-    const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: "white",
         paddingTop: "5px",

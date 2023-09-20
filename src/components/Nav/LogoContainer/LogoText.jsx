@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 
 // Logo images
 import logoText from './OtterBet logo text.png'
-import logo from './otter-logo-1.png'
-import moneyLogo from './money-otter-logo-1.png'
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
@@ -16,7 +12,6 @@ import Grid from '@mui/material/Grid';
 
 function LogoText() {
 
-    const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         height: "inherit",
         alignItems: "flex-end",

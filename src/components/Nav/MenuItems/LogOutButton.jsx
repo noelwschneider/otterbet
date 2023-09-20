@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
@@ -24,9 +23,6 @@ function LogOutButton() {
     }));
 
     const dispatch = useDispatch()
-    const handleLogout = () => {
-        dispatch({})
-    }
 
     return (<ComponentTheme item xs={4}>
 

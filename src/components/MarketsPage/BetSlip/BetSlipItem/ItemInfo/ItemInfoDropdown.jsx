@@ -1,31 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
-
-// Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
-import { styled } from '@mui/system';
+import React from 'react';
 
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function ItemInfoDropdown(props) {
 
-    console.log('props:', props)
-
     const { bet } = props
-    const { away_team, commence_time, commence_date, competition, game_id, home_team, id, last_update, market, outcome, point, price, tag, user, wager } = bet
-
-
+    const { 
+        away_team, 
+        commence_time, 
+        commence_date, 
+        home_team, 
+        market, 
+        price 
+    } = bet
 
     const gameInfo = `${away_team} at ${home_team}`
-
 
     const getDateTimeData = (date, time) => {
 
@@ -96,6 +87,7 @@ function ItemInfoDropdown(props) {
                 </Typography>
             </Grid>
 
+            {/* Date and time */}
             <Grid item xs={12}>
                 <Typography variant="caption">
                     {dateString}
@@ -107,12 +99,7 @@ function ItemInfoDropdown(props) {
                 <Typography variant="caption">
                     {formattedMarket} ({price.american})
                 </Typography>
-
             </Grid>
-
-
-
-
 
         </Grid>
     )

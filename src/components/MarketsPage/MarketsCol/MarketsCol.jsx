@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Components
 import MarketsItem from './MarketsItem/MarketsItem';
-import BetSlip from '../BetSlip/BetSlip';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
@@ -19,10 +17,6 @@ import InfoIcon from '@mui/icons-material/Info';
 
 function MarketsCol() {
     const dispatch = useDispatch()
-
-    const user = useSelector(store => store.user)
-    const betslip = useSelector(store => store.betslip)
-    const entry = useSelector(store => store.entry)
 
     //& Static dates for development purposes. Refactor into dynamic feature
     const [startDate, setStartDate] = useState('2023-09-13')
@@ -42,12 +36,6 @@ function MarketsCol() {
     }, [])
 
     const markets = useSelector(store => store.odds)
-
-    // Custom theming
-    const theme = useTheme()
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        height: "100%"
-    }));
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

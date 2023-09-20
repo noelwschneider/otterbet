@@ -1,14 +1,12 @@
 // Hooks
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Components
 import EntryMenuDropdown from './EntryMenuDropdown';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
@@ -16,21 +14,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 // Styling
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function EntryMenu() {
 
@@ -49,22 +33,6 @@ function EntryMenu() {
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
 
-    const trackWagerData = () => {
-        console.log('in trackWagerData. Current betslip:', betslip)
-        setWagerSum(0)
-        setMaxWinnings(0)
-        for (let bet of betslip) {
-            // add wager value to wagerSum
-            // add winnings to maxWinnings
-            setWagerSum(wagerSum + bet.wager)
-            setMaxWinnings(maxWinnings + (bet.wager * bet.price.european))
-        }
-        console.log('wagerSum:', wagerSum)
-        console.log('max winnings:', maxWinnings)
-    }
-
-    // Use effect to reload when betslip is changed in store
-    
 
     // This could benefit from modularization
     const handleSubmit = () => {
@@ -105,8 +73,6 @@ function EntryMenu() {
     }
 
     // Custom theming
-    const theme = useTheme()
-    //! CHANGE TO APPROPRIOATE COMPONENT
     const ComponentTheme = styled(Grid)(({ theme }) => ({
 
     }));
@@ -123,7 +89,6 @@ function EntryMenu() {
                     </Typography>
                 </span>
             </Grid>
-
 
             <Grid container item xs={12}>
 

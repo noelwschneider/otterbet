@@ -1,15 +1,12 @@
-import React, { useState} from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import {  useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { ClassNames } from '@emotion/react';
 
 function AwayRow( {game}) {
     const dispatch = useDispatch()
@@ -43,33 +40,26 @@ function AwayRow( {game}) {
         if (cellObject.point >= 0) {
             cellObject.point = `${prefix}${Number(cellObject.point).toFixed(1)}`
         } else if (cellObject.point < 0) {
-            // console.log('less than 0:', cellObject.point)
             cellObject.point = `${Number(cellObject.point).toFixed(1)}`
         } else if (!cellObject.point) {
-            // console.log('null:', cellObject.point)
             cellObject.point = ''
         } else {
             console.log('some unforeseen value:', cellObject.point)
         }
 
-        //& eventually let the user determine which odds format they prefer
+        //& eventually let the user determine whether they prefer American or European odds format
         let cellString = `${cellObject.point} (${cellObject.price.american})`
-        // console.log('cell string:', cellString)
 
         cellObject.string = cellString 
         return cellObject
     }
 
-
     // Handler function for adding markets to betslip
     const newAddBet = (outcome, market) => {
-    
-
 
         //& Rename this variable
         for (let x of markets) {
             if (x.tag === `${outcome}_${market}`) {
-                // console.log('if has executed for', x)
 
                 for (let bet of betslip) {
                     if (bet.id === x.id) {
@@ -91,7 +81,6 @@ function AwayRow( {game}) {
     }
 
     // Custom theming
-    const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: "white",
         paddingTop: "5px",

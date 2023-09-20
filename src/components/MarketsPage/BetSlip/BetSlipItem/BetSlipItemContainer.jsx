@@ -31,57 +31,16 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 function BetSlipItemContainer() {
     console.log('in BetSlipItem container')
 
-    const dispatch = useDispatch()
-
-    const user = useSelector(store => store.user)
     const betslip = useSelector(store => store.betslip)
-    const entry = useSelector(store => store.entry)
-
-    const [selectedEntry, setSelectedEntry] = useState(0)
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [invalidInputAlert, setInvalidInputAlert] = useState(false)
-    const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
-    // This could benefit from modularization
-    const handleSubmit = () => {
-        console.log('in handleSubmit. Current betslip:', betslip)
-
-        // validation
-        const userFunds = entry[selectedEntry].funds
-        let wagerSum = 0
-
-        // validate that user has entered a value > 0 in each input field
-        for (let bet of betslip) {
-            console.log('current bet:', bet)
-            if (bet.wager <= 0) {
-                // alert the user
-                // I need access to info to notify user of the specific bet that failed the check
-                // terminate submission
-                console.log('empty or negative wager')
-                setInvalidInputAlert(true)
-                return
-            }
-            wagerSum += Number(bet.wager)
-        }
-
-        // Validate that user has funds to place current wagers
-        if (wagerSum > userFunds) {
-            setInsufficientFundsAlert(true)
-            return
-        }
-
-        betslip.map(bet => {
-            bet.entry_id = entry[selectedEntry].id
-        })
-
-        // send betslip to betslip.saga for POST
-        dispatch({ type: 'SUBMIT_WAGERS', payload: { betslip, wagerSum, user, entry: entry[selectedEntry] } })
-    }
 
     // Custom theming
-    const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-
+        /* 
+            Though currently unused, I am leaving this 
+            styling component in the code because it 
+            comes with no real overhead and is quite
+            likely to be useful in a future sprint
+        */
     }));
 
     return (<ComponentTheme item xs={12}>

@@ -75,7 +75,6 @@ _developer_notes/
 
 # Developer components
 src/components/_retiredComponents/
-src/components/_StylePlayground/ 
-src/components/TestButtons/
-src/components/TemplateClass/
-src/components/TemplateFunction/
+src/components/_developerComponents
+src/components/inDevelopmentComponent/
+src/components/Nav/FutureUserMenu.jsx

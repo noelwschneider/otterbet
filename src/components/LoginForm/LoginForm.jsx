@@ -4,9 +4,8 @@ import {useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
-import { styled } from '@mui/system';
-import Palette from '../_StylePlayground/Palette';
+import { useTheme,  } from '@mui/material/styles';
+
 
 function LoginForm() {
   const [username, setUsername] = useState('');
