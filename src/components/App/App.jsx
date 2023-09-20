@@ -145,12 +145,13 @@ function App() {
             <TestButtons />
           </ProtectedRoute>
 
-          <ProtectedRoute
+          {/* This is a developer component for experimenting with styles in a controlled environment */}
+          {/* <ProtectedRoute
             exact
             path="/style"
           >
             <StylePlayground />
-          </ProtectedRoute>
+          </ProtectedRoute> */}
           
           <ProtectedRoute
             exact

@@ -73,5 +73,9 @@ to-do.nnb
 _sample_data/
 _developer_notes/
 
-# Components no longer in use
+# Developer components
 src/components/_retiredComponents/
+src/components/_StylePlayground/ 
+src/components/TestButtons/
+src/components/TemplateClass/
+src/components/TemplateFunction/
