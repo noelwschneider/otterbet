@@ -23,7 +23,7 @@ function MarketItemHeader( {game} ) {
         let hours = Number(time[0] + time[1])
         let minutes = Number(time[3] + time[4])
 
-        // console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
+        console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
         
@@ -46,16 +46,19 @@ function MarketItemHeader( {game} ) {
             hours = hours + offset
         }
 
-        // Adjust to 12-hour format
-        if (hours > 12) {
-            hours -= 12
-        } 
-        
+        // Set 'am' or 'pm'
         if (hours === 0 || hours < 12) {
             segmentIndicator = 'am'
         } else if (hours >= 12 && hours !== 24) {
             segmentIndicator = 'pm'
         }
+
+        // Adjust to 12-hour format
+        if (hours > 12) {
+            hours -= 12
+        } 
+        
+        
 
         if (minutes < 10) {
             const minutesString = `${minutes}`

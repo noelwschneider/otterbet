@@ -55,7 +55,7 @@ function MyBets() {
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: theme.palette.secondary.light,
         padding: "10px 0px 0px 20px",
-        height: "100%",
+        // height: "100%",
     }));
 
     return (<ComponentTheme container>
