@@ -19,14 +19,10 @@ function AwayRow( {game}) {
     // Get text for each cell of the Market Item
     //! Long-term, this might be better as its own component, which I just feed props and render accordingly. This component is currently a burden to read and not very flexible.
     const getCellText = (outcome, market) => {
-        console.log("markets:", markets)
-        console.log('outcome and market:', outcome, market)
 
         let cellArray = markets.filter(x => x.outcome === outcome && x.market === market)
-        console.log('cell array:', cellArray)
 
         let [cellObject] = cellArray
-        console.log(cellObject)
 
         if (cellObject.market === 'h2h') {
             return cellObject.price.american
@@ -63,19 +59,18 @@ function AwayRow( {game}) {
 
                 for (let bet of betslip) {
                     if (bet.id === x.id) {
-                        console.log('duplicate wager, not sending to store')
                         return
                     }
                 }
-                x.wager = 0
-                x.user = user.id
-                x.home_team = home
-                x.away_team = away
-                x.commence_time = time
-                x.commence_date = date
-                x.game_id = id
-                x.competition = competition
-                dispatch({ type: 'SET_BETSLIP', payload: x })
+                x.wager = 0;
+                x.user = user.id;
+                x.home_team = home;
+                x.away_team = away;
+                x.commence_time = time;
+                x.commence_date = date;
+                x.game_id = id;
+                x.competition = competition;
+                dispatch({ type: 'SET_BETSLIP', payload: x });
             }
         }
     }

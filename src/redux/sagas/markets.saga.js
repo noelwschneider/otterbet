@@ -3,9 +3,9 @@ import axios from "axios";
 
 // Saga for getting array of markets for each game
 function* getMarketsArray(action) {
-    // console.log('in saga')
 
-    const {startDate, endDate} = action.payload
+    const {startDate, endDate} = action.payload;
+
     try {
         //& I use this like 50 times, should I just put it somewhere else and import it?
         const config = {
@@ -20,47 +20,38 @@ function* getMarketsArray(action) {
         };
 
         // GET list of game IDs from the database
-        const gamesResponse = yield axios.get('/api/markets/game-IDs', config)
-        //& This is sending up an array of JSON strings. I can work with that, but it is worth investigating if this is really the way to do this
-        
-        const games = gamesResponse.data 
-        config.params = {gamesList: gamesResponse.data}
-        console.log('game ID list response:', games)
+        const gamesResponse = yield axios.get('/api/markets/game-IDs', config);
+        const games = gamesResponse.data ;
+        config.params = {gamesList: gamesResponse.data};
 
         // GET markets for each game
-        const marketsResponse = yield axios.get('/api/markets', config)
-        const markets = marketsResponse.data 
-        console.log('markets response:', markets)
+        const marketsResponse = yield axios.get('/api/markets', config);
+        const markets = marketsResponse.data;
 
-        //! I need to find the right place to get rid of games that don't habe a matching market array, as they create erors
-            // probably make an empty array and just push matches into there
         for (let game of games) {
             for (let market of markets) {
                 if (market[0].game_id === game.id) {
-                    game.markets = market
+                    game.markets = market;
                 }
             }
         }
-        // console.log('updated games:', games)
 
         const convertToAmerican = price => {
-            // console.log('price is:', price)
-            let num = price - 1
+            let num = price - 1;
             
             if (price >= 2) {
-              num *= 100
-              num = Math.round(num)
-              num = `+${num}`
+              num *= 100;
+              num = Math.round(num);
+              num = `+${num}`;
             }
             
             if (price < 2) {
-              num = 1 / num
-              num *= 100
-              num = Math.round(num)
-              num = `-${num}`
+              num = 1 / num;
+              num *= 100;
+              num = Math.round(num);
+              num = `-${num}`;
             }
-            // console.log('num to return is:', num)
-            return num
+            return num;
         }
 
         for (let game of games) {
@@ -71,17 +62,16 @@ function* getMarketsArray(action) {
                 }
             })
         }
-        console.log(games)
 
-        yield put({type: 'SET_MARKETS', payload: games})
+        yield put({type: 'SET_MARKETS', payload: games});
 
     } catch (error) {
-        console.log('error in markets.saga:', error)
+        console.log('error in markets.saga:', error);
     }
 }
 
 function* marketsSaga() {
-    yield takeLatest('FETCH_MARKETS', getMarketsArray)
+    yield takeLatest('FETCH_MARKETS', getMarketsArray);
 }
 
-export default marketsSaga
+export default marketsSaga;

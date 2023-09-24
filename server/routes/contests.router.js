@@ -9,7 +9,6 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    console.log('in contests router post', req.body)
 
     let placeholderString = ''
     let counter = 1;

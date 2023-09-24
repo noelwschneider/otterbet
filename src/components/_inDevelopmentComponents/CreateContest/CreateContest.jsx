@@ -57,7 +57,6 @@ function CreateContest(props) {
     const [over_under, setOverUnder] = useState(true);
 
     const getAnnualPeriods = (duration) => {
-        console.log('in getAnnualPeriods:', duration)
         switch (duration) {
             case 'monthly':
                 return 13;

@@ -23,7 +23,6 @@ function MarketItemHeader( {game} ) {
         let hours = Number(time[0] + time[1])
         let minutes = Number(time[3] + time[4])
 
-        console.log(`time at enter: ${month}/${day} at ${hours}:${minutes}`)
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
         

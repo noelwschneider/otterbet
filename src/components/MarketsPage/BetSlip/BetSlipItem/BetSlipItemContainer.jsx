@@ -29,7 +29,6 @@ import FormControl from '@mui/material/FormControl';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function BetSlipItemContainer() {
-    console.log('in BetSlipItem container')
 
     const betslip = useSelector(store => store.betslip)
 

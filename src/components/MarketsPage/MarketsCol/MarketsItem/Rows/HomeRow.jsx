@@ -39,41 +39,37 @@ function HomeRow( {game} ) {
         } else if (!cellObject.point) {
             cellObject.point = ''
         } else {
-            console.log('some unforeseen value:', cellObject.point)
+            console.log('some unforeseen value:', cellObject.point);
         }
 
         //& eventually let the user determine which odds format they prefer
-        let cellString = `${cellObject.point} (${cellObject.price.american})`
+        let cellString = `${cellObject.point} (${cellObject.price.american})`;
 
-        cellObject.string = cellString 
-        return cellObject
+        cellObject.string = cellString;
+        return cellObject;
     }
 
     // Handler function for adding markets to betslip
     const newAddBet = (outcome, market) => {
-        console.log('in newAddBet:', outcome, market)
 
         //& Rename this variable
         for (let x of markets) {
             if (x.tag === `${outcome}_${market}`) {
-                // console.log('if has executed for', x)
 
                 for (let bet of betslip) {
                     if (bet.id === x.id) {
-                        console.log('duplicate wager, not sending to store')
-                        return
+                        return;
                     }
                 }
-                x.wager = 0
-                x.user = user.id
-                x.home_team = home
-                x.away_team = away
-                x.commence_date = date
-                x.commence_time = time
-                x.dateString = getDateTimeData(date, time)
-                x.game_id = id
-                x.competition = competition
-                console.log('state of new bet before sending', x)
+                x.wager = 0;
+                x.user = user.id;
+                x.home_team = home;
+                x.away_team = away;
+                x.commence_date = date;
+                x.commence_time = time;
+                x.dateString = getDateTimeData(date, time);
+                x.game_id = id;
+                x.competition = competition;
                 dispatch({ type: 'SET_BETSLIP', payload: x })
             }
         }
@@ -82,52 +78,53 @@ function HomeRow( {game} ) {
     const getDateTimeData = (date, time) => {
 
         // UTC offset for central time right now
-        //& eventually this will be a variable
-        const offset = -5 
+        //& eventually this will be a variable based on user's time zone
+        const offset = -5;
 
-        let month = Number(date[5] + date[6])
-        let day = Number(date[8] + date[9])
-        let hours = Number(time[0] + time[1])
-        let minutes = Number(time[3] + time[4])
+        let month = Number(date[5] + date[6]);
+        let day = Number(date[8] + date[9]);
+        let hours = Number(time[0] + time[1]);
+        let minutes = Number(time[3] + time[4]);
 
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
-        
         let segmentIndicator = ''
+        
         // Adjust for user timezone
-        //& This does not currently have anything for month crossover
+        //& This does not currently have any validation for month (or year) crossover
+            //& i.e. rendering January 1st vs December 31st depending on timezone
         if (hours + offset < 0) {
             // Move day back
-            day--
+            day--;
             // Adjust time
-            hours = 24 + (hours + offset)
+            hours = 24 + (hours + offset);
         } else if (hours + offset > 24) {
             // Move day forward
-            day++
+            day++;
             
             // Adjust time
-            hours = (hours + offset) - 24
+            hours = (hours + offset) - 24;
         } else {
-            hours = hours + offset
+            hours = hours + offset;
         }
 
         // Adjust to 12-hour format
         if (hours > 12) {
-            hours -= 12
+            hours -= 12;
         } 
         
         if (hours === 0 || hours < 12) {
-            segmentIndicator = 'am'
+            segmentIndicator = 'am';
         } else if (hours >= 12 && hours !== 24) {
-            segmentIndicator = 'pm'
+            segmentIndicator = 'pm';
         }
 
         if (minutes < 10) {
-            const minutesString = `${minutes}`
-            minutes = minutesString.padStart(2, 0)
+            const minutesString = `${minutes}`;
+            minutes = minutesString.padStart(2, 0);
         }
 
-        return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`
+        return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`;
     }
 
     // Custom theming
