@@ -36,7 +36,6 @@ function MyBets() {
     const [entryView, setEntryView] = useState(true);
     const [alertMessage, setAlertMessage] = useState(false);
 
-
     const countBetsToRender = () => {
         let count = 0;
         for (let bet of userBets) {
