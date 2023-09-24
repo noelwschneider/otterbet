@@ -24,8 +24,6 @@ function MyBets() {
     const userBets = useSelector(store => store.myBets)
     const entry = useSelector(store => store.entry)
 
-    console.log('user bets:', userBets)
-
     useEffect(() => {
         dispatch({ type: 'FETCH_ENTRY' })
         dispatch({ type: 'FETCH_MYBETS', payload: user })
@@ -50,12 +48,10 @@ function MyBets() {
     }
     let renderEmptyMessage = countBetsToRender()
 
-
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: theme.palette.secondary.light,
         padding: "10px 0px 0px 20px",
-        height: "100%",
     }));
 
     return (<ComponentTheme container>
@@ -63,9 +59,9 @@ function MyBets() {
             ? <></>
             : 
             <Grid item xs={3.5} style={{height: "100%"}}>
-                <Typography variant="h2" sx={{ paddingLeft: "19px" }}>My Bets</Typography>
+                <Typography variant="h2" style={{ paddingLeft: "19px" }}>My Bets</Typography>
 
-                <Grid item xs="12">
+                <Grid item xs={12}>
                     <EntryMenu />
                 </Grid>
                 

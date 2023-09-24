@@ -11,7 +11,6 @@ function fixTimestamp(timestamp) {
 
     // I do this because the odds-api timestamp goes to milliseconds and the scores-api doesn't. I think my solution is clunky and could backfire eventually. It would be better to get the ids to match by using logic regarding the (identical) times these (different) timestamps represent
     fixedTimestamp = fixedTimestamp.slice(0, -3)
-    console.log(fixedTimestamp.join(''))
     return fixedTimestamp.join('')
 }
 
@@ -48,7 +47,6 @@ function formattedResponse(response) {
     //! obviously a bit limiting to use it this way
     //^ better to send response.data.response as the argument and map through that
     let formattedArray = response.map( game => {
-        // console.log('GAME AT CURRENT ITERATION:', game)
         game.id = removeSpaces(`${game.league.name}_${game.teams.home.name}_${game.teams.away.name}_${game.game.date.date}_${game.game.date.time}`, '_')
         return game
     })
@@ -57,12 +55,9 @@ function formattedResponse(response) {
 }
 
 const makeDateString = (date) => {
-    console.log('in makeDateString')
     if (!date) {
-        console.log('if condition met')
         date = new Date()
     }
-    console.log(`date string to return: ${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`)
     return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
 }
 

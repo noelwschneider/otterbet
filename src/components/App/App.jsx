@@ -75,18 +75,19 @@ const theme = createTheme({
 })
 
 function App() {
-  const dispatch = useDispatch();
   const user = useSelector(store => store.user);
   const location = useLocation();
+  const dispatch = useDispatch();
 
+  // Fetch user on initial page load
   useEffect(() => {
-    // dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: 'FETCH_USER' });
+  }, [])
+
+  // Render at top of window when new page loads
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-
-  const ComponentTheme = styled('div')(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.light
-}));
 
   return (<ThemeProvider theme={theme} >
     {/* <Router> */}

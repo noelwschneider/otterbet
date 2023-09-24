@@ -58,7 +58,6 @@ function LoginForm() {
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-            onClick={(event) => setUsername('gambles_the_otter')}
           />
         </label>
       </div>
@@ -71,7 +70,6 @@ function LoginForm() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            onClick={(event) => setPassword('gambles_the_otter')}
           />
         </label>
       </div>

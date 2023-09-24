@@ -2,7 +2,7 @@ import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 
 function* submitWagers(action) {
-    console.log('in submitWagers:', action.payload)
+
     try {        
         // Insert bets, update entry funds, get updated entries
         const test = yield axios.post('/api/bets/', action.payload)

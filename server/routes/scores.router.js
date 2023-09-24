@@ -40,7 +40,6 @@ router.get('/' , (req, res) => {
 
 // Get score updates from sports-api for live or recent games
 router.get('/games/update', async (req, res) => {
-    console.log('in games/update router', req.query)
     const {competition, date} = req.query
     
     const connection = await pool.connect()
@@ -319,33 +318,17 @@ router.get('/games/update', async (req, res) => {
         await connection.query('BEGIN')
 
         // Request scores from api-sports
-        console.log('making API request')
         const apiResponse = await axios.get(`https://v1.${competition}.api-sports.io/games?league=1&date=2023-09-18`, config)
-
-        console.log('sports-api response:', apiResponse.data.response)
         
-        // Format API response (namely, dates)
-        // console.log('formatting API response')
-        /*
-        const formattedAPI = formattedResponse(apiResponse.data.response)
-        console.log('formatted API:', formattedAPI)
-        */
 
         // Creating a list of unfinished games on or before the given date
-        console.log('getting list of games to update')
         const gamesToUpdate = await connection.query(gamesToUpdateText, gamesToUpdateValues)
-        console.log('games to update:', gamesToUpdate.rows)
 
         // Creating an array of game data which has changed since the last database update
-        console.log('creating array for game data')
         let updatedGames = []
         await Promise.all(gamesToUpdate.rows.map( game => {
             for (let response of apiResponse.data.response) {
-                // console.log('response is:', response)
-                console.log('response.id:', response.game.id)
-                console.log('game.id:', game.id)
                 // Find the matching game, then check if its status or timer are different
-                    //^ The timer alone would be fine in most situations
                 if (game.id === response.game.id && (game.status !== response.status || game.timer !== response.timer)) {
                     updatedGames.push({
                         id: game.id,
@@ -369,18 +352,14 @@ router.get('/games/update', async (req, res) => {
                 }
             }
         }))
-        //! I think I might need a conditional to get out of this thing if updatedGames is empty
-        //! Or maybe the transaction will take care of that for me!
-        console.log('updated games:', updatedGames)
+
         // Updating games
-        console.log('updating game data')
         await Promise.all(updatedGames.map( game => {
             const updateValues = getUpdateScoreValues(competition, game)
             connection.query(updateScoreText, updateValues)
         }))
         
         // Creating an array to update markets as needed
-        console.log('Creating an array of markets to update')
         const marketResults = []
         await Promise.all(updatedGames.map( game => { 
             const findWinner = () => {
@@ -406,7 +385,6 @@ router.get('/games/update', async (req, res) => {
         }))
 
         // Updating markets
-        console.log('updating markets')
         await Promise.all(marketResults.map( market => {
             const updateMarketValues = [
                 market.id,
@@ -420,26 +398,13 @@ router.get('/games/update', async (req, res) => {
             connection.query(updateMarketText, updateMarketValues)
         }))
 
-        // Getting list of wagers to update
-        console.log('getting list of wagers to update')
-        
-        console.log('marketResults', marketResults)
-
         // Get list of wagers to update from the database
         const wagersToUpdate = await Promise.all( 
             marketResults.map( market => {
                 const responseRow = connection.query(fetchWagersText, [market.id])
-                // console.log('fetchWagersText:', fetchWagersText)
-                console.log('game id:', market.id)
                 return responseRow
             })
         )
-        // console.log('array with all response rows:', wagersToUpdate)
-        wagersToUpdate.map( wager => {
-
-                console.log('wager row:', wager.rows)
-            
-        })
 
         const extractRows = [] 
         wagersToUpdate.map( wager => {
@@ -447,22 +412,14 @@ router.get('/games/update', async (req, res) => {
                 extractRows.push(wager.rows)
             }
         })
-        console.log('extract rows:', extractRows)
 
         // Flattening array from previous query
-        console.log('flattening array')
         const flattenArray = (arrayToFlatten) => {
             if (arrayToFlatten.length === 0) {
                 return arrayToFlatten
             }
             
             let arrayToReturn = Promise.all(arrayToFlatten.reduce( (accumulator, currentValue) => {
-                console.log('in reduce:',)
-                console.log('accumulator:', accumulator)
-                console.log('current value:', currentValue)
-
-                
-
                 return accumulator.concat(currentValue)
             }))
             return arrayToReturn
@@ -471,26 +428,19 @@ router.get('/games/update', async (req, res) => {
         const mergedWagerArrays  = await flattenArray(extractRows)
 
         // Updating entries
-        console.log('updating entries', mergedWagerArrays)
-        
         await Promise.all(mergedWagerArrays.map( wager => {
-            console.log('in final map', wager)
-            
             const updateEntriesValues = [
                 wager.entry_id,
                 Number(wager.wager),
                 Number(wager.price)
             ]
 
-            console.log('updateEntriesValues:', updateEntriesValues)
             let updateEntriesText
 
             if (wager.result === true) {
                 updateEntriesText = updateTrueEntriesText
-                console.log('if met for TRUE:', updateTrueEntriesText)
             } else if (wager.result === null) {
                 updateEntriesText = updateNullEntriesText
-                console.log('if met for NULL:', updateNullEntriesText)
             }
 
             connection.query(updateEntriesText, updateEntriesValues)
@@ -515,8 +465,6 @@ router.get('/games/update', async (req, res) => {
     // LIVE GAMES SHOULD BE REQUESTED IN SMALLER BATCHES THAN THIS
 // Get all games for a specified season
 router.get('/games/all', (req, res) => {
-    console.log(APIKey)
-    // req.headers['x-apisports-key'] = APIKey
 
     const config = {
         headers: {
@@ -524,14 +472,10 @@ router.get('/games/all', (req, res) => {
         }
     }
 
-    // console.log(req.headers)
-
     axios.get('https://v1.american-football.api-sports.io/games?league=1&season=2023', config)
         .then( response => {
-            // console.log('response:', response.data.response)
 
             const formattedResponse = response.data.response.map( game => {
-                // console.log('GAME AT CURRENT ITERATION:', game)
                 game.id = removeSpaces(`${game.league.name}_${game.teams.home.name}_${game.teams.away.name}_${game.game.date.date}_${game.game.date.time}`)
                 return game
             })
@@ -551,11 +495,9 @@ THE USER SHOULD NOT BE ABLE TO
 TRIGGER IT AT ALL */
 // Add games to the database
 router.post('/games/all', (req, res) => {
-    console.log('games post req:', req.body)
 
     let obj = req.body
 
-    //! do I need code to prevent a bunch of identical scores in the event that a schedule comes out before the previous season is finished?
     let queryText = `
         INSERT INTO games (
             "id",
@@ -615,14 +557,12 @@ router.post('/games/all', (req, res) => {
 
     pool.query(queryText, queryValues)
     .then( response => {
-        // console.log('successful game post', queryValues)
+        res.sendStatus(200)
     })
     .catch( error => {
         console.log('error in pool query:', error)
         res.sendStatus(500)
     })
-    console.log('scores games post success!')
-    res.sendStatus(200)
 })
 
 module.exports = router;

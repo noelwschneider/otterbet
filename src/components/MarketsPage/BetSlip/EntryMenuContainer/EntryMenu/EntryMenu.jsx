@@ -36,7 +36,6 @@ function EntryMenu() {
 
     // This could benefit from modularization
     const handleSubmit = () => {
-        console.log('in handleSubmit. Current betslip:', betslip)
 
         // validation
         const userFunds = entry[selectedEntry].funds
@@ -44,16 +43,13 @@ function EntryMenu() {
         // validate that user has entered a value > 0 in each input field
         let wagerSum = 0
         for (let bet of betslip) {
-            console.log('current bet:', bet)
             if (bet.wager <= 0) {
                 //! I need access to info to notify user of the specific bet that failed the check
                 // terminate submission
-                console.log('empty or negative wager')
                 setInvalidInputAlert(true)
                 return
             }
             wagerSum += Number(bet.wager)
-            console.log('wager sum is:', wagerSum)
         }
 
         // Validate that user has funds to place current wagers

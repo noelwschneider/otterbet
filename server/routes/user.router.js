@@ -12,7 +12,6 @@ const router = express.Router();
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
 
-  console.log('in user GET', req.user)
   res.send(req.user);
 });
 
@@ -32,8 +31,6 @@ router.post('/register', (req, res, next) => {
       
       const [returnObj] = response.rows
 
-      console.log('user/register POST response:', returnObj)
-
       res.send(returnObj)
     })
     .catch((err) => {
@@ -47,7 +44,6 @@ router.post('/register', (req, res, next) => {
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
-  console.log('in user/login POST', req.body)
   res.sendStatus(200);
 });
 

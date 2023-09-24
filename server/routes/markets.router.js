@@ -15,10 +15,9 @@ const router = express.Router();
 
 // GET list of game IDs from database
 router.get('/game-IDs', (req, res) => {
-    console.log('in /markets/game-IDs GET')
     
     const {startDate, endDate} = req.query
-    console.log('dates:', startDate, endDate)
+
     // get IDs from Games
     //& timestamps in the WHERE sections should be variables later
     const gameIDsQuery = `
@@ -55,17 +54,14 @@ router.get('/game-IDs', (req, res) => {
 
 // GET all markets for each game
 router.get('/', async (req, res) => {
-    console.log('in /markets GET')
-    console.log('req.query:', req.query)
 
     //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.
     const gamesList = req.query.gamesList.map(game => JSON.parse(game))
-    // console.log('game list:', gamesList)
 
     let markets = []
     markets = await Promise.all(gamesList.map( async (game) => {
         const queryValue = game
-        console.log('queryValue:', queryValue)
+
         const queryText = `
         SELECT
         *
@@ -78,36 +74,21 @@ router.get('/', async (req, res) => {
         `
 
         const response = await pool.query(queryText, [queryValue]) 
-        console.log('response from DB:', response.rows)
         return response.rows    
     }))
 
-    // console.log('markets:', markets)
     const removeEmptyArrays = arrayToEmpty => {
-        // console.log('in removeEmptyArrays:', arrayToEmpty)
         
         const unemptyArray = []
         for (let i = arrayToEmpty.length-1; i >= 0; i--) {
-            
-            // console.log('in for loop', arrayToEmpty[i])
-
             if(arrayToEmpty[i].length != 0) {
-                // console.log('if condition met')
                 unemptyArray.push(arrayToEmpty[i])
             }
-
-            // console.log('\n')
         }
         unemptyArray.reverse()
-        // console.log('database response:', unemptyArray)
         return unemptyArray
     }
     const arrayToSend = await Promise.all(removeEmptyArrays(markets))
-    // console.log('ARRAY TO SEND:', arrayToSend)
-   
-
-    // removing games which don't have a match (which means they )
-    // console.log('markets:', markets)
     res.send(arrayToSend)
 })
 

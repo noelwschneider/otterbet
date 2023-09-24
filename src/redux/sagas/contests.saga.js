@@ -2,8 +2,8 @@ import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 export function* createContest(action) {
-    console.log('in createContest', action.payload)
-    // Is there a way to consolidate this and the contestData declaration? It's a lot of lines for a pretty simple thing.
+
+    //& Is there a way to consolidate this and the contestData declaration? It's a lot of lines for a pretty simple thing.
     const {
         admin,
         contest_id,

@@ -14,7 +14,6 @@ const router = express.Router();
 const oddsAPIKey = process.env.ODDS_API_KEY
 
 function getDate(timestamp) {
-    // console.log('timestamp to format:', timestamp)
     let string
     let dateArray = []
     
@@ -33,8 +32,6 @@ function getDate(timestamp) {
         }
         string = dateArray.join('')
     }
-    
-    // console.log('formatted timestamp:', string)
     return string
 }
 
@@ -43,13 +40,11 @@ function getTime(timestamp) {
     for (let i = 11; i < 16; i++) {
         timeArray.push(timestamp[i])
       }
-      // console.log(timeArray.join(''))
       return timeArray.join('')
 }
 
 //& This may be better off in its own file (esp if it may be useful when dealing with other requests from odds-api)
 function fixTimestamp(timestamp) {
-    // console.log('timestamp:', timestamp)
     let fixedTimestamp = []
     for (let character of timestamp) {
         if (character === 'T') {
@@ -61,7 +56,6 @@ function fixTimestamp(timestamp) {
 
     // I do this because the odds-api timestamp goes to milliseconds and the scores-api doesn't. I think my solution is clunky and could backfire eventually. It would be better to get the ids to match by using logic regarding the (identical) times these (different) timestamps represent
     fixedTimestamp = fixedTimestamp.slice(0, -3)
-    // console.log(fixedTimestamp.join(''))
     return fixedTimestamp.join('')
 }
 
@@ -138,7 +132,6 @@ router.get('/update-odds', async (req, res) => {
     try {
         // Begin the database connection
         await connection.query('BEGIN')
-        // console.log('update odds with:', req.query)
     
         // Get odds from odds-api
         //! use a variable for the sport
@@ -174,7 +167,6 @@ router.get('/update-odds', async (req, res) => {
         // Formatting dates to match marketsArray dates
         for (let game of gamesArray) {
             game.date = getDate(game.date)
-            // console.log('formatted game date:', game.date)
             game.dupTag = 0
         }
 
@@ -191,10 +183,7 @@ router.get('/update-odds', async (req, res) => {
             for (let game of gamesArray) {
                 let gameString = `${game.league}_${game.home}_${game.away}_${game.date}_${game.dupTag}`
 
-                // console.log('MARKET:', marketString)
-                // console.log('GAME:', gameString)
                 if (marketString === gameString) {
-                    // console.log('if condition met')
                     market.game_id = game.id
                 }
             }
@@ -234,7 +223,6 @@ router.get('/update-odds', async (req, res) => {
                 extractRows.push(wager.rows)
             }
         })
-        // console.log('extract rows:', extractRows)
 
         const marketsToSend = []
         for (let market of marketsArray) {
@@ -243,9 +231,7 @@ router.get('/update-odds', async (req, res) => {
             market.marketString = marketString
 
             for (let row of extractRows) {
-                let rowString = `${row[0].game_id}_${row[0].market}_${row[0].outcome}`
-
-                // console.log('NEW TEST:')                
+                let rowString = `${row[0].game_id}_${row[0].market}_${row[0].outcome}`             
 
                 const stringCheck = marketString === rowString
                 const priceCheck = market.price !== Number(row[0].price)
@@ -253,43 +239,10 @@ router.get('/update-odds', async (req, res) => {
                 const undefinedCheck = market.point !== undefined && Number(row[0].point) !== undefined
 
                 if (stringCheck && (priceCheck || (pointCheck && undefinedCheck))) {
-                    /*
-                    if (stringCheck) {
-                        console.log('string comparison evaluates true:')
-                        console.log('market:', marketString)
-                        console.log('row:   ', rowString)
-                        console.log('\n')
-                    } 
-    
-                    if (priceCheck) {
-                        console.log('price evaluates true')
-                        console.log('market:', market.price)
-                        console.log('row:   ', Number(row[0].price))
-                        console.log('\n')
-                    }
-                    
-                    if (pointCheck) {
-                        console.log('point evaluates true')
-                        console.log('market:', market.point)
-                        console.log('row:   ', Number(row[0].point))
-                        console.log('\n')
-                    }
-
-                    if (undefinedCheck) {
-                        console.log('undefined evaluates true')
-                        console.log('market:', market.point)
-                        console.log('row:   ', Number(row[0].point))
-                        console.log('\n')
-                    }
-                    */
-
                     marketsToSend.push(market)
                 }
-                // console.log('------------')
-                // console.log('\n')
             }
         }
-        // console.log('marketsToSend:', marketsToSend)
 
         // Sending updated markets to the database
         const oddsQueryText = `
