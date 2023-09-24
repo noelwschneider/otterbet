@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import {  useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
-import { css, keyframes } from '@emotion/react'
 
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import ClearIcon from '@mui/icons-material/Clear';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 

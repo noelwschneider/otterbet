@@ -1,17 +1,21 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-function* fetchEntry() {
+export function* fetchEntry(action) {
     try {
         const config = {
             headers: { 
                 'Content-Type': 'application/json',
         },
             withCredentials: true,
+            params: {
+                user: action.payload
+            }
         };
 
+        console.log('fetchEntry params:', config.params)
         const entryResponse = yield axios.get('/api/entries', config)
-        console.log(entryResponse.data)
+        console.log('response from fetchEntry GET request', entryResponse.data)
         const entry = entryResponse.data
         console.log('entry', entry)
         
@@ -21,15 +25,15 @@ function* fetchEntry() {
     }
 }
 
-function* createEntry(action) {
+export function* createEntry(action) {
     console.log('in createEntry saga', action.payload)
     
     // post new entry
     yield axios.post('/api/entries', action.payload)
-    yield put({type: 'FETCH_ENTRY', payload: action.payload})
 }
 
 function* deleteEntry(action) {
+    // Why is this getting logged every time I refresh a page?
     yield console.log('in deleteEntry', action.payload)
 }
 

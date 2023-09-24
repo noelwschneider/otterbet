@@ -3,24 +3,18 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
+// Style Tools
+import { useTheme } from '@mui/material/styles';
+
 function RegisterPage() {
   const history = useHistory();
 
+  const theme = useTheme()
+
   return (
-    <div>
+    <div style={{backgroundColor: theme.palette.secondary.light, height: "100vh", display: "flex", alignItems: "center"}}>
       <RegisterForm />
 
-      <center>
-        <button
-          type="button"
-          className="btn btn_asLink"
-          onClick={() => {
-            history.push('/login');
-          }}
-        >
-          Login
-        </button>
-      </center>
     </div>
   );
 }

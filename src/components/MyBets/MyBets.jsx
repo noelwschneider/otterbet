@@ -1,32 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Components
 import MyBetsItem from './MyBetsItem';
 import EntryMenu from './EntryMenu';
-import CreateEntry from '../CreateEntry/CreateEntry';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Styling
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Menu from '@mui/material/Menu';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Button from '@mui/material/Button';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 
 function MyBets() {
     const dispatch = useDispatch();
@@ -47,10 +36,6 @@ function MyBets() {
     const [entryView, setEntryView] = useState(true);
     const [alertMessage, setAlertMessage] = useState(false);
 
-    const handleEntryClick = (index) => {
-        setSelectedEntry(index);
-        setAnchorEl(null)
-    }
 
     const countBetsToRender = () => {
         let count = 0;

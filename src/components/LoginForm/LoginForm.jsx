@@ -1,14 +1,15 @@
+// State hooks (and React)
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+// Routing hooks
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
-import { styled } from '@mui/system';
-import Palette from '../_StylePlayground/Palette';
+import { useTheme } from '@mui/material/styles';
 
 function LoginForm() {
+  // State
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector(store => store.errors);
@@ -31,14 +32,11 @@ function LoginForm() {
     } else {
       dispatch({ type: 'LOGIN_INPUT_ERROR' });
     }
-  }; // end login
+  }; 
 
-  const theme = useTheme()
-    
-
+  const theme = useTheme();
 
   return (
-    
     <form 
       className="formPanel" 
       onSubmit={login} 

@@ -10,78 +10,30 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     console.log('in contests router post', req.body)
-    const {
-        id,
-        type,
-        nfl,
-        ncaa_fb,
-        nba,
-        wnba,
-        ncaa_mbb,
-        ncaa_wbb,
-        mlb,
-        nhl,
-        epl,
-        spreads,
-        h2h,
-        over_under,
-        contest_start,
-        period_duration,
-        period_count,
-        period_fund,
-        min_wager,
-        max_users,
-    } = req.body
+
+    let placeholderString = ''
+    let counter = 1;
+    let colsArray = [];
+    let queryValues = [];
+    for (let property in req.body) {
+        colsArray.push(property)
+        queryValues.push(req.body[property]);
+        
+        placeholderString = placeholderString + `$${counter},`
+        counter++;
+      }
+    placeholderString = placeholderString.slice(0, -1); // Removing last comma
     
+    let colsString = '"' + colsArray.join(`", "`) + '"';
+
+    //! Does this need sanitizing? Need to look into it
     const queryText = `
         INSERT INTO contests (
-            id,
-            type,
-            nfl,
-            ncaa_fb,
-            nba,
-            wnba,
-            ncaa_mbb,
-            ncaa_wbb,
-            mlb,
-            nhl,
-            epl,
-            spreads,
-            h2h,
-            over_under,
-            contest_start,
-            period_duration,
-            period_count,
-            period_fund,
-            min_wager,
-            max_users
+            ${colsString}
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        VALUES (${placeholderString})
         ;
     `
-    const queryValues = [
-        id,
-        type,
-        nfl,
-        ncaa_fb,
-        nba,
-        wnba,
-        ncaa_mbb,
-        ncaa_wbb,
-        mlb,
-        nhl,
-        epl,
-        spreads,
-        h2h,
-        over_under,
-        contest_start,
-        period_duration,
-        period_count,
-        period_fund,
-        min_wager,
-        max_users,
-    ]
-    
     
     pool.query(queryText, queryValues)
     .then( response => {
@@ -91,7 +43,6 @@ router.post('/', (req, res) => {
         console.log('error in contest pool post:', error)
         res.sendStatus(500)
     })
-    
 })
 
 
