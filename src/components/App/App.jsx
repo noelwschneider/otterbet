@@ -6,7 +6,8 @@ import {
   HashRouter as Router,
   Redirect, 
   Route,
-  Switch, 
+  Switch,
+  useLocation
 } from 'react-router-dom';
 
 // Hooks
@@ -75,19 +76,20 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-
   const user = useSelector(store => store.user);
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
-  }, [dispatch]);
+    // dispatch({ type: 'FETCH_USER' });
+    window.scrollTo(0, 0);
+  }, [location]);
 
   const ComponentTheme = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.secondary.light
 }));
 
   return (<ThemeProvider theme={theme} >
-    <Router>
+    {/* <Router> */}
       <div>
         <Nav />
         <Switch>
@@ -158,7 +160,7 @@ function App() {
         </Switch>
         {/* <Footer /> */}
       </div>
-    </Router>
+    {/* </Router> */}
     </ThemeProvider>
   );
 }
