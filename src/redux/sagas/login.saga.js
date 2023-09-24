@@ -1,18 +1,19 @@
-import { put, takeLatest, select } from 'redux-saga/effects';
+import { put, takeLatest, select, all } from 'redux-saga/effects';
 import axios from 'axios';
 import userReducer from '../reducers/user.reducer';
 
 // worker Saga: will be fired on "LOGIN" actions
-function* loginUser(action) {
+export function* loginUser(action) {
   try {
-    // clear any existing error on the login page
-    yield put({ type: 'CLEAR_LOGIN_ERROR' });
+    console.log('in loginUser try', action.payload)
 
-    //? What is this doing? It is sent off in the POST route
     const config = {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
+
+    // clear any existing error on the login page
+    yield put({ type: 'CLEAR_LOGIN_ERROR' });
 
     // send the action.payload as the body
     // the config includes credentials which
@@ -22,7 +23,8 @@ function* loginUser(action) {
     // after the user has logged in
     // get the user information from the server
     yield put({ type: 'FETCH_USER' });
-    
+
+
   } catch (error) {
     console.log('Error with user login:', error);
     if (error.response.status === 401) {

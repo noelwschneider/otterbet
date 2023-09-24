@@ -124,8 +124,8 @@ function CreateContest(props) {
 
     const sendContestData = (data) => {
         dispatch({ type: 'CREATE_CONTEST', payload: data })
-        // dispatch({ type: 'CREATE_ENTRY', payload: data})
     }
+    
     return (<>
         {/* Configuration */}
         <Typography variant='h4'>Contest settings:</Typography>

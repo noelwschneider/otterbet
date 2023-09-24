@@ -29,7 +29,6 @@ import MarketsPage from '../MarketsPage/MarketsPage';
 import './App.css';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
-
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -116,10 +115,9 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/my-bets" />
               :
               // Otherwise, show the login page
-              
               <LoginPage />
             }
           </Route>
@@ -131,7 +129,7 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect them to the /user page
-              <Redirect to="/user" />
+              <Redirect to="/my-bets" />
               :
               // Otherwise, show the registration page
               <RegisterPage />
