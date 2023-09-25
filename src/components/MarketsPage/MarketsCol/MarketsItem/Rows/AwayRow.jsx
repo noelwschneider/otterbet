@@ -78,9 +78,27 @@ function AwayRow( {game}) {
     // Custom theming
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: "white",
-        paddingTop: "5px",
-        paddingBottom: "5px",
+        padding: "5px",
         border: "1px solid black",
+
+        '.market-option': {
+            display: "flex",
+            flexDirection: "column",  
+            alignItems: "center", 
+            alignSelf: "center",
+            justifyContent: "center",
+            paddingBottom: "3px",
+            border: "0px",
+            borderRadius: "10px 10px 10px 10px",
+            overflow: "hidden",
+            backgroundClip: "border-box",
+            height: "100%"
+        },
+
+        '.market-option:hover': {
+            backgroundColor: "#e1e1e1",
+            cursor: "pointer"
+        } 
     }));
 
     return (
@@ -88,15 +106,11 @@ function AwayRow( {game}) {
         <Grid item xs={6} style={{paddingLeft: "5px", alignSelf: "center"}}>{away}</Grid>
         
         {/* SPREAD */}
-        {/* Each cell needs an onHover setup */}
         <Grid 
-       
+            className="market-option" 
             item 
             container 
             xs={2} 
-            style={{
-                flexDirection: "column", alignItems: "center", alignSelf: "center", 
-            }}
             onClick={() => newAddBet(away, 'spreads')}>
             {/* Point */}
             <Grid  item xs={6} style={{display: "flex", justifyContent: "center", }}>
@@ -110,20 +124,16 @@ function AwayRow( {game}) {
         </Grid>
 
         {/* MONEYLINE*/}
-        <Grid item xs={2} onClick={() => newAddBet(away, 'h2h')} style={{display: "flex", justifyContent: "center", alignSelf: "center"}}>
+        <Grid className="market-option" item xs={2} onClick={() => newAddBet(away, 'h2h')}>
             {getCellText(away, 'h2h')}
         </Grid>
 
         {/* O/U Over value */}
         <Grid 
+            className="market-option" 
             item 
             container 
             xs={2} 
-            style={{
-                flexDirection: "column",
-                alignItems: "center",
-                alignSelf: "center"
-            }}
             onClick={() => newAddBet('Over', 'totals')}>
             {/* Point */}
             <Grid item xs={6} style={{display: "flex", }}>

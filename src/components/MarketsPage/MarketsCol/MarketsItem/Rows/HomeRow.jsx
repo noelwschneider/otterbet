@@ -92,7 +92,7 @@ function HomeRow( {game} ) {
         
         // Adjust for user timezone
         //& This does not currently have any validation for month (or year) crossover
-            //& i.e. rendering January 1st vs December 31st depending on timezone
+            //& e.g. rendering January 1st vs December 31st depending on timezone
         if (hours + offset < 0) {
             // Move day back
             day--;
@@ -130,9 +130,27 @@ function HomeRow( {game} ) {
     // Custom theming
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         backgroundColor: "white",
-        paddingTop: "5px",
-        paddingBottom: "5px",
-        border: "1px solid black"
+        padding: "5px",
+        border: "1px solid black",
+
+        '.market-option': {
+            display: "flex",
+            flexDirection: "column",  
+            alignItems: "center", 
+            alignSelf: "center",
+            justifyContent: "center",
+            paddingBottom: "3px",
+            border: "0px",
+            borderRadius: "10px 10px 10px 10px",
+            overflow: "hidden",
+            backgroundClip: "border-box",
+            height: "100%"
+        },
+
+        '.market-option:hover': {
+            backgroundColor: "#e1e1e1",
+            cursor: "pointer"
+        } 
     }));
 
     return (
@@ -142,19 +160,17 @@ function HomeRow( {game} ) {
         <Grid item xs={6} style={{paddingLeft: "5px", alignSelf: "center"}}>{home}</Grid>
         
         {/* SPREAD */}
-        <Grid 
+        <Grid className="market-option" 
             item 
             container 
             xs={2} 
-            style={{
-                flexDirection: "column",  
-                alignItems: "center", 
-                alignSelf: "center"
-            }}
             onClick={() => newAddBet(home, 'spreads')}
         >
             {/* Point */}
-            <Grid item xs={6} style={{display: "flex", justifyContent: "center"}}>
+            <Grid item xs={6} style={{
+                display: "flex", 
+                justifyContent: "center", 
+            }}>
                 {getCellText(home, 'spreads').point}
             </Grid>
 
@@ -165,20 +181,15 @@ function HomeRow( {game} ) {
         </Grid>
 
         {/* MONEYLINE*/}
-        <Grid item  xs={2} onClick={() => newAddBet(home, 'h2h')} style={{display: "flex", justifyContent: "center", alignSelf: "center"}}>
+        <Grid className="market-option" item xs={2} onClick={() => newAddBet(home, 'h2h')} >
             {getCellText(home, 'h2h')}
         </Grid>
 
         {/* O/U Over value */}
-        <Grid 
+        <Grid className="market-option"
             item 
             container 
             xs={2} 
-            style={{
-                flexDirection: "column",
-                alignItems: "center",
-                alignSelf: "center"
-            }}
             onClick={() => newAddBet('Under', 'totals')}>
             {/* Point */}
             <Grid item xs={6} style={{display: "flex", }}>
