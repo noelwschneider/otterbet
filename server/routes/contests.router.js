@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
 
+    console.log('req.body:', req.body)
     let placeholderString = ''
     let counter = 1;
     let colsArray = [];
@@ -20,7 +21,7 @@ router.post('/', (req, res) => {
         
         placeholderString = placeholderString + `$${counter},`
         counter++;
-      }
+    }
     placeholderString = placeholderString.slice(0, -1); // Removing last comma
     
     let colsString = '"' + colsArray.join(`", "`) + '"';
@@ -33,6 +34,8 @@ router.post('/', (req, res) => {
         VALUES (${placeholderString})
         ;
     `
+    console.log('query text:', queryText)
+    console.log('query values:', queryValues)
     
     pool.query(queryText, queryValues)
     .then( response => {
