@@ -51,8 +51,6 @@ export function* createContest(action) {
         min_wager
     }
 
-    console.log('contest data:', contestData)
-
     yield axios.post('/api/contests', contestData)
 }
 

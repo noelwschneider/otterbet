@@ -82,25 +82,26 @@ CREATE TABLE markets (
     -- It is intended to feature prominently in future updates
 CREATE TABLE contests (
     id character varying PRIMARY KEY,
-    "type" character varying(25) NOT NULL,
-    nfl boolean NOT NULL,
-    ncaa_fb boolean NOT NULL,
-    nba boolean NOT NULL,
-    wnba boolean NOT NULL,
-    ncaa_mbb boolean NOT NULL,
-    ncaa_wbb boolean NOT NULL,
-    mlb boolean NOT NULL,
-    nhl boolean NOT NULL,
-    epl boolean NOT NULL,
-    spreads boolean NOT NULL,
-    h2h boolean NOT NULL,
-    over_under boolean NOT NULL,
-    contest_start date NOT NULL,
-    period_duration interval,
+    type character varying(25) NOT NULL,
+    nfl boolean NOT NULL DEFAULT true,
+    ncaa_fb boolean NOT NULL DEFAULT true,
+    nba boolean NOT NULL DEFAULT true,
+    wnba boolean NOT NULL DEFAULT true,
+    ncaa_mbb boolean NOT NULL DEFAULT true,
+    ncaa_wbb boolean NOT NULL DEFAULT true,
+    mlb boolean NOT NULL DEFAULT true,
+    nhl boolean NOT NULL DEFAULT true,
+    epl boolean NOT NULL DEFAULT true,
+    spreads boolean NOT NULL DEFAULT true,
+    h2h boolean NOT NULL DEFAULT true,
+    over_under boolean NOT NULL DEFAULT true,
+    contest_start date,
+    period_duration interval DEFAULT '7 days'::interval,
     period_count integer,
-    period_fund numeric,
+    period_fund numeric DEFAULT 1000,
     max_users integer,
-    min_wager numeric
+    min_wager numeric DEFAULT 1,
+    admin integer REFERENCES "user"(id)
 );
 
 -- Table for storing user entries

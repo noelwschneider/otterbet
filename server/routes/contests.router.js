@@ -10,7 +10,6 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
 
-    console.log('req.body:', req.body)
     let placeholderString = ''
     let counter = 1;
     let colsArray = [];
@@ -34,9 +33,7 @@ router.post('/', (req, res) => {
         VALUES (${placeholderString})
         ;
     `
-    console.log('query text:', queryText)
-    console.log('query values:', queryValues)
-    
+
     pool.query(queryText, queryValues)
     .then( response => {
         res.sendStatus(200)
