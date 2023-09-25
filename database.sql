@@ -1,12 +1,12 @@
-CREATE ROLE me WITH
-SUPERUSER
-CREATEDB
-NOCREATEROLE
-NOINHERIT
-LOGIN
-NOREPLICATION
-NOBYPASSRLS
-CONNECTION LIMIT -1;
+-- CREATE ROLE me WITH
+-- SUPERUSER
+-- CREATEDB
+-- NOCREATEROLE
+-- NOINHERIT
+-- LOGIN
+-- NOREPLICATION
+-- NOBYPASSRLS
+-- CONNECTION LIMIT -1;
 
 -- Table for user data
 CREATE TABLE "user" (
@@ -77,18 +77,6 @@ CREATE TABLE markets (
     market_string character varying(50)
 );
 
-
-
--- Table for storing user bets
-CREATE TABLE bets (
-    id SERIAL PRIMARY KEY,
-    user_id integer NOT NULL REFERENCES "user"(id),
-    market_id integer NOT NULL REFERENCES markets(id),
-    wager numeric NOT NULL,
-    bet_timestamp time with time zone,
-    entry_id integer REFERENCES entries(id)
-);
-
 -- Table for storing public and private contests
     -- This mechanic is largely invisible to the user at this stage in development
     -- It is intended to feature prominently in future updates
@@ -124,6 +112,17 @@ CREATE TABLE entries (
     user_id integer REFERENCES "user"(id),
     contest_id character varying(50) REFERENCES contests(id)
 );
+
+-- Table for storing user bets
+CREATE TABLE bets (
+    id SERIAL PRIMARY KEY,
+    user_id integer NOT NULL REFERENCES "user"(id),
+    market_id integer NOT NULL REFERENCES markets(id),
+    wager numeric NOT NULL,
+    bet_timestamp time with time zone,
+    entry_id integer REFERENCES entries(id)
+);
+
 
 -- Row data for "games" table
     -- snapshot of Monday, September 18th, 2023

@@ -90,7 +90,6 @@ function App() {
   }, [location]);
 
   return (<ThemeProvider theme={theme} >
-    {/* <Router> */}
       <div>
         <Nav />
         <Switch>
@@ -159,9 +158,7 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-        {/* <Footer /> */}
       </div>
-    {/* </Router> */}
     </ThemeProvider>
   );
 }
