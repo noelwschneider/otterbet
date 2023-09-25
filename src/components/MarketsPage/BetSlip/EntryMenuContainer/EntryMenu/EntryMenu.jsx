@@ -74,7 +74,7 @@ function EntryMenu() {
     }));
 
     return (
-        <ComponentTheme container>
+        <ComponentTheme container style={{padding: "16px"}}>
 
             {/* Available funds display */}
             <Grid item xs={12}>

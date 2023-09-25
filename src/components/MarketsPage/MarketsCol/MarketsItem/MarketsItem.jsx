@@ -26,17 +26,16 @@ function MarketsItem({ game }) {
     const theme = useTheme()
     const ComponentTheme = styled(Grid)(({ theme }) => ({
         width: "45vw",
-        margin: "10px"
+        alignSelf: "center",
+        margin: "10px",
     }));
 
     return (
-    <ComponentTheme container>
+    <ComponentTheme className="market-item-container" container item spacing={0} xs={12}>
 
-        <Grid container>
             <MarketItemHeader game={game}/>
             <AwayRow game={game}/>
             <HomeRow game={game}/>
-        </Grid>
             
     </ComponentTheme>
     )

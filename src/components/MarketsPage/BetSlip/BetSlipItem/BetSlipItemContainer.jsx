@@ -12,21 +12,9 @@ import { styled } from '@mui/system';
 
 // Style Components
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 
 function BetSlipItemContainer() {
 
@@ -44,11 +32,19 @@ function BetSlipItemContainer() {
 
     return (<ComponentTheme item xs={12}>
         <CardActionArea disableRipple component="div">
-            <CardActions sx={{ display: 'flex', flexDirection: 'column', alignItems: "start" }}>
-                {betslip.map(bet => (
+            {betslip.map(bet => {
+
+                return (
+                <CardActions sx={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: "start",
+                    }}>
+
                     <BetSlipItem key={bet.id} bet={bet} />
-                ))}       
-            </CardActions>
+
+                </CardActions>
+                )})}
         </CardActionArea>
     </ComponentTheme>)
 }

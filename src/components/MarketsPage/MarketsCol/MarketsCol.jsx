@@ -45,12 +45,18 @@ function MarketsCol() {
         setAnchorEl(null);
     };
 
-    return (<>
+    return (<Grid container item xs={12} style={{alignItems: "start"}}>
 
-        <Typography variant="h2" style={{ display: "inline-flex" }}>NFL</Typography>
-        <IconButton>
-            <InfoIcon aria-describedby={id} variant="contained" onClick={handleClick} />
-        </IconButton>
+        <Grid item xs={2} style={{height: "auto", margin: "10px"}}>
+            <Typography variant="h2" style={{ display: "inline-flex" }}>NFL</Typography>
+        </Grid>
+        
+        <Grid item xs={1}>
+            <IconButton>
+                <InfoIcon aria-describedby={id} variant="contained" onClick={handleClick} />
+            </IconButton>
+        </Grid>
+        
         <Popover
             id={id}
             open={open}
@@ -82,7 +88,7 @@ function MarketsCol() {
             <MarketsItem key={game.id} game={game} />
         ))}
 
-    </>)
+    </Grid>)
 }
 
 export default MarketsCol 

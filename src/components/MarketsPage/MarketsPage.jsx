@@ -17,13 +17,12 @@ function MarketsPage() {
     
     // This is the half of the Markets page that shows games to wager on
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: theme.palette.secondary.light,
-        height: "100vh"
+        backgroundColor: theme.palette.secondary.light
     }));
 
     return (
         <ComponentTheme container>  
-            <Grid item xs={7}>
+            <Grid container spacing={0} item xs={7} style={{alignItems: "start"}}>
                 <MarketsCol />
             </Grid>
 

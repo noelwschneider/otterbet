@@ -56,8 +56,6 @@ function MarketItemHeader( {game} ) {
         if (hours > 12) {
             hours -= 12
         } 
-        
-        
 
         if (minutes < 10) {
             const minutesString = `${minutes}`
@@ -73,7 +71,8 @@ function MarketItemHeader( {game} ) {
         backgroundColor: theme.palette.primary.main, 
         border: "solid 2px black",
         fontWeight: "bold",
-        paddingBottom: "2px",
+        padding: "5px",
+        // paddingBottom: "2px",
         display: "flex"
     }));
 

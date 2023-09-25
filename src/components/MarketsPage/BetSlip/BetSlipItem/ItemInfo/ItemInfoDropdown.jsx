@@ -31,22 +31,25 @@ function ItemInfoDropdown(props) {
 
         // AM or PM
         //& There is probably a real-world name for this. My current name is not descriptive
+        let segmentIndicator = '';
 
-        let segmentIndicator = ''
         // Adjust for user timezone
-        //& This does not currently have anything for month crossover
+        //& This does not currently have any validation for month (or year) crossover
+            //& e.g. rendering January 1st vs December 31st depending on timezone
         if (hours + offset < 0) {
             // Move day back
-            day--
+            day--;
             // Adjust time
-            hours = 24 + (hours + offset)
+            hours = 24 + (hours + offset);
 
         } else if (hours + offset > 24) {
             // Move day forward
-            day++
+            day++;
 
             // Adjust time
             hours = (hours + offset) - 24
+        } else {
+            hours = hours + offset;
         }
 
         // Adjust to 12-hour format

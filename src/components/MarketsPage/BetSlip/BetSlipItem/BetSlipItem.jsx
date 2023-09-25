@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { useState } from 'react';
+
 // Components
 import ItemInfoDropdown from './ItemInfo/ItemInfoDropdown';
 import BetSlipForm from './BetSlipForm/BetSlipForm';
@@ -72,12 +74,7 @@ function BetSlipItem(props) {
 
     // Custom theming
     const ComponentTheme = styled(Grid)(({ theme }) => ({
-        /* 
-            Though currently unused, I am leaving this 
-            styling component in the code because it 
-            comes with no real overhead and is quite
-            likely to be useful in a future sprint
-        */
+            margin: "10px",
     }));
 
     return (
@@ -89,7 +86,7 @@ function BetSlipItem(props) {
                 </Typography>
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={2}>
                 <IconButton onClick={deleteWager}>
                     <ClearIcon sx={{ color: 'red' }} />
                 </IconButton>
