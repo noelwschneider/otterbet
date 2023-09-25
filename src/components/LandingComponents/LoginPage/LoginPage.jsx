@@ -1,22 +1,17 @@
 import React from 'react';
-
-import { useHistory } from 'react-router-dom';
-import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from './LoginForm';
 
 // Style Tools
 import { useTheme } from '@mui/material/styles';
 
-function RegisterPage() {
-  const history = useHistory();
-
+function LoginPage() {
   const theme = useTheme()
 
   return (
     <div style={{backgroundColor: theme.palette.secondary.light, height: "100vh", display: "flex", alignItems: "center"}}>
-      <RegisterForm />
-
+      <LoginForm />
     </div>
   );
 }
 
-export default RegisterPage;
+export default LoginPage;

@@ -21,8 +21,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Route Components
 
-import LoginPage from '../LoginPage/LoginPage';
-import RegisterPage from '../RegisterPage/RegisterPage';
+import LoginPage from '../LandingComponents/LoginPage/LoginPage';
+import RegisterPage from '../LandingComponents/RegisterPage/RegisterPage';
 import MyBets from '../MyBets/MyBets';
 import MarketsPage from '../MarketsPage/MarketsPage';
 

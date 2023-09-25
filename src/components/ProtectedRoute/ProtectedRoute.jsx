@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import LoginPage from '../LoginPage/LoginPage';
+import LoginPage from '../LandingComponents/LoginPage/LoginPage';
 import {useSelector, useDispatch} from 'react-redux';
 import { useEffect } from 'react';
 
