@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import BetSlipItemContainer from './BetSlipItem/BetSlipItemContainer';
 import BetSlipAlerts from './BetSlipAlerts';
 import EntryMenuContainer from './EntryMenuContainer/EntryMenuContainer';
+import SubmitButton from './SubmitButton/SubmitButton';
 
 // Style Tools
 import { styled } from '@mui/system';
@@ -55,6 +56,8 @@ function BetSlip() {
                         <Grid container item xs={12}>
                             <BetSlipItemContainer />
                         </Grid>
+
+                        <SubmitButton />
 
                     </Grid>
                 </Card>
