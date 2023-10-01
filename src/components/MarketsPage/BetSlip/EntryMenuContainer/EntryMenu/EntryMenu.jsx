@@ -1,25 +1,19 @@
 // Hooks
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // Components
 import EntryMenuDropdown from './EntryMenuDropdown';
 
 // Style Tools
-import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 
 function EntryMenu() {
 
-    const dispatch = useDispatch()
-
-    const user = useSelector(store => store.user)
-    const betslip = useSelector(store => store.betslip)
     const entry = useSelector(store => store.entry)
 
     // State
