@@ -13,14 +13,11 @@ import {
 // Hooks
 import { useDispatch, useSelector } from 'react-redux';
 
-// Universal Components
-import Nav from '../Nav/Nav';
-
-// Review this component
+// Custom route component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-// Route Components
-
+// Custom components
+import Nav from '../Nav/Nav';
 import LoginPage from '../LandingComponents/LoginPage/LoginPage';
 import RegisterPage from '../LandingComponents/RegisterPage/RegisterPage';
 import MyBets from '../MyBets/MyBets';
@@ -28,8 +25,9 @@ import MarketsPage from '../MarketsPage/MarketsPage';
 
 // Style
 import './App.css';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// Global theme
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -74,6 +72,7 @@ const theme = createTheme({
   },
 })
 
+
 function App() {
   const user = useSelector(store => store.user);
   const location = useLocation();
@@ -98,26 +97,26 @@ function App() {
           
           <ProtectedRoute
             exact
-            path ="/my-bets"
+            path = "/my-bets"
           >
             <MyBets />
           </ProtectedRoute>
 
           <ProtectedRoute
             exact
-            path ="/markets"
+            path = "/markets"
           >
             <MarketsPage />
           </ProtectedRoute>
 
           <Route
             exact
-            path="/login"
+            path = "/login"
           >
             {user.id ?
               // If the user is already logged in, 
               // redirect to the /user page
-              <Redirect to="/my-bets" />
+              <Redirect to = "/my-bets" />
               :
               // Otherwise, show the login page
               <LoginPage />
