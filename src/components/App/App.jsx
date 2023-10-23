@@ -1,10 +1,6 @@
-// React
-import React, { useEffect } from 'react';
-
 // React Router
 import {
-  HashRouter as Router,
-  Redirect, 
+  HashRouter as Redirect, 
   Route,
   Switch,
   useLocation
@@ -12,6 +8,7 @@ import {
 
 // Hooks
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 // Custom route component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -83,18 +80,18 @@ function App() {
     dispatch({ type: 'FETCH_USER' });
   }, [])
 
-  // Render at top of window when new page loads
+  // Render page at top of window when new page loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
   return (<ThemeProvider theme={theme} >
-      <div>
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
           
+          {/* MY BETS */}
           <ProtectedRoute
             exact
             path = "/my-bets"
@@ -102,6 +99,7 @@ function App() {
             <MyBets />
           </ProtectedRoute>
 
+          {/* MARKETS */}
           <ProtectedRoute
             exact
             path = "/markets"
@@ -109,45 +107,41 @@ function App() {
             <MarketsPage />
           </ProtectedRoute>
 
+          {/* LOGIN */}
           <Route
             exact
             path = "/login"
           >
             {user.id ?
-              // If the user is already logged in, 
-              // redirect to the /user page
+              // Redirect if user is already logged in
               <Redirect to = "/my-bets" />
               :
-              // Otherwise, show the login page
               <LoginPage />
             }
           </Route>
 
+          {/* REGISTRATION */}
           <Route
             exact
-            path="/registration"
+            path = "/registration"
           >
             {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
+              // Redirect if user is already logged in
               <Redirect to="/my-bets" />
               :
-              // Otherwise, show the registration page
               <RegisterPage />
             }
           </Route>
 
+          {/* HOME */}
           <Route
             exact
-            path="/home"
+            path = "/home"
           >
             {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
+              // Redirect if user is already logged in
               <Redirect to="/my-bets" />
               :
-              // Otherwise, show the Landing page
-              // <LandingPage />
               <LoginPage />
             }
           </Route>
@@ -156,8 +150,8 @@ function App() {
           <Route>
             <h1>404</h1>
           </Route>
+
         </Switch>
-      </div>
     </ThemeProvider>
   );
 }
