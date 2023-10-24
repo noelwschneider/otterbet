@@ -13,8 +13,6 @@ import { Box, FormControl, TextField, Button } from '@mui/material';
 
 function RegisterPage() {
 
-  console.log(styles.btn);
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector((store) => store.errors);
@@ -69,7 +67,7 @@ function RegisterPage() {
 
 
 
-      <Button sx={styles.btn} type="submit" name="submit" value="Register">Register</Button>
+      <Button sx={styles.btn} onClick={registerUser}>Register</Button>
 
       <Button
         sx={styles.btn.asLink}

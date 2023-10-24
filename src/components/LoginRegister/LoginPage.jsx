@@ -70,7 +70,7 @@ function LoginPage() {
         onChange={(event) => setPassword(event.target.value)}
       />
 
-      <Button sx={styles.btn} type="submit" name="submit" value="Log In">Log In</Button>
+      <Button sx={styles.btn} onClick={login}>Log In</Button>
 
       <Button
         sx={styles.btn.asLink}
