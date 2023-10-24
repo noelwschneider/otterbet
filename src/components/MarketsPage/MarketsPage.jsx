@@ -1,13 +1,8 @@
-import React from 'react';
-
 // Components
 import MarketsCol from './MarketsCol/MarketsCol';
 import BetSlip from './BetSlip/BetSlip';
 
-import { useEffect } from 'react';
-
 // Style Tools
-import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
 // Style Components
@@ -21,7 +16,7 @@ function MarketsPage() {
     }));
 
     return (
-        <ComponentTheme container>  
+        <ComponentTheme className="markets-page-container" container>  
             <Grid container spacing={0} item xs={7} style={{alignItems: "start"}}>
                 <MarketsCol />
             </Grid>

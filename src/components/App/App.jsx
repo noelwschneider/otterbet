@@ -1,6 +1,6 @@
 // React Router
 import {
-  HashRouter as Redirect, 
+  HashRouter as Redirect,
   Route,
   Switch,
   useLocation
@@ -15,8 +15,6 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Custom components
 import Nav from '../Nav/Nav';
-// import LoginPage from '../LoginRegister/LoginPage';
-// import RegisterPage from '../LoginRegister/RegisterPage';
 import LoginPage from '../LoginRegister/LoginPage';
 import RegisterPage from '../LoginRegister/RegisterPage';
 import MyBets from '../MyBets/MyBets';
@@ -24,52 +22,9 @@ import MarketsPage from '../MarketsPage/MarketsPage';
 
 // Style
 import './App.css';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// Global theme
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#b16300',
-    },
-    secondary: {
-      main: '#ecc8a1',
-    },
-    tertiary: {
-      main: "#6b6b6b",
-      light: '#bbbbbb',
-      dark: "#000000",
-    },
-  },
-  typography: {
-    fontFamily: 'Josefin Sans',
-    body2: {
-      fontFamily: 'Montserrat',
-      fontWeight: 500,
-    },
-    caption: {
-      fontFamily: 'Montserrat',
-    },
-    body1: {
-      fontWeight: 500,
-      fontFamily: 'Montserrat',
-    },
-    h5: {
-      fontFamily: 'Josefin Slab',
-      fontWeight: 600,
-    },
-    h6: {
-      fontFamily: 'Josefin Slab',
-      fontWeight: 600,
-    },
-  },
-  props: {
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-  },
-})
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import theme from '../../styling/theme';
 
 
 function App() {
@@ -87,74 +42,61 @@ function App() {
     window.scrollTo(0, 0);
   }, [location]);
 
+
   return (<ThemeProvider theme={theme} >
-        <Nav />
-        <Switch>
-          {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
-          
-          {/* MY BETS */}
-          <ProtectedRoute
-            exact
-            path = "/my-bets"
-          >
-            <MyBets />
-          </ProtectedRoute>
+    <CssBaseline>
+      <Nav />
+      <Switch>
+        <Redirect exact from="/" to="/home" />
 
-          {/* MARKETS */}
-          <ProtectedRoute
-            exact
-            path = "/markets"
-          >
-            <MarketsPage />
-          </ProtectedRoute>
+        {/* MY BETS */}
+        <ProtectedRoute exact path="/my-bets">
+          <MyBets />
+        </ProtectedRoute>
 
-          {/* LOGIN */}
-          <Route
-            exact
-            path = "/login"
-          >
-            {user.id ?
-              // Redirect if user is already logged in
-              <Redirect to = "/my-bets" />
-              :
-              <LoginPage />
-            }
-          </Route>
+        {/* MARKETS */}
+        <ProtectedRoute exact path="/markets">
+          <MarketsPage />
+        </ProtectedRoute>
 
-          {/* REGISTRATION */}
-          <Route
-            exact
-            path = "/registration"
-          >
-            {user.id ?
-              // Redirect if user is already logged in
-              <Redirect to="/my-bets" />
-              :
-              <RegisterPage />
-            }
-          </Route>
+        {/* LOGIN */}
+        <Route exact path="/login">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <LoginPage />
+          }
+        </Route>
 
-          {/* HOME */}
-          <Route
-            exact
-            path = "/home"
-          >
-            {user.id ?
-              // Redirect if user is already logged in
-              <Redirect to="/my-bets" />
-              :
-              <LoginPage />
-            }
-          </Route>
+        {/* REGISTRATION */}
+        <Route exact path="/registration">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <RegisterPage />
+          }
+        </Route>
 
-          {/* If none of the other routes matched, we will show a 404. */}
-          <Route>
-            <h1>404</h1>
-          </Route>
+        {/* HOME */}
+        <Route exact path="/home">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <LoginPage />
+          }
+        </Route>
 
-        </Switch>
-    </ThemeProvider>
+        {/* 404 */}
+        <Route>
+          <h1>404</h1>
+        </Route>
+
+      </Switch>
+    </CssBaseline>
+  </ThemeProvider>
   );
 }
 
