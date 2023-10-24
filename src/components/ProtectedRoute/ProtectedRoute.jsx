@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import LoginPage from '../LandingComponents/LoginPage/LoginPage';
+import LoginPage from '../LoginRegister/LoginPage';
 import {useSelector} from 'react-redux';
 
 

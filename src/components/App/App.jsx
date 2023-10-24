@@ -15,8 +15,10 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Custom components
 import Nav from '../Nav/Nav';
-import LoginPage from '../LandingComponents/LoginPage/LoginPage';
-import RegisterPage from '../LandingComponents/RegisterPage/RegisterPage';
+// import LoginPage from '../LoginRegister/LoginPage';
+// import RegisterPage from '../LoginRegister/RegisterPage';
+import LoginPage from '../LoginRegister/LoginPage';
+import RegisterPage from '../LoginRegister/RegisterPage';
 import MyBets from '../MyBets/MyBets';
 import MarketsPage from '../MarketsPage/MarketsPage';
 
