@@ -4,27 +4,24 @@ import BetSlip from './BetSlip/BetSlip';
 
 // Style Tools
 import { styled } from '@mui/system';
+import { styles } from '../../styling/styles';
 
 // Style Components
 import Grid from '@mui/material/Grid';
 
 function MarketsPage() {
-    
-    // This is the half of the Markets page that shows games to wager on
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: theme.palette.secondary.light
-    }));
 
-    return (
-        <ComponentTheme className="markets-page-container" container>  
-            <Grid container spacing={0} item xs={7} style={{alignItems: "start"}}>
-                <MarketsCol />
-            </Grid>
+  return (
+    <Grid
+      sx={styles.markets.container}
+      container>
 
-            <BetSlip />
-            
-        </ComponentTheme>
-    )
+      <MarketsCol />
+
+      <BetSlip />
+
+    </Grid>
+  )
 }
 
 export default MarketsPage

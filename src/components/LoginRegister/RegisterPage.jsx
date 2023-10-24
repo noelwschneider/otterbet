@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Style Tools
-import { useTheme } from '@mui/material/styles';
-// import * as styles from '../../styling/styles';
 import { styles } from '../../styling/styles';
 
 // Style Components
@@ -64,8 +62,6 @@ function RegisterPage() {
         required
         onChange={(event) => setPassword(event.target.value)}
       />
-
-
 
       <Button sx={styles.btn} onClick={registerUser}>Register</Button>
 
