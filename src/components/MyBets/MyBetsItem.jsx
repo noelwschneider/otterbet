@@ -3,6 +3,7 @@ import React from 'react';
 // Style Tools
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
+import { styles } from '../../styling/styles'
 
 // Styling Components
 import Grid from '@mui/material/Grid';
@@ -174,22 +175,15 @@ function MyBetsItem(props) {
     return (<>
         <ComponentTheme container>
             <Card 
-            sx={{
-                backgroundColor: theme.palette.primary.contrastText,
-                width: "300px",
-                margin: "10px 0px 10px 0px",
-                border: "1px solid black",
-                boxShadow: "1px",
-                padding: "10px"
-            }}>
+            sx={styles.myBets.itemContainer}>
 
-            <Typography variant="h6" sx={{fontWeight: "bold",}}>{outcome} {cellText}</Typography>
+            <Typography variant="h6" sx={styles.myBets.itemOutcome}>{outcome} {cellText}</Typography>
 
-            {/* <Typography variant="subtitle2" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{market}</Typography> */}
+            <Typography variant="subtitle1" sx={styles.myBets.itemGame}>{away} at {home}</Typography>
 
-            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{away} at {home}</Typography>
-
-            <Typography variant="subtitle1" sx={{fontWeight: "lighter", fontStyle: "italic"}}>{getDateTimeData(date, time)}</Typography>
+            <Typography variant="subtitle1" sx={styles.myBets.itemDate}>
+              {getDateTimeData(date, time)}
+            </Typography>
 
             <Typography variant="h6" sx={loseStyle}>Wager: ${Number(wager).toFixed(2)}</Typography>
 
