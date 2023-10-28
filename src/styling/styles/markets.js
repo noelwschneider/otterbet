@@ -40,5 +40,39 @@ export const markets = {
   itemHeaderCell: {
     display: "flex",
     justifyContent: "center",
-  }
+  },
+
+  itemRow: {
+    backgroundColor: "white",
+    padding: "5px",
+    border: "1px solid black",
+  },
+
+  teamName: {
+    paddingLeft: "5px",
+    alignSelf: "center",
+  },
+
+  marketOption: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    paddingBottom: "3px",
+    border: "0px",
+    borderRadius: "10px 10px 10px 10px",
+    overflow: "hidden",
+    backgroundClip: "border-box",
+    height: "100%",
+    "&:hover": {
+      backgroundColor: "#e1e1e1",
+      cursor: "pointer"
+    },
+  },
+
+  marketOptionContents: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }

@@ -2,8 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Style Tools
-import {  useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
+import { styles } from '../../../../../styling/styles';
 
 // Style Components
 import Grid from '@mui/material/Grid';
@@ -75,78 +74,64 @@ function AwayRow( {game}) {
         }
     }
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: "white",
-        padding: "5px",
-        border: "1px solid black",
-
-        '.market-option': {
-            display: "flex",
-            flexDirection: "column",  
-            alignItems: "center", 
-            alignSelf: "center",
-            justifyContent: "center",
-            paddingBottom: "3px",
-            border: "0px",
-            borderRadius: "10px 10px 10px 10px",
-            overflow: "hidden",
-            backgroundClip: "border-box",
-            height: "100%"
-        },
-
-        '.market-option:hover': {
-            backgroundColor: "#e1e1e1",
-            cursor: "pointer"
-        } 
-    }));
-
     return (
-    <ComponentTheme container item>
-        <Grid item xs={6} style={{paddingLeft: "5px", alignSelf: "center"}}>{away}</Grid>
-        
-        {/* SPREAD */}
-        <Grid 
-            className="market-option" 
-            item 
-            container 
-            xs={2} 
-            onClick={() => newAddBet(away, 'spreads')}>
-            {/* Point */}
-            <Grid  item xs={6} style={{display: "flex", justifyContent: "center", }}>
-                {getCellText(away, 'spreads').point}
-            </Grid>
+      <Grid
+      container item
+      sx={styles.markets.itemRow} >
 
-            {/* Price */}
-            <Grid item xs={6} style={{display: "flex", justifyContent: "center"}}>
-                ({getCellText(away, 'spreads').price.american})
-            </Grid>
+      {/* TEAM */}
+      <Grid
+        item xs={6}
+        sx={styles.markets.teamName}>
+        {away}
+      </Grid>
+
+      {/* SPREAD */}
+      <Grid
+        container
+        item xs={2}
+        onClick={() => newAddBet(away, 'spreads')}
+        sx={styles.markets.marketOption}
+      >
+        {/* Point */}
+        <Grid item xs={6}
+          sx={styles.markets.marketOptionContents}>
+          {getCellText(away, 'spreads').point}
         </Grid>
 
-        {/* MONEYLINE*/}
-        <Grid className="market-option" item xs={2} onClick={() => newAddBet(away, 'h2h')}>
-            {getCellText(away, 'h2h')}
+        {/* Price */}
+        <Grid item xs={6}
+          sx={styles.markets.marketOptionContents}>
+          ({getCellText(away, 'spreads').price.american})
+        </Grid>
+      </Grid>
+
+      {/* MONEYLINE*/}
+      <Grid className="market-option"
+        item xs={2}
+        onClick={() => newAddBet(away, 'h2h')}
+        sx={styles.markets.marketOption}>
+        {getCellText(away, 'h2h')}
+      </Grid>
+
+      {/* O/U Over value */}
+      <Grid className="market-option"
+        item xs={2}
+        container
+        onClick={() => newAddBet('Over', 'totals')}
+        sx={styles.markets.marketOption}>
+        {/* Point */}
+        <Grid item xs={6} sx={styles.markets.marketOptionContents}>
+          o{getCellText('Over', 'totals').point}
         </Grid>
 
-        {/* O/U Over value */}
-        <Grid 
-            className="market-option" 
-            item 
-            container 
-            xs={2} 
-            onClick={() => newAddBet('Over', 'totals')}>
-            {/* Point */}
-            <Grid item xs={6} style={{display: "flex", }}>
-                {getCellText('Over', 'totals').point}
-            </Grid>
-
-            {/* Price */}
-            <Grid item xs={6} style={{display: "flex", }}>
-                ({getCellText('Over', 'totals').price.american})
-            </Grid>
+        {/* Price */}
+        <Grid item xs={6} sx={styles.markets.marketOptionContents}>
+          ({getCellText('Over', 'totals').price.american})
         </Grid>
+      </Grid>
 
-    </ComponentTheme>)
+    </Grid>)
 }
 
 export default AwayRow

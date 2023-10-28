@@ -6,12 +6,14 @@ import Grid from '@mui/material/Grid';
 
 function MarketItemHeader({ game }) {
 
+  //! Rename
   const { date, time } = game
 
+  //! Rename
   const getDateTimeData = (date, time) => {
 
     // UTC offset for central time right now
-    //& eventually this will be a variable
+    //& eventually this will be a variable determined by user settings
     const offset = -5
 
     let month = Number(date[5] + date[6])
