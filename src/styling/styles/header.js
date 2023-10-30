@@ -1,6 +1,17 @@
 import theme from "../theme"
 
 export const header = {
+
+  container: {
+    backgroundColor: theme.palette.primary.main,
+    height: "125px",
+    position: "sticky",
+    top: "0px",
+    zIndex: "1",
+    borderBottom: "2px solid black",
+    boxShadow: "1px",
+  },
+
   menu: {
     container: {
       borderBottom: "solid 1px black",
@@ -40,7 +51,7 @@ export const header = {
       borderRadius: "10px 10px 0px 0px",
       overflow: "hidden",
       backgroundClip: "border-box",
-      width: "100%", 
+      width: "100%",
       color: theme.palette.primary.contrastText
     },
   },
