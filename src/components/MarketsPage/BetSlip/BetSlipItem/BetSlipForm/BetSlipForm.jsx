@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
-
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -38,7 +34,7 @@ function BetSlipForm({ bet }) {
     <Grid container item xs={12}>
 
       {/* !Consider refactoring this into a <FormControl> component, with <Input> and <InputLabel>. Might improve readability, as all the props I'm currently using are a bit messy */}
-      
+
       <Grid component={TextField}
         item xs={12}
         label="Risk"

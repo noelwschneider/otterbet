@@ -19,7 +19,10 @@ export const betslip = {
     clearWagerIcon: {
       color: 'red'
     },
+  },
 
+  selectEntryMenu: {
+    padding: "16px",
   },
 
 
