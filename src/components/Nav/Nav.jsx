@@ -1,7 +1,7 @@
 import React from 'react';
 
 // App Components
-import MenuItems from './MenuItems/MenuItems';
+import MenuItems from './MenuContainer/MenuContainer';
 import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks

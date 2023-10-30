@@ -2,6 +2,12 @@ import theme from "../theme"
 
 export const header = {
   menu: {
+    container: {
+      borderBottom: "solid 1px black",
+      height: "inherit",
+      width: "100%",
+    },
+
     logout: {
       alignSelf: "flex-end",
       backgroundColor: theme.palette.primary.dark,
