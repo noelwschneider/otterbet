@@ -5,9 +5,9 @@ import logoText from './OtterBet logo text.png'
 import { styles } from '../../../styling/styles'
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
-function LogoText() {
+export default function LogoText() {
 
   return (
     <Grid item xs={9} sx={styles.header.logo.text}>
@@ -20,8 +20,7 @@ function LogoText() {
         }}
         src={logoText}
       />
-      
-    </Grid>)
-}
 
-export default LogoText
+    </Grid>
+  )
+}

@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 
 function EntryMenu() {
 
-  const entry = useSelector(store => store.entry);
+  const entry = useSelector(store => store.entries);
 
   // State
   const [selectedEntry, setSelectedEntry] = useState(0);

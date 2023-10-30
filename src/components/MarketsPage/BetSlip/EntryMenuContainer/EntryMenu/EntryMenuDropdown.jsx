@@ -11,7 +11,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function EntryMenuDropdown() {
 
-  const entries = useSelector(store => store.entry)
+  const entries = useSelector(store => store.entries)
 
   const [selectedEntry, setSelectedEntry] = useState(0)
   const [anchorEl, setAnchorEl] = useState(null);

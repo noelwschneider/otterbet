@@ -2,7 +2,7 @@
 import { styles } from '../../../../styling/styles';
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
 // Components
 import MarketItemHeader from './Rows/MarketItemHeader';
@@ -10,13 +10,12 @@ import HomeRow from './Rows/HomeRow';
 import AwayRow from './Rows/AwayRow';
 
 
-function MarketsItem({ game }) {
-
-  const { markets } = game
+export default function MarketsItem({ game }) {
+  const { markets } = game;
 
   // Add tags to each market for matching to table cell
   for (let market of markets) {
-    market.tag = `${market.outcome}_${market.market}`
+    market.tag = `${market.outcome}_${market.market}`;
   }
 
   return (
@@ -32,5 +31,3 @@ function MarketsItem({ game }) {
     </Grid>
   )
 }
-
-export default MarketsItem

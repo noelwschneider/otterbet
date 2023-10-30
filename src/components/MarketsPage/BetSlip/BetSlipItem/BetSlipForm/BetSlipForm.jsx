@@ -1,33 +1,36 @@
+// Hooks
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useStore from '../../../../../hooks/useStore';
 
-// Style Components
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+// Style
+import { 
+  Grid,
+  Typography,
+  TextField,
+} from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 
-function BetSlipForm({ bet }) {
+export default function BetSlipForm({ bet }) {
+  const { id } = bet;
 
-  const { id } = bet
+  const dispatch = useDispatch();
+  const betslip = useStore("betslip");
 
-  const dispatch = useDispatch()
-  const betslip = useSelector(store => store.betslip)
-
-  const [payout, setPayout] = useState((0).toFixed(2))
+  const [payout, setPayout] = useState((0).toFixed(2));
   const [shrink, setShrink] = useState(false);
 
   const updateWager = event => {
     for (let wager of betslip) {
       if (id === wager.id) {
-        wager.wager = event
+        wager.wager = event;
       }
     }
-    setPayout((event * (bet.price.european)).toFixed(2))
+    setPayout((event * (bet.price.european)).toFixed(2));
 
     //! Making a new dispatch every time somebody changes the input value seems inefficient. I should aim to send this value to the BetSlip component when the submit button is clicked over there
-    dispatch({ type: 'UPDATE_WAGER', payload: betslip })
+    dispatch({ type: 'UPDATE_WAGER', payload: betslip });
   }
 
   return (
@@ -59,7 +62,6 @@ function BetSlipForm({ bet }) {
         Payout: ${payout}
       </Grid>
 
-    </Grid>)
+    </Grid>
+  )
 }
-
-export default BetSlipForm

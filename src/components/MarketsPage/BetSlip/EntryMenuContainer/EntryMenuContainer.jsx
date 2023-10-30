@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 export default function EntryMenuContainer() {
 
   // Store variables
-  const entry = useSelector(store => store.entry)
+  const entry = useSelector(store => store.entries)
 
   return (
     <Grid item xs={12}>

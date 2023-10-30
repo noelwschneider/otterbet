@@ -2,26 +2,20 @@
 import MarketsCol from './MarketsCol/MarketsCol';
 import BetSlip from './BetSlip/BetSlip';
 
-// Style Tools
-import { styled } from '@mui/system';
+// Style
 import { styles } from '../../styling/styles';
+import { Grid } from '@mui/material';
 
-// Style Components
-import Grid from '@mui/material/Grid';
 
-function MarketsPage() {
-
+export default function MarketsPage() {
   return (
     <Grid
       sx={styles.markets.container}
       container>
 
       <MarketsCol />
-
       <BetSlip />
 
     </Grid>
   )
 }
-
-export default MarketsPage

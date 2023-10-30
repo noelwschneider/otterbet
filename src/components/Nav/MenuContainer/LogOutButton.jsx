@@ -1,20 +1,16 @@
-//! This should probably be styled differently from MyBets and Markets tabs
-
 import { useDispatch } from 'react-redux';
 
 // Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
 import { styles } from '../../../styling/styles';
 
 // Style Components
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { 
+  Button,
+  Grid,
+ } from '@mui/material';
 
 
-function LogOutButton() {
-
-  const theme = useTheme()
+export default function LogOutButton() {
   const dispatch = useDispatch()
 
   return (
@@ -30,5 +26,3 @@ function LogOutButton() {
     </Grid>
   )
 }
-
-export default LogOutButton

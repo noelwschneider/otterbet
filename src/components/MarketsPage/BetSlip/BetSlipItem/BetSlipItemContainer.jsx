@@ -1,15 +1,18 @@
-import { useSelector } from 'react-redux';
+// Hooks
+import useStore from '../../../../hooks/useStore';
 
 // Comonents
 import BetSlipItem from './BetSlipItem';
 
 // Style Components
-import Grid from '@mui/material/Grid';
-import CardActionArea from '@mui/material/CardActionArea';
+import {
+  Grid,
+  CardActionArea,
+} from '@mui/material';
 
 
 export default function BetSlipItemContainer() {
-  const betslip = useSelector(store => store.betslip)
+  const betslip = useStore("betslip");
 
   return (
     <Grid container item xs={12} component={CardActionArea} disableRipple>

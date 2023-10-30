@@ -1,12 +1,11 @@
 import { Route } from 'react-router-dom';
 import LoginPage from '../LoginRegister/LoginPage';
-import {useSelector} from 'react-redux';
-
+import useStore from '../../hooks/useStore'
 
 // Return route to child component if user is logged in
 // Otherwise return the login component
-function ProtectedRoute({ component, children, ...props }) {
-  const user = useSelector((store) => store.user);
+export default function ProtectedRoute({ component, children, ...props }) {
+  const user = useStore("user");
 
   // Component passed in as child
   const ProtectedComponent = () => children;
@@ -21,5 +20,3 @@ function ProtectedRoute({ component, children, ...props }) {
     </Route>
   );
 }
-
-export default ProtectedRoute;

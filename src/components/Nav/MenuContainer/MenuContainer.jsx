@@ -7,22 +7,20 @@ import LogOutButton from './LogOutButton';
 import { styles } from '../../../styling/styles'
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
-function MenuItems() {
 
-    return (
-        <Grid 
-            container 
-            item xs={5}
-            sx={styles.header.menu.container}>
+export default function MenuItems() {
+  return (
+    <Grid
+      container
+      item xs={5}
+      sx={styles.header.menu.container}>
 
-            <UserMenu />
-            <MarketsMenu />
-            <LogOutButton />
+      <UserMenu />
+      <MarketsMenu />
+      <LogOutButton />
 
-        </Grid>
-    )
+    </Grid>
+  )
 }
-
-export default MenuItems

@@ -1,9 +1,12 @@
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import CardHeader from '@mui/material/CardHeader';
+// Style
+import { 
+  Grid, 
+  Typography,
+  CardHeader,
+} from '@mui/material';
+
 
 export default function BetSlipHeader() {
-
   return (
     <Grid
       item xs={12}

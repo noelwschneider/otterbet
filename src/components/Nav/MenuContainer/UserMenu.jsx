@@ -8,7 +8,8 @@ import { styles } from '../../../styling/styles'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-function UserMenu() {
+
+export default function UserMenu() {
   const history = useHistory();
 
   // Handler function for My Bets nav link
@@ -29,5 +30,3 @@ function UserMenu() {
     </Grid>
   )
 }
-
-export default UserMenu;

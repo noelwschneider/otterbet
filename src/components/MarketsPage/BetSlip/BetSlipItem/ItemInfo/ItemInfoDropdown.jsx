@@ -1,9 +1,11 @@
-// Style Components
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+// Style
+import { 
+  Grid, 
+  Typography,
+} from '@mui/material';
+
 
 export default function ItemInfoDropdown(props) {
-
   const { bet } = props
   const {
     away_team,

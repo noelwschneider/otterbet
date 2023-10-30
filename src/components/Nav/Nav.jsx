@@ -3,20 +3,19 @@ import MenuContainer from './MenuContainer/MenuContainer';
 import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks
-import { useSelector } from 'react-redux';
+import useStore from '../../hooks/useStore';
 
 // Style Tools
-import { styles } from '../../styling/styles'
+import { styles } from '../../styling/styles';
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
 
-function Nav() {
-  const user = useSelector(store => store.user);
+export default function Nav() {
+  const user = useStore("user");
 
-  return (
-  <>
+  return (<>
     { user.id
       ? (
         <Grid container sx={styles.header.container}>
@@ -43,5 +42,3 @@ function Nav() {
     }
   </>);
 }
-
-export default Nav;

@@ -1,19 +1,24 @@
 // Hooks
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import useStore from "../../hooks/useStore";
 
 // Style Tools
 import { styles } from '../../styling/styles';
 
 // Style Components
-import { Box, FormControl, TextField, Button } from '@mui/material';
+import { 
+  FormControl, 
+  TextField, 
+  Button } from '@mui/material';
 
+  
 function RegisterPage() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector((store) => store.errors);
+  const errors = useStore("errors");
 
   const history = useHistory();
   const dispatch = useDispatch();

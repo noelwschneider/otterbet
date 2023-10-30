@@ -4,10 +4,13 @@ import { useHistory } from 'react-router-dom';
 import { styles } from '../../../styling/styles'
 
 // Style Components
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import {
+  Button,
+  Grid,
+} from '@mui/material';
 
-function MarketsMenu() {
+
+export default function MarketsMenu() {
 
   const history = useHistory()
 
@@ -30,5 +33,3 @@ function MarketsMenu() {
     </Grid>
   )
 }
-
-export default MarketsMenu

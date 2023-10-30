@@ -1,25 +1,23 @@
-import React from 'react';
+// Hooks
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useState } from 'react';
+import useStore from '../../../../hooks/useStore';
 
 // Components
 import ItemInfoDropdown from './ItemInfo/ItemInfoDropdown';
 import BetSlipForm from './BetSlipForm/BetSlipForm';
 
-// Style Tools
+// Style
 import { styles } from '../../../../styling/styles'
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
-
-// Style Components
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { 
+  Grid,
+  Typography,
+  IconButton,
+  CardActions,
+} from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import CardActions from '@mui/material/CardActions';
 
-function BetSlipItem(props) {
+
+export default function BetSlipItem(props) {
   const { bet } = props
   const {
     id,
@@ -29,8 +27,8 @@ function BetSlipItem(props) {
     price
   } = bet
 
-  const dispatch = useDispatch()
-  const betslip = useSelector(store => store.betslip)
+  const dispatch = useDispatch();
+  const betslip = useStore("betslip");
 
   //& A slightly different version of this is used in MarketItem.jsx. Long-term plan is to modularize
   const getCellText = (market) => {
@@ -91,5 +89,3 @@ function BetSlipItem(props) {
 
     </Grid>)
 }
-
-export default BetSlipItem

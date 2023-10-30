@@ -1,15 +1,16 @@
+// Hooks
 import { useState } from 'react';
 
-
 // Style Components
-import Grid from '@mui/material/Grid';
-import Alert from '@mui/material/Alert';
+import { 
+  Grid,
+  Alert,
+} from '@mui/material';
 
-function BetSlipAlerts() {
+
+export default function BetSlipAlerts() {
     const [invalidInputAlert, setInvalidInputAlert] = useState(false)
     const [insufficientFundsAlert, setInsufficientFundsAlert] = useState(false)
-
-
 
     return (<Grid item xs={12}>
         {/* Alert to render when user has not submitted a valid wager */}
@@ -25,5 +26,3 @@ function BetSlipAlerts() {
             }
     </Grid>)
 }
-
-export default BetSlipAlerts

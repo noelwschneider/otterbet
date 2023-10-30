@@ -1,18 +1,27 @@
+// Hooks
 import { useDispatch, useSelector } from 'react-redux';
 
 // Style Tools
 import { styles } from '../../../../../styling/styles';
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
-function HomeRow({ game }) {
 
-  const dispatch = useDispatch()
-  const betslip = useSelector(store => store.betslip)
-  const user = useSelector(store => store.user)
+export default function HomeRow({ game }) {
+  const dispatch = useDispatch();
+  const betslip = useSelector(store => store.betslip);
+  const user = useSelector(store => store.user);
 
-  const { away, date, time, competition, home, id, markets } = game
+  const { 
+    away, 
+    date, 
+    time, 
+    competition, 
+    home, 
+    id, 
+    markets 
+  } = game;
 
   //! Long-term, this might be better as its own component, which I just feed props and render accordingly. This component is currently a burden to read and not very flexible.
   const getCellText = (outcome, market) => {
@@ -182,7 +191,6 @@ function HomeRow({ game }) {
         </Grid>
       </Grid>
 
-    </Grid>)
+    </Grid>
+    )
 }
-
-export default HomeRow

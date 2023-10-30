@@ -1,26 +1,30 @@
 // State hooks (and React)
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import useStore from '../../hooks/useStore';
 
 // Routing hooks
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Style Tools
-// import * as styles from '../../styling/styles';
 import { styles } from '../../styling/styles';
 
 // Style Components
-import { Box, FormControl, TextField, Button } from '@mui/material';
+import { 
+  Box, 
+  FormControl, 
+  TextField, 
+  Button } from '@mui/material';
 
 
 function LoginPage() {
   // State
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const errors = useSelector(store => store.errors);
+  const errors = useStore("errors");
 
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const login = (event) => {
     event.preventDefault();

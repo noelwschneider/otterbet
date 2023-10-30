@@ -1,5 +1,7 @@
+// Hooks
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import useStore from '../../../hooks/useStore';
 
 // Components
 import BetSlipItemContainer from './BetSlipItem/BetSlipItemContainer';
@@ -12,14 +14,16 @@ import BetSlipHeader from './BetSlipHeader';
 import { styles } from '../../../styling/styles'
 
 // Style Components
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
+import {
+  Grid,
+  Card,
+} from '@mui/material';
 
 
-function BetSlip() {
+export default function BetSlip() {
   const dispatch = useDispatch()
 
-  const user = useSelector(store => store.user)
+  const user = useStore("user");
 
   useEffect(() => {
     dispatch({ type: 'FETCH_ENTRY', payload: user.id })
@@ -36,5 +40,3 @@ function BetSlip() {
 
     </Grid>)
 }
-
-export default BetSlip

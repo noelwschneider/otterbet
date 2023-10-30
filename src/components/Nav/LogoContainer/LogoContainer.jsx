@@ -2,19 +2,15 @@
 import LogoPicture from './LogoPicture';
 import LogoText from './LogoText';
 
-// Style Components
-import Grid from '@mui/material/Grid';
+// Styling
+import { Grid } from '@mui/material';
 import { styles } from '../../../styling/styles'
 
-function LogoContainer() {
-
+export default function LogoContainer() {
   return (
     <Grid container item xs={7} sx={styles.header.logo.container}>
       <LogoText />
       <LogoPicture />
     </Grid>
   )
-
 }
-
-export default LogoContainer
