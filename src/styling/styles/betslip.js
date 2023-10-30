@@ -6,6 +6,22 @@ export const betslip = {
     overflow: "scroll",
   },
 
+  item: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: "start",
+    margin: "10px",
+
+    outcome: {
+      display: "inline",
+    },
+
+    clearWagerIcon: {
+      color: 'red'
+    },
+
+  },
+
 
 
 }

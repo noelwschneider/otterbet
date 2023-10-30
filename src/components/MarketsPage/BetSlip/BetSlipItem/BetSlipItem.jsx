@@ -8,6 +8,7 @@ import ItemInfoDropdown from './ItemInfo/ItemInfoDropdown';
 import BetSlipForm from './BetSlipForm/BetSlipForm';
 
 // Style Tools
+import { styles } from '../../../../styling/styles'
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
 
@@ -16,87 +17,79 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
+import CardActions from '@mui/material/CardActions';
 
 function BetSlipItem(props) {
-    const { bet } = props
-    const { 
-        id, 
-        market, 
-        outcome, 
-        point, 
-        price 
-    } = bet
+  const { bet } = props
+  const {
+    id,
+    market,
+    outcome,
+    point,
+    price
+  } = bet
 
-    const dispatch = useDispatch()
-    const betslip = useSelector(store => store.betslip)
+  const dispatch = useDispatch()
+  const betslip = useSelector(store => store.betslip)
 
-    //& A slightly different version of this is used in MarketItem.jsx. Long-term plan is to modularize
-    const getCellText = (market) => {
+  //& A slightly different version of this is used in MarketItem.jsx. Long-term plan is to modularize
+  const getCellText = (market) => {
 
-        if (market === 'h2h') {
-            return price.american
-        }
-
-        let prefix = ''
-        if (market === 'spreads') {
-            prefix = '+'
-        }
-
-        //! I need to figure out what odds-api will give me for the point property if the line is 0 -- it will probably be a string, but could be 0
-        let newPoint = point
-        if (newPoint >= 0) {
-            newPoint = `${prefix}${Number(newPoint).toFixed(1)}`
-        } else if (newPoint < 0) {
-            newPoint = `${Number(newPoint).toFixed(1)}`
-        } else if (!newPoint) {
-            newPoint = ''
-        } else {
-            console.log('some unforeseen value:', newPoint)
-        }
-
-        //& eventually let the user determine whether they prefer American or European odds format
-        let cellString = `${newPoint}`
-
-        return cellString
+    if (market === 'h2h') {
+      return price.american
     }
 
-    const cellText = getCellText(market)
-
-    const deleteWager = () => {
-        let newBetslip = []
-        for (let wager of betslip) {
-            if (id !== wager.id) {
-                newBetslip.push(wager)
-            }
-        }
-        dispatch({ type: 'DELETE_WAGER', payload: newBetslip })
+    let prefix = ''
+    if (market === 'spreads') {
+      prefix = '+'
     }
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-            margin: "10px",
-    }));
+    //! I need to figure out what odds-api will give me for the point property if the line is 0 -- it will probably be a string, but could be 0
+    let newPoint = point
+    if (newPoint >= 0) {
+      newPoint = `${prefix}${Number(newPoint).toFixed(1)}`
+    } else if (newPoint < 0) {
+      newPoint = `${Number(newPoint).toFixed(1)}`
+    } else if (!newPoint) {
+      newPoint = ''
+    } else {
+      console.log('some unforeseen value:', newPoint)
+    }
 
-    return (
-        <ComponentTheme container item xs={12}>
+    //& eventually let the user determine whether they prefer American or European odds format
+    let cellString = `${newPoint}`
 
-            <Grid item xs={10}>
-                <Typography variant="h6" sx={{ display: "inline" }}>
-                    {outcome} {cellText}
-                </Typography>
-            </Grid>
+    return cellString
+  }
 
-            <Grid item xs={2}>
-                <IconButton onClick={deleteWager}>
-                    <ClearIcon sx={{ color: 'red' }} />
-                </IconButton>
-            </Grid>
-            
-            <ItemInfoDropdown key={bet.id} bet={bet} />
-            
-            <BetSlipForm key={id} bet={bet}/>
+  const cellText = getCellText(market)
 
-        </ComponentTheme>)
+  const deleteWager = () => {
+    let newBetslip = []
+    for (let wager of betslip) {
+      if (id !== wager.id) {
+        newBetslip.push(wager)
+      }
+    }
+    dispatch({ type: 'DELETE_WAGER', payload: newBetslip })
+  }
+
+  return (
+    <Grid container item xs={12} component={CardActions}>
+
+      <Grid item xs={10} component={Typography} variant="h6">
+        {outcome} {cellText}
+      </Grid>
+
+      <Grid item xs={2} component={IconButton} onClick={deleteWager}>
+        <ClearIcon sx={styles.betslip.item.clearWagerIcon} />
+      </Grid>
+
+      <ItemInfoDropdown key={bet.id} bet={bet} />
+
+      <BetSlipForm key={id} bet={bet} />
+
+    </Grid>)
 }
 
 export default BetSlipItem
