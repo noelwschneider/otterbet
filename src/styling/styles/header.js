@@ -29,6 +29,20 @@ export const header = {
       width: "100%",
       color: theme.palette.primary.contrastText,
     },
+
+    user: {
+      alignSelf: "flex-end",
+      backgroundColor: theme.palette.primary.dark,
+      borderRadius: 0,
+      width: "100%",
+      color: theme.palette.primary.contrastText,
+      border: "1px solid black",
+      borderRadius: "10px 10px 0px 0px",
+      overflow: "hidden",
+      backgroundClip: "border-box",
+      width: "100%", 
+      color: theme.palette.primary.contrastText
+    },
   },
 
   logo: {
