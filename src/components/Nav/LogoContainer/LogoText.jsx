@@ -7,8 +7,8 @@ import { styles } from '../../../styling/styles'
 // Style Components
 import { Grid } from '@mui/material';
 
-export default function LogoText() {
 
+export default function LogoText() {
   return (
     <Grid item xs={9} sx={styles.header.logo.text}>
 

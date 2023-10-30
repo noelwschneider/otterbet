@@ -7,6 +7,7 @@ import { styles } from '../../../styling/styles'
 // Style Components
 import { Grid } from '@mui/material';
 
+
 export default function LogoPicture() {
   return (
     <Grid

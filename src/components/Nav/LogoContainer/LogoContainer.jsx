@@ -6,6 +6,7 @@ import LogoText from './LogoText';
 import { Grid } from '@mui/material';
 import { styles } from '../../../styling/styles'
 
+
 export default function LogoContainer() {
   return (
     <Grid container item xs={7} sx={styles.header.logo.container}>
