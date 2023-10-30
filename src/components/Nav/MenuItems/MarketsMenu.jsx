@@ -1,9 +1,7 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
+import { styles } from '../../../styling/styles'
 
 // Style Components
 import Button from '@mui/material/Button';
@@ -11,34 +9,26 @@ import Grid from '@mui/material/Grid';
 
 function MarketsMenu() {
 
-    const theme = useTheme()
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        alignSelf: "flex-end",
-        backgroundColor: theme.palette.primary.dark,
-        border: "1px solid black",
-        borderRadius: "10px 10px 0px 0px",
-        overflow: "hidden",
-        backgroundClip: "border-box"
-    }));
+  const history = useHistory()
 
-    const history = useHistory()
+  const handleNavigation = (event) => {
+    history.push(event.currentTarget.id)
+  }
 
-    const handleNavigation = (event) => {
-        history.push(event.currentTarget.id)
-    }
+  return (
+    <Grid
+      className="navLink"
+      item xs={4}
+      component={Button}
+      id='/markets'
+      variant="text"
+      sx={styles.header.menu.markets}
+      onClick={event => handleNavigation(event)}>
 
-    return (<ComponentTheme item xs={4}>
+      Markets
 
-        <Button
-            id='/markets'
-            variant="text"
-            className="navLink"
-            style={{  width: "100%", color: theme.palette.primary.contrastText }}
-            onClick={event => handleNavigation(event)}>
-            Markets
-        </Button>
-
-    </ComponentTheme>)
+    </Grid>
+  )
 }
 
 export default MarketsMenu
