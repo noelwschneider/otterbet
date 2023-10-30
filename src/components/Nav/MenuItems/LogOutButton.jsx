@@ -18,16 +18,14 @@ function LogOutButton() {
   const dispatch = useDispatch()
 
   return (
-    <Grid item xs={4} sx={styles.header.menu.logout}>
+    <Grid
+      className="navLink"
+      item xs={4}
+      component={Button} variant="text"
+      sx={styles.header.menu.logout}
+      onClick={() => dispatch({ type: 'LOGOUT' })}>
 
-      <Button
-        variant="text"
-        className="navLink"
-        style={{ width: "100%", color: theme.palette.primary.contrastText }}
-        onClick={() => dispatch({ type: 'LOGOUT' })}
-      >
-        Log Out
-      </Button>
+      Log Out
 
     </Grid>
   )
