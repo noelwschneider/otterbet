@@ -25,6 +25,10 @@ export const betslip = {
     padding: "16px",
   },
 
-
+  submitButton: {
+    padding: "16px",
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
 
 }
