@@ -1,9 +1,11 @@
-import React from 'react';
+//! This should probably be styled differently from MyBets and Markets tabs
+
 import { useDispatch } from 'react-redux';
 
 // Style Tools
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
+import { styles } from '../../../styling/styles';
 
 // Style Components
 import Button from '@mui/material/Button';
@@ -12,30 +14,23 @@ import Grid from '@mui/material/Grid';
 
 function LogOutButton() {
 
-    const theme = useTheme()
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        alignSelf: "flex-end",
-        backgroundColor: theme.palette.primary.dark,
-        border: "1px solid black",
-                borderRadius: "10px 10px 0px 0px",
-                overflow: "hidden",
-                backgroundClip: "border-box"
-    }));
+  const theme = useTheme()
+  const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
+  return (
+    <Grid item xs={4} sx={styles.header.menu.logout}>
 
-    return (<ComponentTheme item xs={4}>
+      <Button
+        variant="text"
+        className="navLink"
+        style={{ width: "100%", color: theme.palette.primary.contrastText }}
+        onClick={() => dispatch({ type: 'LOGOUT' })}
+      >
+        Log Out
+      </Button>
 
-        <Button
-            variant="text"
-            className="navLink"
-            style={{ width: "100%", color: theme.palette.primary.contrastText }}
-            onClick={() => dispatch({ type: 'LOGOUT' })}
-            >
-            Log Out
-        </Button>
-
-    </ComponentTheme>
-    )}
+    </Grid>
+  )
+}
 
 export default LogOutButton
