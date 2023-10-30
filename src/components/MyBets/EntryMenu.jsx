@@ -14,48 +14,48 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 function EntryMenu() {
 
-    const entry = useSelector(store => store.entry)
+  const entry = useSelector(store => store.entry)
 
-    const [selectedEntry, setSelectedEntry] = useState(0);
-    const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedEntry, setSelectedEntry] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleEntryClick = (index) => {
-        setSelectedEntry(index);
-        setAnchorEl(null)
-    }
+  const handleEntryClick = (index) => {
+    setSelectedEntry(index);
+    setAnchorEl(null)
+  }
 
-    return (<>
-        <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            variant="contained"
-            endIcon={<KeyboardArrowDownIcon />}
-            onClick={(event) => setAnchorEl(event.currentTarget)}
-            style={{ width: "99%" }}
+  return (<>
+    <Button
+      aria-controls="simple-menu"
+      aria-haspopup="true"
+      variant="contained"
+      endIcon={<KeyboardArrowDownIcon />}
+      onClick={(event) => setAnchorEl(event.currentTarget)}
+      style={{ width: "99%" }}
+    >
+      {entry[selectedEntry].name}
+    </Button>
+
+    <Menu
+      id="simple-menu"
+      anchorEl={anchorEl}
+      open={Boolean(anchorEl)}
+      onClose={() => setAnchorEl(null)}
+      disableGutter={true}
+    >
+      {entry.map((entryItem, index) => (
+        <MenuItem
+          key={entryItem.id}
+          onClick={() => handleEntryClick(index)}
+          disableGutters={true}
+          style={{ width: "322px" }}
         >
-            {entry[selectedEntry].name}
-        </Button>
-        
-        <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-            disableGutter={true}
-        >
-            {entry.map((entryItem, index) => (
-                <MenuItem
-                    key={entryItem.id}
-                    onClick={() => handleEntryClick(index)}
-                    disableGutters={true}
-                    style={{width: "322px"}}
-                    >
-                    {entryItem.name}
-                </MenuItem>
-            ))}
-        </Menu>
-    </>
-    )
+          {entryItem.name}
+        </MenuItem>
+      ))}
+    </Menu>
+  </>
+  )
 }
 
 export default EntryMenu
