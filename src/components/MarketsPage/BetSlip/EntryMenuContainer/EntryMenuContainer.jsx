@@ -7,7 +7,7 @@ import EntryMenu from './EntryMenu/EntryMenu';
 
 // Style Tools
 import { styled } from '@mui/system';
-
+import Grid from '@mui/material/Grid';
 
 
 function EntryMenuContainer() {
@@ -21,7 +21,7 @@ function EntryMenuContainer() {
     }));
 
     return (
-        <ComponentTheme>
+        <Grid item xs={12}>
         {entry.length === 0
 
             // Message to render if user has no entries
@@ -30,7 +30,7 @@ function EntryMenuContainer() {
             // Menu of user entries
             : <EntryMenu />
         }
-            </ComponentTheme>)
+            </Grid>)
 }
 
 export default EntryMenuContainer

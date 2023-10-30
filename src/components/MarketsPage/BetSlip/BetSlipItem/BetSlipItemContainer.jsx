@@ -20,17 +20,9 @@ function BetSlipItemContainer() {
 
     const betslip = useSelector(store => store.betslip)
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        /* 
-            Though currently unused, I am leaving this 
-            styling component in the code because it 
-            comes with no real overhead and is quite
-            likely to be useful in a future sprint
-        */
-    }));
 
-    return (<ComponentTheme item xs={12}>
+
+    return (<Grid container item xs={12}>
         <CardActionArea disableRipple component="div">
             {betslip.map(bet => {
 
@@ -46,7 +38,7 @@ function BetSlipItemContainer() {
                 </CardActions>
                 )})}
         </CardActionArea>
-    </ComponentTheme>)
+    </Grid>)
 }
 
 export default BetSlipItemContainer

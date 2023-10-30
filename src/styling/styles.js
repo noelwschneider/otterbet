@@ -4,6 +4,7 @@ import { elements } from "./styles/elements";
 import { markets } from "./styles/markets";
 import { myBets } from "./styles/my_bets";
 import { header } from "./styles/header";
+import { betslip } from "./styles/betslip"
 
 export const styles = {
   classes,
@@ -12,4 +13,5 @@ export const styles = {
   markets,
   myBets,
   header,
+  betslip,
 }
