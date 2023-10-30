@@ -6,7 +6,6 @@ import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 // Style Tools
 import { styled } from '@mui/system';
