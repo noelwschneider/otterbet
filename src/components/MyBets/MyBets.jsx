@@ -3,35 +3,23 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import useStore from '../../hooks/useStore';
 
-// Routing
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-
 // Components
 import MyBetsHeader from './MyBetsHeader';
-import MyBetsItem from './MyBetsItem';
 import EntryMenu from './EntryMenu';
 import AvailableFunds from './AvailableFunds';
 import UpcomingBetsToggleMenu from './UpcomingBetsToggleMenu';
 import NoActiveBetsMessage from './NoActiveBetsMessage';
 import BetsContainer from './BetsContainer';
 
-// Utilities
-import noActiveBets from '../../utilities/noActiveBets';
-import isFinished from '../../utilities/isFinished';
-
 // Style
 import { styles } from '../../styling/styles';
-import {
-  Grid,
-  Typography,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 
 
 export default function MyBets() {
   const dispatch = useDispatch();
 
   const user = useStore("user");
-  const userBets = useStore("myBets");
   const entries = useStore("entries");
 
   useEffect(() => {
@@ -57,6 +45,7 @@ export default function MyBets() {
         <NoActiveBetsMessage props={{ upcomingBetsView, selectedEntryIndex }} />
         <BetsContainer props={{ upcomingBetsView, selectedEntryIndex }} />
       </>}
+      
     </Grid>
   )
 }
