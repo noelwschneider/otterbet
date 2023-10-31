@@ -1,14 +1,11 @@
 import isFinished from "./isFinished";
 
-const countBetsToRender = (entry, userBets, upcomingBetsView) => {
-  let count = 0;
-  for (let bet of userBets) {
-    if (bet.entry_id === entry[selectedEntry].id
-      && upcomingBetsView === !isFinished(bet)) {
-      count++
+export default function noActiveBets(entry, bets) {
+  for (let bet of bets) {
+    if (bet.entry_id === entry.id && !isFinished(bet)) {
+      return false;
     }
   }
-  return count
+  return true;
 }
 
-let noActiveBets = countBetsToRender() === 0 && upcomingBetsView
