@@ -14,7 +14,7 @@ const {
     removeSpaces,
     formattedResponse,
     makeDateString
-} = require('../modules/helpers')
+} = require('../modules/utilities/_helpers')
 
 const APIKey = process.env.SPORTS_API_KEY
 

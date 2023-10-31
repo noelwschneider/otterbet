@@ -19,8 +19,6 @@ import {
   Typography,
   ToggleButton,
   ToggleButtonGroup,
-  Menu,
-  MenuItem
 } from '@mui/material';
 
 
@@ -37,11 +35,11 @@ export default function MyBets() {
   }, []);
 
   const [selectedEntry, setSelectedEntry] = useState(0);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [upcomingBetsView, setUpcomingBetsView] = useState(true);
 
   const countBetsToRender = () => {
     let count = 0;
+    console.log('user bets:', userBets);
     for (let bet of userBets) {
       if (bet.entry_id === entry[selectedEntry].id
         && upcomingBetsView ===
@@ -54,11 +52,6 @@ export default function MyBets() {
   }
 
   let noActiveBets = countBetsToRender() === 0 && upcomingBetsView
-
-  const handleEntryClick = (index) => {
-    setSelectedEntry(index);
-    setAnchorEl(null);
-  }
 
   return (
     <Grid container
@@ -74,7 +67,7 @@ export default function MyBets() {
             My Bets
           </Typography>
 
-          <EntryMenu />
+          <EntryMenu props={{selectedEntry, setSelectedEntry}}/>
 
           <span>
             <Typography variant="h5"
@@ -83,22 +76,6 @@ export default function MyBets() {
               ${Number(entry[selectedEntry].funds).toFixed(2)}
             </Typography>
           </span>
-
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-          >
-            {entry.map((entryItem, index) => (
-              <MenuItem
-                key={entryItem.id}
-                onClick={() => handleEntryClick(index)}
-                disableGutters={true}>
-                {entryItem.name}
-              </MenuItem>
-            ))}
-          </Menu>
 
           <ToggleButtonGroup
             value={upcomingBetsView}

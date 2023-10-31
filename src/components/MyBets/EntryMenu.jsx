@@ -11,11 +11,11 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
-export default function EntryMenu() {
-
+export default function EntryMenu({props}) {
+  const {selectedEntry, setSelectedEntry} = props;
+  
   const entry = useStore("entries");
 
-  const [selectedEntry, setSelectedEntry] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleEntryClick = (index) => {
