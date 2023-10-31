@@ -1,10 +1,10 @@
 // Utilities
-import convertToAmerican from '../../utilities/convertToAmerican';
-import getBetPointsText from '../../utilities/getBetPointsText';
-import formatTimestamp from '../../utilities/formatTimestamp';
+import convertToAmerican from '../../../utilities/convertToAmerican';
+import getBetPointsText from '../../../utilities/getBetPointsText';
+import formatTimestamp from '../../../utilities/formatTimestamp';
 
 // Style Tools
-import { styles } from '../../styling/styles'
+import { styles } from '../../../styling/styles'
 
 // Styling Components
 import {
@@ -27,10 +27,7 @@ export default function MyBetsItem(props) {
     wager,
     result,
   } = bet
-
   price = { european: price, american: convertToAmerican(price) };
-
-  const betPoints = getBetPointsText(bet);
 
   const winStyle = () => {
     if (view) {
@@ -72,11 +69,11 @@ export default function MyBetsItem(props) {
     }
   }
 
-  return (<>
+  return (
     <Grid container component={Card} sx={styles.myBets.itemContainer}>
 
       <Typography variant="h6" sx={styles.myBets.itemOutcome}>
-        {outcome} {betPoints}
+        {outcome} {getBetPointsText(bet)}
       </Typography>
 
       <Typography variant="subtitle1" sx={styles.myBets.itemGame}>
@@ -96,5 +93,5 @@ export default function MyBetsItem(props) {
       </Typography>
 
     </Grid>
-  </>)
+  )
 }

@@ -1,14 +1,14 @@
 // Hooks
-import useStore from '../../hooks/useStore';
+import useStore from '../../../hooks/useStore';
 
 // Routing
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Utilities
-import noActiveBets from '../../utilities/noActiveBets';
+import noActiveBets from '../../../utilities/noActiveBets';
 
 // Style
-import { styles } from '../../styling/styles';
+import { styles } from '../../../styling/styles';
 import { Typography } from '@mui/material';
 
 

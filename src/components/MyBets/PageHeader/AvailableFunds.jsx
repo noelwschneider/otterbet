@@ -1,8 +1,8 @@
 // Hooks
-import useStore from '../../hooks/useStore';
+import useStore from '../../../hooks/useStore';
 
 // Style
-import { styles } from '../../styling/styles';
+import { styles } from '../../../styling/styles';
 import { Typography } from '@mui/material';
 
 

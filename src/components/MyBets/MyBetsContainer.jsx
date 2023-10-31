@@ -4,19 +4,19 @@ import { useDispatch } from 'react-redux';
 import useStore from '../../hooks/useStore';
 
 // Components
-import MyBetsHeader from './MyBetsHeader';
-import EntryMenu from './EntryMenu';
-import AvailableFunds from './AvailableFunds';
-import UpcomingBetsToggleMenu from './UpcomingBetsToggleMenu';
-import NoActiveBetsMessage from './NoActiveBetsMessage';
-import BetsContainer from './BetsContainer';
+import MyBetsHeader from './PageHeader/MyBetsHeader';
+import EntryMenu from './PageHeader/EntryMenu';
+import AvailableFunds from './PageHeader/AvailableFunds';
+import UpcomingBetsToggleMenu from './PageHeader/UpcomingBetsToggleMenu';
+import NoActiveBetsMessage from './BetData/NoActiveBetsMessage';
+import BetsContainer from './BetData/BetsContainer';
 
 // Style
 import { styles } from '../../styling/styles';
 import { Grid } from '@mui/material';
 
 
-export default function MyBets() {
+export default function MyBetsContainer() {
   const dispatch = useDispatch();
 
   const user = useStore("user");

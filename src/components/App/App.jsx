@@ -17,7 +17,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Nav from '../Nav/Nav';
 import LoginPage from '../LoginRegister/LoginPage';
 import RegisterPage from '../LoginRegister/RegisterPage';
-import MyBets from '../MyBets/MyBets';
+import MyBetsContainer from '../MyBets/MyBetsContainer';
 import MarketsPage from '../MarketsPage/MarketsPage';
 
 // Style
@@ -51,7 +51,7 @@ function App() {
 
         {/* MY BETS */}
         <ProtectedRoute exact path="/my-bets">
-          <MyBets />
+          <MyBetsContainer />
         </ProtectedRoute>
 
         {/* MARKETS */}

@@ -1,5 +1,5 @@
 // Style
-import { styles } from '../../styling/styles';
+import { styles } from '../../../styling/styles';
 import { Typography } from '@mui/material';
 
 
