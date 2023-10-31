@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import MyBetsItem from './MyBetsItem';
 import EntryMenu from './EntryMenu';
 
+// Utilities
+import isFinished from '../../utilities/isFinished';
+
 // Style Tools
 import { styles } from '../../styling/styles';
 
@@ -27,24 +30,24 @@ export default function MyBets() {
 
   const user = useStore("user");
   const userBets = useStore("myBets");
-  const entry = useStore("entries");
+  const entries = useStore("entries");
 
   useEffect(() => {
     dispatch({ type: 'FETCH_ENTRY' });
     dispatch({ type: 'FETCH_MYBETS', payload: user });
   }, []);
 
-  const [selectedEntry, setSelectedEntry] = useState(0);
+  
+
+  const [selectedEntry, setSelectedEntry] = useState([]);
+  const [selectedEntryIndex, setSelectedEntryIndex] = useState(0);
   const [upcomingBetsView, setUpcomingBetsView] = useState(true);
 
   const countBetsToRender = () => {
     let count = 0;
-    console.log('user bets:', userBets);
     for (let bet of userBets) {
-      if (bet.entry_id === entry[selectedEntry].id
-        && upcomingBetsView ===
-        !(bet.status === 'FT'
-          || bet.status === 'AOT')) {
+      if (bet.entry_id === entries[selectedEntryIndex].id
+        && upcomingBetsView === !isFinished(bet)) {
         count++
       }
     }
@@ -53,12 +56,15 @@ export default function MyBets() {
 
   let noActiveBets = countBetsToRender() === 0 && upcomingBetsView
 
+  console.log('selected entry:', selectedEntry);
+  console.log('index:', selectedEntryIndex);
+
   return (
     <Grid container
       sx={styles.myBets.container}>
-      {entry.length === 0
-        ? <></>
-        :
+
+      {entries.length !== 0 &&
+
         <Grid item xs={3.5}
           sx={styles.myBets.headerContainer}>
 
@@ -67,13 +73,14 @@ export default function MyBets() {
             My Bets
           </Typography>
 
-          <EntryMenu props={{selectedEntry, setSelectedEntry}}/>
+          <EntryMenu props={{ selectedEntryIndex,  setSelectedEntryIndex,
+          setSelectedEntry }} />
 
           <span>
             <Typography variant="h5"
               sx={styles.myBets.availableFundsText}>
               <strong>Available funds: </strong>
-              ${Number(entry[selectedEntry].funds).toFixed(2)}
+              ${Number(entries[selectedEntryIndex].funds).toFixed(2)}
             </Typography>
           </span>
 
@@ -113,7 +120,7 @@ export default function MyBets() {
 
           {userBets.map(bet => {
             return (
-              (bet.entry_id === entry[selectedEntry].id
+              (bet.entry_id === entries[selectedEntryIndex].id
                 && upcomingBetsView === !(bet.status === 'FT' || bet.status === 'AOT'))
               && <MyBetsItem key={bet.id} view={upcomingBetsView} bet={bet} />
             )

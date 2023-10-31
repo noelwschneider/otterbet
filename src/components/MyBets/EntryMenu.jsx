@@ -12,14 +12,17 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 export default function EntryMenu({props}) {
-  const {selectedEntry, setSelectedEntry} = props;
-  
-  const entry = useStore("entries");
+  const {
+    selectedEntryIndex, 
+    setSelectedEntryIndex,
+  } = props;
+
+  const entries = useStore("entries");
 
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleEntryClick = (index) => {
-    setSelectedEntry(index);
+    setSelectedEntryIndex(index);
     setAnchorEl(null);
   }
 
@@ -33,7 +36,7 @@ export default function EntryMenu({props}) {
         onClick={(event) => setAnchorEl(event.currentTarget)}
         style={{ width: "99%" }}
       >
-        {entry[selectedEntry].name}
+        {entries[selectedEntryIndex].name}
       </Button>
 
       <Menu
@@ -43,7 +46,7 @@ export default function EntryMenu({props}) {
         onClose={() => setAnchorEl(null)}
         disableGutter={true}
       >
-        {entry.map((entryItem, index) => (
+        {entries.map((entryItem, index) => (
           <MenuItem
             key={entryItem.id}
             onClick={() => handleEntryClick(index)}
