@@ -10,11 +10,16 @@ import {
 export default function UpcomingBetsToggleMenu({ props }) {
   const { upcomingBetsView, setUpcomingBetsView } = props;
 
+  const handleChange = (_, newValue) => {
+    if (newValue === null) return;
+    setUpcomingBetsView(newValue);
+  }
+
   return (
     <ToggleButtonGroup
       value={upcomingBetsView}
       exclusive
-      onChange={(_, newValue) => setUpcomingBetsView(newValue)}
+      onChange={handleChange}
       sx={styles.myBets.betsViewToggleContainer}
     >
       <ToggleButton value={true}
