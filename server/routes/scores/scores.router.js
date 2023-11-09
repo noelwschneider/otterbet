@@ -3,10 +3,10 @@ const axios = require('axios')
 
 const {
     rejectUnauthenticated,
-} = require('../modules/authentication-middleware');
-const encryptLib = require('../modules/encryption');
-const pool = require('../modules/pool');
-const userStrategy = require('../strategies/user.strategy');
+} = require('../../modules/authentication-middleware');
+const encryptLib = require('../../modules/encryption');
+const pool = require('../../modules/pool');
+const userStrategy = require('../../strategies/user.strategy');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const {
     removeSpaces,
     formattedResponse,
     makeDateString
-} = require('../modules/utilities/_helpers')
+} = require('../../modules/utilities/_helpers')
 
 const APIKey = process.env.SPORTS_API_KEY
 

@@ -17,22 +17,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routers
-const userRouter = require('./routes/user.router');
-const marketsRouter = require('./routes/markets.router');
-const scoresRouter = require('./routes/scores.router');
-const oddsRouter = require('./routes/odds.router');
-const entriesRouter = require('./routes/entries/entries.router');
 const betsRouter = require('./routes/bets/bets.router');
-const contestsRouter = require('./routes/contests.router');
+const contestsRouter = require('./routes/contests/contests.router');
+const entriesRouter = require('./routes/entries/entries/entries.router');
+const marketsRouter = require('./routes/markets/markets.router');
+const oddsRouter = require('./routes/odds/odds.router');
+const scoresRouter = require('./routes/scores/scores.router');
+const userRouter = require('./routes/user/user.router');
 
 // Routes
-app.use('/api/user', userRouter);
+app.use('/api/bets', betsRouter);
+app.use('/api/contests', contestsRouter);
+app.use('/api/entries', entriesRouter);
 app.use('/api/markets', marketsRouter);
 app.use('/api/odds', oddsRouter);
 app.use('/api/scores', scoresRouter);
-app.use('/api/entries', entriesRouter);
-app.use('/api/bets', betsRouter);
-app.use('/api/contests', contestsRouter);
+app.use('/api/user', userRouter);
 
 // Serve static files
 app.use(express.static('build'));
