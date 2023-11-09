@@ -12,7 +12,7 @@ const makeDateString = (date) => {
   return `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
 }
 
-// worker Saga: will be fired on "REGISTER" actions
+
 function* registerUser(action) {
   try {
     // clear any existing error on the registration page

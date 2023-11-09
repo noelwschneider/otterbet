@@ -57,8 +57,6 @@ function RegisterPage() {
         onChange={(event) => setUsername(event.target.value)}
       />
 
-
-
       <TextField
         label="Password"
         type="password"
