@@ -21,8 +21,8 @@ const userRouter = require('./routes/user.router');
 const marketsRouter = require('./routes/markets.router');
 const scoresRouter = require('./routes/scores.router');
 const oddsRouter = require('./routes/odds.router');
-const entriesRouter = require('./routes/entries.router');
-const betsRouter = require('./routes/bets.router');
+const entriesRouter = require('./routes/entries/entries.router');
+const betsRouter = require('./routes/bets/bets.router');
 const contestsRouter = require('./routes/contests.router');
 
 // Routes
