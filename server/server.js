@@ -19,11 +19,11 @@ app.use(passport.session());
 // Routers
 const betsRouter = require('./routes/bets/bets.router');
 const contestsRouter = require('./routes/contests/contests.router');
-const entriesRouter = require('./routes/entries/entries/entries.router');
+const entriesRouter = require('./routes/entries/entries.router');
 const marketsRouter = require('./routes/markets/markets.router');
 const oddsRouter = require('./routes/odds/odds.router');
 const scoresRouter = require('./routes/scores/scores.router');
-const userRouter = require('./routes/user/user.router');
+const userRouter = require('./routes/users/user.router');
 
 // Routes
 app.use('/api/bets', betsRouter);
