@@ -1,3 +1,6 @@
+// env
+require('dotenv').config();
+
 // Express
 const express = require('express');
 const sessionMiddleware = require('./modules/session-middleware');
@@ -38,7 +41,6 @@ app.use('/api/user', userRouter);
 app.use(express.static('build'));
 
 // Port
-require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 
 // Listen
