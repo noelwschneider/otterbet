@@ -1,6 +1,6 @@
-import isFinished from "./isFinished";
+const isFinished = require("./isFinished"); 
 
-export default function noActiveBets(entry, bets) {
+function noActiveBets(entry, bets) {
   for (let bet of bets) {
     if (bet.entry_id === entry.id && !isFinished(bet)) {
       return false;
@@ -9,3 +9,4 @@ export default function noActiveBets(entry, bets) {
   return true;
 }
 
+module.exports = noActiveBets;

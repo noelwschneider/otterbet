@@ -78,3 +78,6 @@ src/components/_retiredComponents/
 src/components/_developerComponents
 src/components/inDevelopmentComponent/
 src/components/Nav/FutureUserMenu.jsx
+
+# server sample data
+server/routes/_samples

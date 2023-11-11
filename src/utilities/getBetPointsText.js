@@ -1,6 +1,6 @@
-import convertToAmerican from "./convertToAmerican";
+const convertToAmerican = require('./convertToAmerican');
 
-export default function getBetPointsText(bet) {
+function getBetPointsText(bet) {
   let { market, price, point} = bet;
   price = { european: price, american: convertToAmerican(price) };
 
@@ -30,3 +30,5 @@ export default function getBetPointsText(bet) {
 
   return cellString;
 }
+
+module.exports = getBetPointsText;

@@ -1,7 +1,9 @@
 // Utilities
-import convertToAmerican from '../../../utilities/convertToAmerican';
-import getBetPointsText from '../../../utilities/getBetPointsText';
-import formatTimestamp from '../../../utilities/formatTimestamp';
+import { 
+  convertToAmerican, 
+  getBetPointsText, 
+  formatTimestamp 
+} from '../../../utilities/_utilities';
 
 // Style Tools
 import { styles } from '../../../styling/styles'
