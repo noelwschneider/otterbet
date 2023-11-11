@@ -1,32 +1,17 @@
-import React from 'react';
-
 // Components
 import LogoPicture from './LogoPicture';
 import LogoText from './LogoText';
 
-// Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
+// Styling
+import { Grid } from '@mui/material';
+import { styles } from '../../../styling/styles'
 
-// Style Components
-import Grid from '@mui/material/Grid';
 
-function LogoContainer() {
-
-    const ComponentTheme = styled(Grid)({
-        height: "inherit",
-    });
-
-    return (
-    <ComponentTheme item xs={7}>
-
-        <Grid container height={"100%"}>
-            <LogoText />
-            <LogoPicture />
-        </Grid>
-
-    </ComponentTheme>)
-
+export default function LogoContainer() {
+  return (
+    <Grid container item xs={7} sx={styles.header.logo.container}>
+      <LogoText />
+      <LogoPicture />
+    </Grid>
+  )
 }
-
-export default LogoContainer

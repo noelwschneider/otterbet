@@ -1,36 +1,27 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 
 // Components
 import NoEntryMessage from './NoEntryMessage';
 import EntryMenu from './EntryMenu/EntryMenu';
 
-// Style Tools
-import { styled } from '@mui/system';
+// Styling
+import Grid from '@mui/material/Grid';
 
 
+export default function EntryMenuContainer() {
 
-function EntryMenuContainer() {
+  // Store variables
+  const entry = useSelector(store => store.entries)
 
-    // Store variables
-    const entry = useSelector(store => store.entry)
+  return (
+    <Grid item xs={12}>
+      {entry.length === 0
 
-    // Custom theming
-    const ComponentTheme = styled('div')(({ theme }) => ({
+        // Message to render if user has no entries
+        ? <NoEntryMessage />
 
-    }));
-
-    return (
-        <ComponentTheme>
-        {entry.length === 0
-
-            // Message to render if user has no entries
-            ? <NoEntryMessage />
-
-            // Menu of user entries
-            : <EntryMenu />
-        }
-            </ComponentTheme>)
+        // Menu of user entries
+        : <EntryMenu />
+      }
+    </Grid>)
 }
-
-export default EntryMenuContainer

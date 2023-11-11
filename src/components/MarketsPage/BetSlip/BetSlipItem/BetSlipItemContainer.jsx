@@ -1,52 +1,25 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { HashRouter, Link } from 'react-router-dom/cjs/react-router-dom.min';
+// Hooks
+import useStore from '../../../../hooks/useStore';
 
 // Comonents
 import BetSlipItem from './BetSlipItem';
 
-// Style Tools
-import { createTheme, useTheme, ThemeProvider } from '@mui/material/styles';
-import { styled } from '@mui/system';
-
 // Style Components
-import Grid from '@mui/material/Grid';
-import CardActionArea from '@mui/material/CardActionArea';
-import CardActions from '@mui/material/CardActions';
+import {
+  Grid,
+  CardActionArea,
+} from '@mui/material';
 
 
-function BetSlipItemContainer() {
+export default function BetSlipItemContainer() {
+  const betslip = useStore("betslip");
 
-    const betslip = useSelector(store => store.betslip)
+  return (
+    <Grid container item xs={12} component={CardActionArea} disableRipple>
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        /* 
-            Though currently unused, I am leaving this 
-            styling component in the code because it 
-            comes with no real overhead and is quite
-            likely to be useful in a future sprint
-        */
-    }));
+      {betslip.map(bet => (
+        <BetSlipItem key={bet.id} bet={bet} />
+      ))}
 
-    return (<ComponentTheme item xs={12}>
-        <CardActionArea disableRipple component="div">
-            {betslip.map(bet => {
-
-                return (
-                <CardActions sx={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: "start",
-                    }}>
-
-                    <BetSlipItem key={bet.id} bet={bet} />
-
-                </CardActions>
-                )})}
-        </CardActionArea>
-    </ComponentTheme>)
+    </Grid>)
 }
-
-export default BetSlipItemContainer

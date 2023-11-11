@@ -1,10 +1,6 @@
-// React
-import React, { useEffect } from 'react';
-
 // React Router
 import {
-  HashRouter as Router,
-  Redirect, 
+  HashRouter as Redirect,
   Route,
   Switch,
   useLocation
@@ -12,67 +8,24 @@ import {
 
 // Hooks
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
-// Universal Components
-import Nav from '../Nav/Nav';
-
-// Review this component
+// Custom route component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-// Route Components
-
-import LoginPage from '../LandingComponents/LoginPage/LoginPage';
-import RegisterPage from '../LandingComponents/RegisterPage/RegisterPage';
-import MyBets from '../MyBets/MyBets';
+// Custom components
+import Nav from '../Nav/Nav';
+import LoginPage from '../LoginRegister/LoginPage';
+import RegisterPage from '../LoginRegister/RegisterPage';
+import MyBetsContainer from '../MyBets/MyBetsContainer';
 import MarketsPage from '../MarketsPage/MarketsPage';
 
 // Style
 import './App.css';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import theme from '../../styling/theme';
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#b16300',
-    },
-    secondary: {
-      main: '#ecc8a1',
-    },
-    tertiary: {
-      main: "#6b6b6b",
-      light: '#bbbbbb',
-      dark: "#000000",
-    },
-  },
-  typography: {
-    fontFamily: 'Josefin Sans',
-    body2: {
-      fontFamily: 'Montserrat',
-      fontWeight: 500,
-    },
-    caption: {
-      fontFamily: 'Montserrat',
-    },
-    body1: {
-      fontWeight: 500,
-      fontFamily: 'Montserrat',
-    },
-    h5: {
-      fontFamily: 'Josefin Slab',
-      fontWeight: 600,
-    },
-    h6: {
-      fontFamily: 'Josefin Slab',
-      fontWeight: 600,
-    },
-  },
-  props: {
-    MuiButtonBase: {
-      disableRipple: true,
-    },
-  },
-})
 
 function App() {
   const user = useSelector(store => store.user);
@@ -84,82 +37,66 @@ function App() {
     dispatch({ type: 'FETCH_USER' });
   }, [])
 
-  // Render at top of window when new page loads
+  // Render page at top of window when new page loads
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
+
   return (<ThemeProvider theme={theme} >
-      <div>
-        <Nav />
-        <Switch>
-          {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-          <Redirect exact from="/" to="/home" />
-          
-          <ProtectedRoute
-            exact
-            path ="/my-bets"
-          >
-            <MyBets />
-          </ProtectedRoute>
+    <CssBaseline>
+      <Nav />
+      <Switch>
+        <Redirect exact from="/" to="/home" />
 
-          <ProtectedRoute
-            exact
-            path ="/markets"
-          >
-            <MarketsPage />
-          </ProtectedRoute>
+        {/* MY BETS */}
+        <ProtectedRoute exact path="/my-bets">
+          <MyBetsContainer />
+        </ProtectedRoute>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect to the /user page
-              <Redirect to="/my-bets" />
-              :
-              // Otherwise, show the login page
-              <LoginPage />
-            }
-          </Route>
+        {/* MARKETS */}
+        <ProtectedRoute exact path="/markets">
+          <MarketsPage />
+        </ProtectedRoute>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/my-bets" />
-              :
-              // Otherwise, show the registration page
-              <RegisterPage />
-            }
-          </Route>
+        {/* LOGIN */}
+        <Route exact path="/login">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <LoginPage />
+          }
+        </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <Redirect to="/my-bets" />
-              :
-              // Otherwise, show the Landing page
-              // <LandingPage />
-              <LoginPage />
-            }
-          </Route>
+        {/* REGISTRATION */}
+        <Route exact path="/registration">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <RegisterPage />
+          }
+        </Route>
 
-          {/* If none of the other routes matched, we will show a 404. */}
-          <Route>
-            <h1>404</h1>
-          </Route>
-        </Switch>
-      </div>
-    </ThemeProvider>
+        {/* HOME */}
+        <Route exact path="/home">
+          {user.id ?
+            // Redirect if user is already logged in
+            <Redirect to="/my-bets" />
+            :
+            <LoginPage />
+          }
+        </Route>
+
+        {/* 404 */}
+        <Route>
+          <h1>404</h1>
+        </Route>
+
+      </Switch>
+    </CssBaseline>
+  </ThemeProvider>
   );
 }
 

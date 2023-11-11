@@ -1,35 +1,21 @@
-import React from 'react';
-
 // Components
 import MarketsCol from './MarketsCol/MarketsCol';
 import BetSlip from './BetSlip/BetSlip';
 
-import { useEffect } from 'react';
+// Style
+import { styles } from '../../styling/styles';
+import { Grid } from '@mui/material';
 
-// Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
 
-// Style Components
-import Grid from '@mui/material/Grid';
+export default function MarketsPage() {
+  return (
+    <Grid
+      sx={styles.markets.container}
+      container>
 
-function MarketsPage() {
-    
-    // This is the half of the Markets page that shows games to wager on
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        backgroundColor: theme.palette.secondary.light
-    }));
+      <MarketsCol />
+      <BetSlip />
 
-    return (
-        <ComponentTheme container>  
-            <Grid container spacing={0} item xs={7} style={{alignItems: "start"}}>
-                <MarketsCol />
-            </Grid>
-
-            <BetSlip />
-            
-        </ComponentTheme>
-    )
+    </Grid>
+  )
 }
-
-export default MarketsPage

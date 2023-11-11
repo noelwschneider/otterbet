@@ -1,68 +1,42 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// Hooks
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import useStore from '../../../hooks/useStore';
 
 // Components
 import BetSlipItemContainer from './BetSlipItem/BetSlipItemContainer';
 import BetSlipAlerts from './BetSlipAlerts';
 import EntryMenuContainer from './EntryMenuContainer/EntryMenuContainer';
 import SubmitButton from './SubmitButton/SubmitButton';
+import BetSlipHeader from './BetSlipHeader';
 
 // Style Tools
-import { styled } from '@mui/system';
+import { styles } from '../../../styling/styles'
 
 // Style Components
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import {
+  Grid,
+  Card,
+} from '@mui/material';
 
-// Styling
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 
-function BetSlip() {
-    const dispatch = useDispatch()
+export default function BetSlip() {
+  const dispatch = useDispatch()
 
-    const user = useSelector(store => store.user)
-    const betslip = useSelector(store => store.betslip)
-    const entry = useSelector(store => store.entry)
+  const user = useStore("user");
 
-    useEffect(() => {
-        dispatch({ type: 'FETCH_ENTRY', payload: user.id })
-    }, [])
+  useEffect(() => {
+    dispatch({ type: 'FETCH_ENTRY', payload: user.id })
+  }, []);
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        paddingTop: "2vh",
-    }));
+  return (
+    <Grid container item xs={5} sx={styles.betslip.container} component={Card}>
 
-    return (
-        <ComponentTheme container item xs={5}>
-            <Grid item xs={12}>
-                <Card style={{ overflow: "scroll" }}>
+      <BetSlipHeader />
+      <BetSlipAlerts />
+      <EntryMenuContainer />
+      <BetSlipItemContainer />
+      <SubmitButton />
 
-                    <Grid container>
-                        {/* Bet Slip Title */}
-                        <Grid item xs={12}>
-                            <CardHeader title={<Typography variant="h2">Bet Slip</Typography>} />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <BetSlipAlerts />
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <EntryMenuContainer />
-                        </Grid>
-
-                        <Grid container item xs={12}>
-                            <BetSlipItemContainer />
-                        </Grid>
-
-                        <SubmitButton />
-
-                    </Grid>
-                </Card>
-            </Grid>
-        </ComponentTheme>)
+    </Grid>)
 }
-
-export default BetSlip

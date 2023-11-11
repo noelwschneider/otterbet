@@ -1,63 +1,44 @@
-import React from 'react';
-
 // App Components
-import MenuItems from './MenuItems/MenuItems';
+import MenuContainer from './MenuContainer/MenuContainer';
 import LogoContainer from '../Nav/LogoContainer/LogoContainer';
 
 // Hooks
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import useStore from '../../hooks/useStore';
 
 // Style Tools
-import { styled } from '@mui/system';
+import { styles } from '../../styling/styles';
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
 
-function Nav() {
-  // Store variables
-  const user = useSelector(store => store.user);
-
-  // Custom theming
-  const ComponentTheme = styled(Grid)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
-    height: "125px",
-    position: "sticky",
-    top: "0px",
-    zIndex: "1",
-    borderBottom: "2px solid black",
-    boxShadow: "1px",
-  }));
+export default function Nav() {
+  const user = useStore("user");
 
   return (<>
-
-    {user.id
+    { user.id
       ? (
-        <ComponentTheme container>
+        <Grid container sx={styles.header.container}>
 
           {/* Logo Section */}
           <LogoContainer className="navLogo" />
 
           {/* Menu Section */}
-          <MenuItems />
+          <MenuContainer />
 
-        </ComponentTheme>
+        </Grid>
       )
       : (
-        // Setting up this structure so I can tweak the Nav for when nobody is logged in
-        <ComponentTheme container>
+        <Grid container sx={styles.header.container}>
 
           {/* Logo Section */}
           <LogoContainer className="navLogo" />
 
           {/* Menu Section */}
-          <MenuItems />
+          <MenuContainer />
 
-        </ComponentTheme>
+        </Grid>
       )
     }
   </>);
 }
-
-export default Nav;

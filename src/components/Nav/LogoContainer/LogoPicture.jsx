@@ -1,34 +1,27 @@
-import React, { useState } from 'react';
-
 // Logo images
 import logo from './otter-logo-1.png'
 
 // Style Tools
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system';
+import { styles } from '../../../styling/styles'
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
-function LogoPicture() {
 
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        height: "inherit",
-        border: "0px dashed black"
-    }));
+export default function LogoPicture() {
+  return (
+    <Grid
+      className="nav-logo"
+      item xs={3}
+      sx={styles.header.logo.picture}>
 
-    return (<ComponentTheme item xs={3} >
+      <img
+        src={logo}
+        alt="OtterBet logo"
+        style={{
+          height: "100%"
+        }}
+      />
 
-        <img
-            className="nav-logo"
-            src={logo}
-            alt="OtterBet logo"
-            style={{
-                height: "100%"
-            }}
-        />
-
-    </ComponentTheme>)
+    </Grid>)
 }
-
-export default LogoPicture

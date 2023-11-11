@@ -1,48 +1,38 @@
 // Hooks
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // Components
 import EntryMenuDropdown from './EntryMenuDropdown';
 
 // Style Tools
-import { styled } from '@mui/system';
+import { styles } from '../../../../../styling/styles'
+
 
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+
 function EntryMenu() {
+  const entry = useSelector(store => store.entries);
 
-    const entry = useSelector(store => store.entry)
+  // State
+  const [selectedEntry, setSelectedEntry] = useState(0);
 
-    // State
-    const [selectedEntry, setSelectedEntry] = useState(0)
+  return (
+    <Grid container sx={styles.betslip.selectEntryMenu}>
 
-    // Custom theming
-    const ComponentTheme = styled(Grid)(({ theme }) => ({
-        padding: "16px"
-    }));
+      {/* Available funds display */}
+      <Grid item xs={12} component={Typography} variant="h5">
+        <strong>Available funds: </strong>
+        ${Number(entry[selectedEntry].funds).toFixed(2)}
+      </Grid>
 
-    return (
-        <ComponentTheme container>
+      <EntryMenuDropdown />
 
-            {/* Available funds display */}
-            <Grid item xs={12}>
-                <span>
-                    <Typography variant="h5">
-                        <strong>Available funds: </strong>
-                        ${Number(entry[selectedEntry].funds).toFixed(2)}
-                    </Typography>
-                </span>
-            </Grid>
-
-            <Grid item xs={12}>
-                <EntryMenuDropdown />
-            </Grid>
-
-        </ComponentTheme>
-    )
+    </Grid>
+  )
 }
 
 export default EntryMenu
