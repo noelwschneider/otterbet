@@ -1,5 +1,5 @@
-const getDate = require('./getDate');
-const getTime = require('./getTime');
+const getDate = require('./dateTime/getDate');
+const getTime = require('./dateTime/getTime');
 
 function makeGamesArray(apiData) {
     let arrayToReturn = [];

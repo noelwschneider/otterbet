@@ -1,6 +1,4 @@
-
-
-export default function formatTimestamp(date, time) {
+function formatTimestamp(date, time) {
   // UTC offset for central time right now
     //& eventually this will be a variable
     const offset = -5;
@@ -49,3 +47,5 @@ export default function formatTimestamp(date, time) {
 
     return `${month}/${day} at ${hours}:${minutes}${segmentIndicator}`;
 }
+
+module.exports = formatTimestamp;

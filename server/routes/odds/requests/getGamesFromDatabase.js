@@ -1,4 +1,5 @@
-const getDate = require('../../../utilities/getDate');
+// const getDate = require('../../../utilities/getDate');
+const { getDate } = require('../../../utilities');
 
 async function getGamesFromDatabase(connection, startDate, endDate) {
     try {

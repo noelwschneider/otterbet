@@ -1,4 +1,4 @@
-export default function convertToAmerican(price) {
+function convertToAmerican(price) {
   let num = price - 1
 
   if (price >= 2) {
@@ -15,3 +15,5 @@ export default function convertToAmerican(price) {
   }
   return num;
 }
+
+module.exports = convertToAmerican;

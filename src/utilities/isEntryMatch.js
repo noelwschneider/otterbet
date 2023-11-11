@@ -1,6 +1,8 @@
 
 
-export default function isFromSelectedEntry() {
+function isFromSelectedEntry() {
 
   
 }
+
+module.exports = isFromSelectedEntry;

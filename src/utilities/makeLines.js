@@ -1,5 +1,5 @@
-const getDate = require('./getDate');
-const fixTimestamp = require('./fixTimestamp');
+const getDate = require('./dateTime/getDate');
+const fixTimestamp = require('./dateTime/fixTimestamp');
 
 /**
  * 
