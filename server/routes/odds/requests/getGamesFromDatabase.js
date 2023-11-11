@@ -30,6 +30,7 @@ async function getGamesFromDatabase(connection, startDate, endDate) {
         return gamesArray;
     } catch (error) {
         console.error('error in getGamesFromDatabase', error);
+        throw error;
     }
 }
 module.exports = getGamesFromDatabase;

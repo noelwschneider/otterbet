@@ -26,6 +26,7 @@ async function getOddsFromApi(sport) {
         return await makeLines(oddsResponse.data);
     } catch (error) {
         console.error('error in getApiOdds', error);
+        throw error;
     }
 }
 module.exports = getOddsFromApi;

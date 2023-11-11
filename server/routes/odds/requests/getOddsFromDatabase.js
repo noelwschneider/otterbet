@@ -39,11 +39,12 @@ async function getOddsFromDatabase(connection, oddsFromApi) {
                 line.market
             ];
             const responseRow = await connection.query(queryText, queryValues);
-            return responseRow;
+            return responseRow.rows;
         }))
         return oddsFromDatabase;
     } catch (error) {
         console.error('error in getOddsFromDatabase', error);
+        throw error;
     }
 }
 module.exports = getOddsFromDatabase;

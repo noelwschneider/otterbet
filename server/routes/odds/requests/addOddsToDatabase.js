@@ -52,9 +52,10 @@ async function addOddsToDatabase(connection, oddsFromDatabase, oddsFromApi) {
             ];
             await connection.query(oddsQueryText, oddsQueryValues);
         }));
-        console.log('send updated markets to database');
+        return true
     } catch (error) {
         console.error('error in addOddsToDatabase', error);
+        throw error;
     }
 }
 module.exports = addOddsToDatabase;
