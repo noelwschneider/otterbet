@@ -8,13 +8,13 @@ import EntryMenuDropdown from './EntryMenuDropdown';
 // Style Tools
 import { styles } from '../../../../../styling/styles'
 
+
 // Style Components
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 
 function EntryMenu() {
-
   const entry = useSelector(store => store.entries);
 
   // State
