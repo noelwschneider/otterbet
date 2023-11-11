@@ -1,29 +1,37 @@
 async function addOddsToDatabase(connection, oddsFromDatabase, oddsFromApi) {
     try {
         const extractRows = [];
-        await oddsFromDatabase.map(async wager => {
-            if (wager.rows.length !== 0) {
-                await extractRows.push(wager.rows);
+        await oddsFromDatabase.map(async line => {
+            if (line.length !== 0) {
+                await extractRows.push(line);
             }
         })
-        console.log('extract rows from old markets');
 
-        const marketsToSend = []
-        for (let market of oddsFromApi) {
-            let marketString = `${market.game_id}_${market.market}_${market.outcome}`;
-            market.marketString = marketString;
-            for (let row of extractRows) {
-                let rowString = `${row[0].game_id}_${row[0].market}_${row[0].outcome}`
-                const stringCheck = marketString === rowString
-                const priceCheck = market.price !== Number(row[0].price)
-                const pointCheck = market.point !== Number(row[0].point)
-                const undefinedCheck = market.point !== undefined && Number(row[0].point) !== undefined
-                if (stringCheck && (priceCheck || (pointCheck && undefinedCheck))) {
-                    marketsToSend.push(market)
+        let counter = 0;
+        const linesToSend = [];
+        // If no existing lines, send all lines to database
+        if (extractRows.length === 0) {
+            for (let line of oddsFromApi) {
+                line.marketString = `${line.game_id}_${line.market}_${line.outcome}`;
+                linesToSend.push(line);
+            }
+        // If existing lines, send only updated lines to database
+        } else {
+            for (let line of oddsFromApi) {
+                line.marketString = `${line.game_id}_${line.market}_${line.outcome}`;
+                for (let row of extractRows) {
+                    let rowString = `${row[0].game_id}_${row[0].market}_${row[0].outcome}`
+                    const stringCheck = line.marketString === rowString;
+                    const priceCheck = line.price !== Number(row[0].price);
+                    const pointCheck = line.point !== Number(row[0].point);
+                    const undefinedCheck = line.point !== undefined && Number(row[0].point) !== undefined;
+                    if (stringCheck && (priceCheck || (pointCheck && undefinedCheck))) {
+                        linesToSend.push(line);
+                    }
+                    counter++;
                 }
             }
-        }
-        console.log('make array of markets to send');
+        } 
 
         // Sending updated markets to the database
         const oddsQueryText = `
@@ -39,16 +47,16 @@ async function addOddsToDatabase(connection, oddsFromDatabase, oddsFromApi) {
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         `;
-        await Promise.all(marketsToSend.map(async market => {
+        await Promise.all(linesToSend.map(async line => {
             const oddsQueryValues = [
-                market.bookmaker,
-                market.marketString,
-                market.game_id,
-                market.outcome,
-                market.market,
-                market.point,
-                market.price,
-                market.last_update
+                line.bookmaker,
+                line.marketString,
+                line.game_id,
+                line.outcome,
+                line.market,
+                line.point,
+                line.price,
+                line.last_update
             ];
             await connection.query(oddsQueryText, oddsQueryValues);
         }));
