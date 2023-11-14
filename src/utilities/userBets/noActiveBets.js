@@ -1,4 +1,4 @@
-const isFinished = require("./isFinished"); 
+const isFinished = require("../isFinished"); 
 
 function noActiveBets(entry, bets) {
   for (let bet of bets) {

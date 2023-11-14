@@ -1,4 +1,4 @@
-const convertToAmerican = require('./convertToAmerican');
+const convertToAmerican = require('../odds/convertToAmerican');
 
 function getBetPointsText(bet) {
   let { market, price, point} = bet;
