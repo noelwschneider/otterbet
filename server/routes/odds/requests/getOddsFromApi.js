@@ -1,7 +1,7 @@
 const oddsAPIKey = process.env.ODDS_API_KEY
 const axios = require('axios');
 // const makeLines = require('../../../utilities/makeLines');
-const { makeLines } = require('../../../utilities');
+const { makeLines } = require('../../../modules/utilities');
 
 
 /**

@@ -1,3 +1,19 @@
+/**
+ * 
+ * TO DO:
+ * 
+ * Add bookmaker to market string
+ *  - This will need to be done
+ *    before I can add any flexi-
+ *    bility around bookmakers.
+ *  - This will also result in a
+ *    bunch of lines being dupli-
+ *    cated in the database. Need
+ *    to determine the fastest
+ *    way to remedy this.
+ * 
+ */
+
 async function addOddsToDatabase(connection, oddsFromDatabase, oddsFromApi) {
     try {
         const extractRows = [];
