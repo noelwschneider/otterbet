@@ -24,8 +24,8 @@ export default function MarketsCol() {
   const markets = useStore("odds");
 
   //& Static dates for development purposes. Refactor into dynamic feature
-  const [startDate, setStartDate] = useState('2023-09-13')
-  const [endDate, setEndDate] = useState('2023-09-20')
+  const [startDate, setStartDate] = useState('2023-11-12');
+  const [endDate, setEndDate] = useState('2023-11-14');
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
@@ -39,8 +39,6 @@ export default function MarketsCol() {
   useEffect(() => {
     dispatch({ type: 'FETCH_ODDS', payload: dateRange });
   }, []);
-
-
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

@@ -1,8 +1,10 @@
 // imports
+const addToBetslip = require("./addToBetslip");
 const convertToAmerican = require("./convertToAmerican");
 const findWinner = require("./findWinner");
 const fixTimestamp = require("./dateTime/fixTimestamp");
 const formatTimestamp = require("./dateTime/formatTimestamp");
+const getAvailableOddsCellText = require("./getAvailableOddsCellText");
 const getBetPointsText = require("./getBetPointsText");
 const getDate = require("./dateTime/getDate");
 const getTime = require("./dateTime/getTime");
@@ -21,11 +23,13 @@ const makeGameID = require("./makeGameID");
 
 // export
 const utilities = {
+    addToBetslip,
     convertToAmerican,
     findWinner,
     fixTimestamp,
     formattedResponse,
     formatTimestamp,
+    getAvailableOddsCellText,
     getBetPointsText,
     getDate,
     getTime,
