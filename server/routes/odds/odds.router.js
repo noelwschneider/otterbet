@@ -9,9 +9,80 @@ const addOddsToDatabase = require('./requests/addOddsToDatabase');
 const getGamesFromDatabase = require('./requests/getGamesFromDatabase');
 const getOddsFromDatabase = require('./requests/getOddsFromDatabase');
 
-router.get('/update-odds', async (req, res) => {
+// GET lines for each game
+router.get('/', async (req, res) => {
+    //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.
+    const gamesList = req.query.gamesList.map(game => JSON.parse(game))
+    let markets = []
+    markets = await Promise.all(gamesList.map(async (game) => {
+        const queryValue = game
+        const queryText = `
+            SELECT *
+            FROM markets
+            WHERE game_id = $1
+            ORDER BY last_update DESC
+            LIMIT 6;
+        `;
+        const response = await pool.query(queryText, [queryValue]);
+        return response.rows;
+    }))
+
+    const removeEmptyArrays = arrayToEmpty => {
+        const unemptyArray = []
+        for (let i = arrayToEmpty.length - 1; i >= 0; i--) {
+            if (arrayToEmpty[i].length != 0) {
+                unemptyArray.push(arrayToEmpty[i])
+            }
+        }
+        unemptyArray.reverse()
+        return unemptyArray
+    }
+    const arrayToSend = await Promise.all(removeEmptyArrays(markets))
+    res.send(arrayToSend)
+})
+
+// GET list of game IDs from database
+router.get('/game-IDs', (req, res) => {
+    const { startDate, endDate } = req.query
+
+    // get IDs from Games
+    //& timestamps in the WHERE sections should be variables later
+    const gameIDsQuery = `
+        SELECT 
+            "id",
+            away,
+            date,
+            time,
+            league,
+            home
+        FROM games
+        WHERE "date" BETWEEN 
+            $1
+            AND $2
+            AND status <> 'FT'
+            AND status <> 'AOT'
+        ORDER BY 
+            "date" ASC,
+            "time" ASC,
+            home ASC
+        ;`
+
+    const queryValues = [startDate, endDate]
+    // GET list of game IDs from database
+    pool.query(gameIDsQuery, queryValues)
+        .then(response => {
+            res.send(response.rows)
+        })
+
+    // get all Markets rows that match each game ID
+    // put each set of markets into an object
+    // send back an array of those objects
+})
+
+// POST odds from API to database
+router.post('/update-odds', async (req, res) => {
     // Format is 'YYYY-MM-DD'
-    const {startDate, endDate, sport} = req.query;
+    const { startDate, endDate, sport } = req.query;
     const connection = await pool.connect();
     try {
         await connection.query('BEGIN');
@@ -22,7 +93,7 @@ router.get('/update-odds', async (req, res) => {
         // Scan each array for league, home, away, and date
         // If more than one match for any scan, use order of game times to determine appropriate pairings
         // Update dup tags (first game = 1, second game = 2)
-            // Update for both arrays so strings in the ID check will match
+        // Update for both arrays so strings in the ID check will match
 
         // Apply game ID to each market
         for (let line of oddsFromApi) {
@@ -34,7 +105,7 @@ router.get('/update-odds', async (req, res) => {
                 }
             }
         }
-        
+
         const oddsFromDatabase = await getOddsFromDatabase(connection, oddsFromApi);
         await addOddsToDatabase(connection, oddsFromDatabase, oddsFromApi);
         connection.query('COMMIT');

@@ -52,7 +52,7 @@ router.get('/game-IDs', (req, res) => {
     // send back an array of those objects
 })
 
-// GET all markets for each game
+// GET all lines for each game
 router.get('/', async (req, res) => {
 
     //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.

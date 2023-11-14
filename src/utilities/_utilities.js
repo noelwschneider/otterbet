@@ -1,31 +1,26 @@
-// imports
-const convertToAmerican = require("./convertToAmerican");
-const fixTimestamp = require("./dateTime/fixTimestamp");
-const formatTimestamp = require("./dateTime/formatTimestamp");
-const getBetPointsText = require("./getBetPointsText");
-const getDate = require("./dateTime/getDate");
-const getTime = require("./dateTime/getTime");
-const isEntryMatch = require("./isEntryMatch");
-const isFinished = require("./isFinished");
-const makeGamesArray = require("./makeGamesArray");
-const makeLines = require("./makeLines");
-const noActiveBets = require("./noActiveBets");
-const removeSpaces = require("./removeSpaces");
-
-// export
 const utilities = {
-    convertToAmerican,
-    fixTimestamp,
-    formatTimestamp,
-    getBetPointsText,
-    getDate,
-    getTime,
-    isEntryMatch,
-    isFinished,
-    makeGamesArray,
-    makeLines,
-    noActiveBets,
-    removeSpaces
+    addAmericanPrice: require("./odds/addAmericanPrice"),
+    addToBetslip: require("./odds/addToBetslip"),
+    convertToAmerican: require("./odds/convertToAmerican"),
+    findWinner: require("./scores/findWinner"),
+    fixTimestamp: require("./dateTime/fixTimestamp"),
+    formattedResponse: require("./formattedResponse"),
+    formatTimestamp: require("./dateTime/formatTimestamp"),
+    getAvailableOddsCellText: require("./odds/getAvailableOddsCellText"),
+    getBetPointsText: require("./userBets/getBetPointsText"),
+    getDate: require("./dateTime/getDate"),
+    getTime: require("./dateTime/getTime"),
+    getUpdateScoreQueryText: require("./scores/getUpdateScoreQueryText"),
+    getUpdateScoreQueryValues: require("./scores/getUpdateScoreQueryValues"),
+    isDateString: require("./dateTime/isDateString"),
+    isEntryMatch: require("./isEntryMatch"),
+    isFinished: require("./isFinished"),
+    makeDateString: require("./dateTime/makeDateString"),
+    makeGameID: require("./makeGameID"),
+    makeGamesArray: require("./makeGamesArray"),
+    makeLines: require("./odds/makeLines"),
+    matchGamesToMarkets: require("./odds/matchGamesToMarkets"),
+    noActiveBets: require("./userBets/noActiveBets"),
+    removeSpaces: require("./removeSpaces")
 }
-
 module.exports = utilities;

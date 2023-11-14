@@ -5,7 +5,7 @@ import useStore from '../../../hooks/useStore';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 // Utilities
-import noActiveBets from '../../../utilities/noActiveBets';
+import { noActiveBets } from '../../../utilities/_utilities';
 
 // Style
 import { styles } from '../../../styling/styles';
