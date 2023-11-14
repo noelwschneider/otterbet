@@ -1,9 +1,3 @@
-const oddsAPIKey = process.env.ODDS_API_KEY
-const axios = require('axios');
-// const makeLines = require('../../../utilities/makeLines');
-const { makeLines } = require('../../../modules/utilities');
-
-
 /**
  * 
  * TO DO:
@@ -20,6 +14,10 @@ const { makeLines } = require('../../../modules/utilities');
  * function as a method.
  * 
  */
+
+const oddsAPIKey = process.env.ODDS_API_KEY;
+const axios = require('axios');
+const { makeLines } = require('../../../modules/utilities');
 
 
 async function getOddsFromApi(sport) {

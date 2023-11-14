@@ -13,7 +13,6 @@ const getOddsFromDatabase = require('./requests/getOddsFromDatabase');
 router.get('/', async (req, res) => {
     //& As is, this arrives as a JSON object. There might be a way to avoid the JSON.parse() by sending it up differently.
     const gamesList = req.query.gamesList.map(game => JSON.parse(game))
-
     let markets = []
     markets = await Promise.all(gamesList.map(async (game) => {
         const queryValue = game
