@@ -61,9 +61,7 @@ export default function MarketsCol() {
       </Grid>
 
       <Grid item xs={1} component={IconButton} onClick={handleClick}>
-
         <InfoIcon aria-describedby={id} variant="contained" />
-
       </Grid>
 
       <Popover
