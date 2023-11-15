@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import useStore from '../../../../../hooks/useStore';
 
 // Style Components
 import Grid from '@mui/material/Grid';
@@ -9,48 +10,48 @@ import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
-function EntryMenuDropdown() {
+function EntryMenuDropdown({ props }) {
+    const { selectedEntry, setSelectedEntry } = props;
 
-  const entries = useSelector(store => store.entries)
+    const entries = useStore("entries");
 
-  const [selectedEntry, setSelectedEntry] = useState(0)
-  const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleEntryClick = (index) => {
-    setSelectedEntry(index);
-    setAnchorEl(null)
-  }
+    const handleEntryClick = (index) => {
+        setSelectedEntry(index);
+        setAnchorEl(null);
+    }
 
-  return (
-    <Grid item xs={12}>
+    return (
+        <Grid item xs={12}>
 
-      <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        variant="contained"
-        endIcon={<KeyboardArrowDownIcon />}
-        onClick={(event) => setAnchorEl(event.currentTarget)}>
-        {entries[selectedEntry].name}
-      </Button>
+            <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                variant="contained"
+                endIcon={<KeyboardArrowDownIcon />}
+                onClick={(event) => setAnchorEl(event.currentTarget)}>
+                {entries[selectedEntry].name}
+            </Button>
 
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => setAnchorEl(null)}
-      >
-        {entries.map((entry, index) => (
-          <MenuItem
-            key={entry.id}
-            onClick={() => handleEntryClick(index)}
-            disableGutters={true}>
-            {entry.name}
-          </MenuItem>
-        ))}
-      </Menu>
+            <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+            >
+                {entries.map((entry, index) => (
+                    <MenuItem
+                        key={entry.id}
+                        onClick={() => handleEntryClick(index)}
+                        disableGutters={true}>
+                        {entry.name}
+                    </MenuItem>
+                ))}
+            </Menu>
 
-    </Grid>
-  )
+        </Grid>
+    )
 }
 
 export default EntryMenuDropdown
