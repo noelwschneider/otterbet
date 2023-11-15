@@ -1,4 +1,5 @@
 function addToBetslip(user, betslip, game, outcome, market) {
+    console.log(game);
     const {
         away,
         date,
@@ -28,6 +29,7 @@ function addToBetslip(user, betslip, game, outcome, market) {
             return line;
         }
     }
+    return false
 }
 
 module.exports = addToBetslip;

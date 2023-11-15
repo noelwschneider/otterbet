@@ -23,7 +23,9 @@ export default function HomeRow({ game }) {
 
   const handleClick = (outcome, market) => {
     const newBet = addToBetslip(user, betslip, game, outcome, market);
-    dispatch({ type: 'SET_BETSLIP', payload: newBet});
+    if (newBet) {
+        dispatch({ type: 'SET_BETSLIP', payload: newBet});
+    }
   }
 
   return (

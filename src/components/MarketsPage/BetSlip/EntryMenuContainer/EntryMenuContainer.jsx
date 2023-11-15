@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import useStore from '../../../../hooks/useStore';
 
 // Components
 import NoEntryMessage from './NoEntryMessage';
@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 export default function EntryMenuContainer() {
 
   // Store variables
-  const entry = useSelector(store => store.entries)
+  const entry = useStore("entries");
 
   return (
     <Grid item xs={12}>

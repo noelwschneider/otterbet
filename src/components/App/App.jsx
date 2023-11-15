@@ -1,14 +1,15 @@
 // React Router
 import {
-  HashRouter as Redirect,
-  Route,
-  Switch,
-  useLocation
+    Redirect,
+    Route,
+    Switch,
+    useLocation
 } from 'react-router-dom';
 
 // Hooks
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import useStore from '../../hooks/useStore';
 
 // Custom route component
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -28,7 +29,7 @@ import theme from '../../styling/theme';
 
 
 function App() {
-  const user = useSelector(store => store.user);
+    const user = useStore("user");
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -42,62 +43,50 @@ function App() {
     window.scrollTo(0, 0);
   }, [location]);
 
+    return (
+    <ThemeProvider theme={theme} >
+        <CssBaseline>
+            <Nav />
+            <Switch>
+                <Redirect exact from="/" to="/my-bets" />
 
-  return (<ThemeProvider theme={theme} >
-    <CssBaseline>
-      <Nav />
-      <Switch>
-        <Redirect exact from="/" to="/home" />
+                {/* MY BETS */}
+                <ProtectedRoute exact path="/my-bets">
+                    <MyBetsContainer />
+                </ProtectedRoute>
 
-        {/* MY BETS */}
-        <ProtectedRoute exact path="/my-bets">
-          <MyBetsContainer />
-        </ProtectedRoute>
+                {/* MARKETS */}
+                <ProtectedRoute exact path="/markets">
+                    <MarketsPage />
+                </ProtectedRoute>
 
-        {/* MARKETS */}
-        <ProtectedRoute exact path="/markets">
-          <MarketsPage />
-        </ProtectedRoute>
+                {/* LOGIN */}
+                <Route exact path="/login">
+                    {user.id ?
+                        <Redirect to="/my-bets" />
+                        :
+                        <LoginPage />
+                    }
+                </Route>
 
-        {/* LOGIN */}
-        <Route exact path="/login">
-          {user.id ?
-            // Redirect if user is already logged in
-            <Redirect to="/my-bets" />
-            :
-            <LoginPage />
-          }
-        </Route>
+                {/* REGISTRATION */}
+                <Route exact path="/registration">
+                    {user.id ?
+                        <Redirect to="/my-bets" />
+                        :
+                        <RegisterPage />
+                    }
+                </Route>
 
-        {/* REGISTRATION */}
-        <Route exact path="/registration">
-          {user.id ?
-            // Redirect if user is already logged in
-            <Redirect to="/my-bets" />
-            :
-            <RegisterPage />
-          }
-        </Route>
+                {/* 404 */}
+                <Route>
+                    <h1>404</h1>
+                </Route>
 
-        {/* HOME */}
-        <Route exact path="/home">
-          {user.id ?
-            // Redirect if user is already logged in
-            <Redirect to="/my-bets" />
-            :
-            <LoginPage />
-          }
-        </Route>
-
-        {/* 404 */}
-        <Route>
-          <h1>404</h1>
-        </Route>
-
-      </Switch>
-    </CssBaseline>
-  </ThemeProvider>
-  );
+            </Switch>
+        </CssBaseline>
+    </ThemeProvider>
+    );
 }
 
 export default App;

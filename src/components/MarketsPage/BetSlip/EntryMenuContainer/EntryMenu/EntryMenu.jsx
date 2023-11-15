@@ -1,6 +1,6 @@
 // Hooks
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import useStore from '../../../../../hooks/useStore';
 
 // Components
 import EntryMenuDropdown from './EntryMenuDropdown';
@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 
 
 function EntryMenu() {
-  const entry = useSelector(store => store.entries);
+  const entry = useStore("entries");
 
   // State
   const [selectedEntry, setSelectedEntry] = useState(0);
@@ -29,7 +29,7 @@ function EntryMenu() {
         ${Number(entry[selectedEntry].funds).toFixed(2)}
       </Grid>
 
-      <EntryMenuDropdown />
+      <EntryMenuDropdown props={{selectedEntry, setSelectedEntry}}/>
 
     </Grid>
   )
