@@ -4,6 +4,7 @@ const utilities = {
     convertToAmerican: require("./odds/convertToAmerican"),
     findWinner: require("./scores/findWinner"),
     fixTimestamp: require("./dateTime/fixTimestamp"),
+    formatMarket: require("./odds/formatMarket"),
     formattedResponse: require("./formattedResponse"),
     formatTimestamp: require("./dateTime/formatTimestamp"),
     getAvailableOddsCellText: require("./odds/getAvailableOddsCellText"),
