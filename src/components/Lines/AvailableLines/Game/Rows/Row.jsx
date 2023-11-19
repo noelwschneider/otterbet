@@ -1,11 +1,11 @@
 // Hooks
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import useStore from '../../../../../hooks/useStore';
 // Style Tools
 import { styles } from '../../../../../styling/styles';
 
 // Style Components
-import Grid from '@mui/material/Grid';
+import { Grid } from '@mui/material';
 
 // Utilities
 const { 
@@ -13,13 +13,15 @@ const {
     getAvailableOddsCellText 
 } = require('../../../../../utilities/_utilities');
 
-export default function AwayRow({ game }) {
+
+export default function Row({ game, team, totals }) {
   const dispatch = useDispatch();
-  const betslip = useSelector(store => store.betslip);
-  const user = useSelector(store => store.user);
+  const betslip = useStore("betslip");
+  const user = useStore("user");
+  const { markets } = game;
 
-  const { away, markets } = game;
-
+  const totalsPrefix = totals === 'Over' ? 'o' : 'u';
+  
   const handleClick = (outcome, market) => {
     const newBet = addToBetslip(user, betslip, game, outcome, market);
     if (newBet) {
@@ -36,54 +38,54 @@ export default function AwayRow({ game }) {
       <Grid
         item xs={6}
         sx={styles.markets.teamName}>
-        {away}
+        {team}
       </Grid>
 
       {/* SPREAD */}
       <Grid
         container
         item xs={2}
-        onClick={() => handleClick(away, 'spreads')}
+        onClick={() => handleClick(team, 'spreads')}
         sx={styles.markets.marketOption}
       >
         {/* Point */}
         <Grid item xs={6}
           sx={styles.markets.marketOptionContents}>
-          {getAvailableOddsCellText(markets, away, 'spreads').point}
+          {getAvailableOddsCellText(markets, team, 'spreads').point}
         </Grid>
 
         {/* Price */}
         <Grid item xs={6}
           sx={styles.markets.marketOptionContents}>
-          ({getAvailableOddsCellText(markets, away, 'spreads').price.american})
+          ({getAvailableOddsCellText(markets, team, 'spreads').price.american})
         </Grid>
       </Grid>
 
       {/* MONEYLINE*/}
       <Grid className="market-option"
         item xs={2}
-        onClick={() => handleClick(away, 'h2h')}
+        onClick={() => handleClick(team, 'h2h')}
         sx={styles.markets.marketOption}>
-        {getAvailableOddsCellText(markets, away, 'h2h')}
+        {getAvailableOddsCellText(markets, team, 'h2h').price.american}
       </Grid>
 
-      {/* O/U Over value */}
+      {/* O/U Under value */}
       <Grid className="market-option"
         item xs={2}
         container
-        onClick={() => handleClick('Over', 'totals')}
+        onClick={() => handleClick(totals, 'totals')}
         sx={styles.markets.marketOption}>
         {/* Point */}
         <Grid item xs={6} sx={styles.markets.marketOptionContents}>
-          o{getAvailableOddsCellText(markets, 'Over', 'totals').point}
+          {totalsPrefix}{getAvailableOddsCellText(markets, totals, 'totals').point}
         </Grid>
 
         {/* Price */}
         <Grid item xs={6} sx={styles.markets.marketOptionContents}>
-          ({getAvailableOddsCellText(markets, 'Over', 'totals').price.american})
+          ({getAvailableOddsCellText(markets, totals, 'totals').price.american})
         </Grid>
       </Grid>
 
     </Grid>
-  )
+    )
 }

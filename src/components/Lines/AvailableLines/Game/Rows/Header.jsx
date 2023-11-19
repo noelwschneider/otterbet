@@ -5,7 +5,7 @@ import { styles } from '../../../../../styling/styles';
 import { Grid } from '@mui/material';
 
 
-export default function MarketItemHeader({ game }) {
+export default function Header({ game }) {
   //! Rename
   const { date, time } = game
 

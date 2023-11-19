@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import useStore from '../../../../../hooks/useStore';
+import useStore from '../../../../hooks/useStore';
 
 // Style Components
 import Grid from '@mui/material/Grid';
@@ -11,40 +11,37 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 function EntryMenuDropdown({ props }) {
-    const { selectedEntry, setSelectedEntry } = props;
-
+    const { entry, setEntryIndex } = props;
     const entries = useStore("entries");
-
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleEntryClick = (index) => {
-        setSelectedEntry(index);
+        setEntryIndex(index);
         setAnchorEl(null);
-    }
+    };
 
     return (
         <Grid item xs={12}>
 
             <Button
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                variant="contained"
-                endIcon={<KeyboardArrowDownIcon />}
-                onClick={(event) => setAnchorEl(event.currentTarget)}>
-                {entries[selectedEntry].name}
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            variant="contained"
+            endIcon={<KeyboardArrowDownIcon />}
+            onClick={(event) => setAnchorEl(event.currentTarget)}>
+                {entry.name}
             </Button>
 
             <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-            >
+            id="simple-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={() => setAnchorEl(null)}>
                 {entries.map((entry, index) => (
                     <MenuItem
-                        key={entry.id}
-                        onClick={() => handleEntryClick(index)}
-                        disableGutters={true}>
+                    key={entry.id}
+                    onClick={() => handleEntryClick(index)}
+                    disableGutters={true}>
                         {entry.name}
                     </MenuItem>
                 ))}

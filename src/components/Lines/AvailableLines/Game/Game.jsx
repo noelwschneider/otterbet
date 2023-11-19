@@ -5,13 +5,12 @@ import { styles } from '../../../../styling/styles';
 import { Grid } from '@mui/material';
 
 // Components
-import MarketItemHeader from './Rows/MarketItemHeader';
-import HomeRow from './Rows/HomeRow';
-import AwayRow from './Rows/AwayRow';
+import Header from './Rows/Header';
+import Row from './Rows/Row';
 
 
-export default function MarketsItem({ game }) {
-  const { markets } = game;
+export default function Game({ game }) {
+  const { markets, home, away } = game;
 
   // Add tags to each market for matching to table cell
   for (let market of markets) {
@@ -24,9 +23,9 @@ export default function MarketsItem({ game }) {
       item xs={12}
       sx={styles.markets.itemContainer}>
 
-      <MarketItemHeader game={game} />
-      <AwayRow game={game} />
-      <HomeRow game={game} />
+      <Header game={game} />
+      <Row game={game} team={away} totals="Over"/>
+      <Row game={game} team={home} totals="Under"/>
 
     </Grid>
   )

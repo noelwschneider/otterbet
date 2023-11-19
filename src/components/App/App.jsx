@@ -19,7 +19,7 @@ import Nav from '../Nav/Nav';
 import LoginPage from '../LoginRegister/LoginPage';
 import RegisterPage from '../LoginRegister/RegisterPage';
 import MyBetsContainer from '../MyBets/MyBetsContainer';
-import MarketsPage from '../MarketsPage/MarketsPage';
+import Lines from '../Lines/Lines';
 
 // Style
 import './App.css';
@@ -30,18 +30,18 @@ import theme from '../../styling/theme';
 
 function App() {
     const user = useStore("user");
-  const location = useLocation();
-  const dispatch = useDispatch();
+    const location = useLocation();
+    const dispatch = useDispatch();
 
-  // Fetch user on initial page load
-  useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
-  }, [])
+    // Fetch user on initial page load
+    useEffect(() => {
+        dispatch({ type: 'FETCH_USER' });
+    }, [])
 
-  // Render page at top of window when new page loads
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location]);
+    // Render page at top of window when new page loads
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
 
     return (
     <ThemeProvider theme={theme} >
@@ -57,7 +57,7 @@ function App() {
 
                 {/* MARKETS */}
                 <ProtectedRoute exact path="/markets">
-                    <MarketsPage />
+                    <Lines />
                 </ProtectedRoute>
 
                 {/* LOGIN */}

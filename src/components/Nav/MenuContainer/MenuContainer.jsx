@@ -1,6 +1,6 @@
 // Components
 import UserMenu from './UserMenu';
-import MarketsMenu from './MarketsMenu';
+import LinesMenu from './LinesMenu';
 import LogOutButton from './LogOutButton';
 
 // Style Tools
@@ -18,7 +18,7 @@ export default function MenuItems() {
       sx={styles.header.menu.container}>
 
       <UserMenu />
-      <MarketsMenu />
+      <LinesMenu />
       <LogOutButton />
 
     </Grid>

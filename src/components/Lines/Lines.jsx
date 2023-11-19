@@ -1,5 +1,5 @@
 // Components
-import MarketsCol from './MarketsCol/MarketsCol';
+import AvailableLines from './AvailableLines/AvailableLines';
 import BetSlip from './BetSlip/BetSlip';
 
 // Style
@@ -7,13 +7,13 @@ import { styles } from '../../styling/styles';
 import { Grid } from '@mui/material';
 
 
-export default function MarketsPage() {
+export default function Lines() {
   return (
     <Grid
       sx={styles.markets.container}
       container>
 
-      <MarketsCol />
+      <AvailableLines />
       <BetSlip />
 
     </Grid>

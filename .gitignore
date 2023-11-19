@@ -76,7 +76,7 @@ _developer_notes/
 # Developer components
 src/components/_retiredComponents/
 src/components/_developerComponents
-src/components/inDevelopmentComponent/
+src/components/_inDevelopmentComponent/
 src/components/Nav/FutureUserMenu.jsx
 
 # server sample data

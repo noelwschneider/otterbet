@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 
-export default function MarketsMenu() {
+export default function LinesMenu() {
 
   const history = useHistory()
 
@@ -28,7 +28,7 @@ export default function MarketsMenu() {
       sx={styles.header.menu.markets}
       onClick={event => handleNavigation(event)}>
 
-      Markets
+      Lines
 
     </Grid>
   )
