@@ -4,7 +4,6 @@ import axios from "axios";
 // Utilities
 const { 
     addAmericanPrice,
-    convertToAmerican,
     matchGamesToMarkets 
 } = require('../../utilities/_utilities');
 

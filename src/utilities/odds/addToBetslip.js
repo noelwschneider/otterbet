@@ -1,5 +1,4 @@
 function addToBetslip(user, betslip, game, outcome, market) {
-    console.log(game);
     const {
         away,
         date,

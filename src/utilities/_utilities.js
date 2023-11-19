@@ -10,6 +10,7 @@ const utilities = {
     getAvailableOddsCellText: require("./odds/getAvailableOddsCellText"),
     getBetPointsText: require("./userBets/getBetPointsText"),
     getDate: require("./dateTime/getDate"),
+    getPoint: require("./odds/getPoint"),
     getTime: require("./dateTime/getTime"),
     getUpdateScoreQueryText: require("./scores/getUpdateScoreQueryText"),
     getUpdateScoreQueryValues: require("./scores/getUpdateScoreQueryValues"),
