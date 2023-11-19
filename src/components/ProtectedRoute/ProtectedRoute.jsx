@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import LoginPage from '../LoginRegister/LoginPage';
+import LoginPage from '../Auth/LoginPage';
 import useStore from '../../hooks/useStore'
 
 // Return route to child component if user is logged in
