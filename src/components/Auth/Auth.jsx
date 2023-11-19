@@ -34,6 +34,12 @@ function LoginPage() {
     const redirectType = location.pathname === '/register' ? 'Log In' : 'Register';
     const redirectUrl = location.pathname === '/register' ? '/login' : '/register';
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSubmit(event);
+        }
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -91,6 +97,7 @@ function LoginPage() {
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
+            onKeyDown={handleKeyDown}
             style={styles.auth.input.container}/>
 
             <Grid
@@ -108,6 +115,7 @@ function LoginPage() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            onKeyDown={handleKeyDown}
             style={styles.auth.input.container}/>
 
             <Grid

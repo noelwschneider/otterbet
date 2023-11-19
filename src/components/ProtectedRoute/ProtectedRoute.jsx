@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom';
-import LoginPage from '../Auth/LoginPage';
-import useStore from '../../hooks/useStore'
+import Auth from '../Auth/Auth';
+import useStore from '../../hooks/useStore';
 
 // Return route to child component if user is logged in
 // Otherwise return the login component
@@ -12,7 +12,7 @@ export default function ProtectedRoute({ component, children, ...props }) {
             {user.id ?
                 <ProtectedComponent />
                 :
-                <LoginPage />
+                <Auth />
             }
         </Route>
     );

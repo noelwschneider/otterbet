@@ -16,14 +16,12 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Custom components
 import Nav from '../Nav/Nav';
-import LoginPage from '../Auth/LoginPage';
-import RegisterPage from '../Auth/RegisterPage';
 import MyBetsContainer from '../MyBets/MyBetsContainer';
 import Lines from '../Lines/Lines';
 import Auth from '../Auth/Auth';
 
 // Style
-import './App.css';
+// import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from '../../styling/theme';
