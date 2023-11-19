@@ -16,8 +16,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 // Custom components
 import Nav from '../Nav/Nav';
-import LoginPage from '../LoginRegister/LoginPage';
-import RegisterPage from '../LoginRegister/RegisterPage';
+import LoginPage from '../Auth/LoginPage';
+import RegisterPage from '../Auth/RegisterPage';
 import MyBetsContainer from '../MyBets/MyBetsContainer';
 import Lines from '../Lines/Lines';
 
@@ -26,7 +26,7 @@ import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from '../../styling/theme';
-
+import { styles } from '../../styling/styles';
 
 function App() {
     const user = useStore("user");
@@ -44,8 +44,8 @@ function App() {
     }, [location]);
 
     return (
-    <ThemeProvider theme={theme} >
-        <CssBaseline>
+        <ThemeProvider theme={theme} >
+            <CssBaseline />
             <Nav />
             <Switch>
                 <Redirect exact from="/" to="/my-bets" />
@@ -84,8 +84,7 @@ function App() {
                 </Route>
 
             </Switch>
-        </CssBaseline>
-    </ThemeProvider>
+        </ThemeProvider>
     );
 }
 

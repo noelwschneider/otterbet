@@ -1,3 +1,5 @@
+import { app } from "./styles/app";
+import { auth } from "./styles/auth";
 import { classes } from "./styles/classes";
 import { btn } from "./styles/btn";
 import { elements } from "./styles/elements";
@@ -7,15 +9,18 @@ import { header } from "./styles/header";
 import { betslip } from "./styles/betslip"
 
 export const styles = {
-  classes,
-  elements,
-  btn,
-  markets,
-  myBets,
-  header,
-  betslip,
+    app,
+    auth,
+    classes,
+    elements,
+    btn,
+    markets,
+    myBets,
+    header,
+    betslip,
 }
 
+/*
 export {
   classes,
   elements,
@@ -25,3 +30,4 @@ export {
   header,
   betslip,
 }
+*/
