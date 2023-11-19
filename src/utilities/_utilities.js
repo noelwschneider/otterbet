@@ -23,6 +23,7 @@ const utilities = {
     makeLines: require("./odds/makeLines"),
     matchGamesToMarkets: require("./odds/matchGamesToMarkets"),
     noActiveBets: require("./userBets/noActiveBets"),
-    removeSpaces: require("./removeSpaces")
+    removeSpaces: require("./removeSpaces"),
+    toTitleCase: require("./toTitleCase"),
 }
 module.exports = utilities;

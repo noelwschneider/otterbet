@@ -6,18 +6,18 @@ import useStore from '../../hooks/useStore';
 // Routing hooks
 import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
-// Style Tools
+// Style
 import { styles } from '../../styling/styles';
-
-// Style Components
 import {
     Grid,
-    Box,
     FormControl,
     TextField,
     Button,
     Typography
 } from '@mui/material';
+
+// Utility
+import { toTitleCase } from '../../utilities/_utilities';
 
 
 function LoginPage() {
@@ -28,22 +28,27 @@ function LoginPage() {
     const history = useHistory();
 
     const location = useLocation();
+    
+    const dispatchType = location.pathname === '/register' ? 'REGISTER' : 'LOGIN';
+    const submitType = location.pathname === '/register' ? 'Register' : 'Log In';
+    const redirectType = location.pathname === '/register' ? 'Log In' : 'Register';
+    const redirectUrl = location.pathname === '/register' ? '/login' : '/register';
 
-    const login = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (username && password) {
-            dispatch({
-                type: 'LOGIN',
-                payload: {
-                    username: username,
-                    password: password,
-                },
-            });
-            history.push('/my-bets')
-        } else {
+        if (dispatchType === 'LOGIN' && (!username || !password)) {
             dispatch({ type: 'LOGIN_INPUT_ERROR' });
+            return;
         }
+        dispatch({
+            type: dispatchType,
+            payload: {
+                username: username,
+                password: password,
+            },
+        });
+        history.push('/my-bets');   
     };
 
     return (
@@ -53,14 +58,14 @@ function LoginPage() {
         justify="center"
         component={FormControl}
         style={styles.auth.container}
-        onSubmit={login} >
+        onSubmit={handleSubmit} >
 
             <Grid
             item xs={12}
             component={Typography}
             variant="h2"
             style={styles.auth.title}>
-                Login
+                {toTitleCase(dispatchType)}
             </Grid>
 
             <Grid item xs={12}>
@@ -108,16 +113,16 @@ function LoginPage() {
             <Grid
             item xs={12}
             component={Button}
-            style={styles.auth.btn.primary} onClick={login}>
-                Log In
+            style={styles.auth.btn.primary} onClick={handleSubmit}>
+                {submitType}
             </Grid>
             
             <Grid
             item xs={12}
             component={Button}
             style={styles.auth.btn.secondary}
-            onClick={() => history.push('/register')}>
-                Register
+            onClick={() => history.push(redirectUrl)}>
+                {redirectType}
             </Grid>
 
         </Grid>

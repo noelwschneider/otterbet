@@ -20,13 +20,13 @@ import LoginPage from '../Auth/LoginPage';
 import RegisterPage from '../Auth/RegisterPage';
 import MyBetsContainer from '../MyBets/MyBetsContainer';
 import Lines from '../Lines/Lines';
+import Auth from '../Auth/Auth';
 
 // Style
 import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from '../../styling/theme';
-import { styles } from '../../styling/styles';
 
 function App() {
     const user = useStore("user");
@@ -65,16 +65,16 @@ function App() {
                     {user.id ?
                         <Redirect to="/my-bets" />
                         :
-                        <LoginPage />
+                        <Auth />
                     }
                 </Route>
 
                 {/* REGISTRATION */}
-                <Route exact path="/registration">
+                <Route exact path="/register">
                     {user.id ?
                         <Redirect to="/my-bets" />
                         :
-                        <RegisterPage />
+                        <Auth />
                     }
                 </Route>
 

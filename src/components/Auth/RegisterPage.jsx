@@ -15,11 +15,9 @@ import {
 
   
 function RegisterPage() {
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const errors = useStore("errors");
-
   const history = useHistory();
   const dispatch = useDispatch();
 
